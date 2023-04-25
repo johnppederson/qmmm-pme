@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 __author__ = "Jesse McDaniel, John Pederson"
-__version__ = "0.9.2"
+__version__ = "1.0.0"
 
 from .logger import *
 from .qmmm_system import *
