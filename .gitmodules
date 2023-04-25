@@ -1,0 +1,3 @@
+[submodule "qmmm_pme/shared"]
+	path = qmmm_pme/shared
+	url = https://github.com/johnppederson/mm_base
