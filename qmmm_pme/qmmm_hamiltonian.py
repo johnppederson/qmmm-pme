@@ -44,6 +44,7 @@ class QMMMHamiltonian:
         openmm_energy, openmm_forces, openmm_components = self.qmmm_system.mm_subsystem.compute_energy()
         # Report Kinetic Energy.
         energy = {"Total Energy": None, "-":{"Kinetic Energy": None, "Potential Energy": None}}
+        energy["-"]["Kinetic Energy"] = self.compute_kinetic_energy()
         psi4_energy = 0.
         recip_energy = 0.
         real_energy = 0.
@@ -133,9 +134,9 @@ class QMMMHamiltonian:
                 for j in range(3):
                     openmm_forces[i,j] = ljones_forces[i,j] + qm_force[j]
             # Remove double-counting from embedding forces and energy.
-            j = 0
             qm_centroid = [sum([self.qmmm_system.positions[i][j] for i in qm_atom_list])
                            / len(qm_atom_list) for j in range(3)]
+            j = 0
             for residue in self.qmmm_system.particle_groups["analytic"]:
                 nth_centroid = [sum([self.qmmm_system.positions[atom][k] for atom in residue])
                                 / len(residue) for k in range(3)]
@@ -156,11 +157,11 @@ class QMMMHamiltonian:
                             ) * bohr_per_angstrom
                         dr = (x**2 + y**2 + z**2)**0.5
                         q_prod = self.qmmm_system.charges[i] * self.qmmm_system.charges[atom]
-                        co_force[0] += (angstrom_per_bohr * kJmol_per_eh
+                        co_force[0] += (bohr_per_angstrom * kJmol_per_eh
                                         * x * q_prod * dr**-3)
-                        co_force[1] += (angstrom_per_bohr * kJmol_per_eh
+                        co_force[1] += (bohr_per_angstrom * kJmol_per_eh
                                         * y * q_prod * dr**-3)
-                        co_force[2] += (angstrom_per_bohr * kJmol_per_eh
+                        co_force[2] += (bohr_per_angstrom * kJmol_per_eh
                                         * z * q_prod * dr**-3)
                         real_energy -= kJmol_per_eh * q_prod * dr**-1
                     for i in range(3):
@@ -171,12 +172,11 @@ class QMMMHamiltonian:
         total_energy = openmm_energy + psi4_energy + real_energy + recip_energy
         total_forces = openmm_forces
         self.qmmm_system.forces = total_forces
-        if self.frame == 0:
-            with open("positions.csv","w") as fh:
-                for force in self.qmmm_system.positions:
-                    fh.write(f"{force[0]},{force[1]},{force[2]}\n")
-            sys.exit()
-        energy["-"]["Kinetic Energy"] = self.compute_kinetic_energy()
+        #if self.frame == 0:
+        #    with open("positions.csv","w") as fh:
+        #        for force in self.qmmm_system.positions:
+        #            fh.write(f"{force[0]},{force[1]},{force[2]}\n")
+        #    sys.exit()
         # Log energy.
         energy["Total Energy"] = total_energy + energy["-"]["Kinetic Energy"]
         energy["-"]["Potential Energy"] = total_energy

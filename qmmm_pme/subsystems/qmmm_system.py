@@ -22,8 +22,8 @@ from ..system import *
 from ..integrators.units import *
 from ..integrators.velocity_distribution import *
 from ..integrators.velocity_verlet import *
+from ..integrators.langevin import *
 from ..integrators.settle import *
-#from integrators.langevin import *
 
 
 class QMMMSystem(System):
@@ -145,6 +145,7 @@ class QMMMSystem(System):
                 **self.mm_subsystem.kwargs,
             )
             self.subsystems.append(self.lj_subsystem)
+            self.lj_subsystem.particle_groups = particle_groups
             self.lj_subsystem.build_lj_exclusions()
         self.mm_only = mm_only
         # Default embedding settings.
@@ -173,24 +174,33 @@ class QMMMSystem(System):
             )
             self.subsystems.append(self.pbc_subsystem)
         #self.velocities = np.zeros_like(self._positions)
+        residues = None
+        self.settle = False
+        self.velocities = MaxwellBoltzmann(self.mm_subsystem.temperature._value, self.masses)
+        if settle_dists:
+            residues = self.particle_groups["all"] if mm_only else self.particle_groups["mm_atom"]
+            self.settle = True
+            self.positions = settle(self._positions, self._positions, residues, self.masses, dists=settle_dists)
+            self.velocities = settle_vel(self._positions, self._velocities, residues, self.masses)
         if ensemble.lower() == "nve":
-            residues = None
-            self.settle = False
-            if settle_dists:
-                residues = self.particle_groups["all"]
-                self.settle = True
-            self.integrator = VelocityVerlet(self.mm_subsystem.timestep._value*1000, residues=residues, settle_dists=settle_dists)
-            self.velocities = MaxwellBoltzmann(self.mm_subsystem.temperature._value, self.masses)
-            if settle_dists:
-                self.positions = settle(self._positions, self._positions, residues, self.masses, dists=settle_dists)
-                self.velocities = settle_vel(self._positions, self._velocities, residues, self.masses)
-        #elif ensemble.lower() == "nvt":
-            #self.md = ase.md.Langevin(
-            #    self.atoms,
-            #    self.mm_subsystem.timestep._value * 1000 * ase.units.fs,
-            #    temperature_K=self.mm_subsystem.temperature._value,
-            #    friction=self.mm_subsystem.friction._value / 1000 / ase.units.fs,
-            #)
+            self.integrator = VelocityVerlet(
+                self.mm_subsystem.timestep._value*1000,
+                residues=residues,
+                settle_dists=settle_dists
+            )
+        elif ensemble.lower() == "nvt":
+            self.integrator = Langevin(
+                self.mm_subsystem.timestep._value*1000,
+                self.mm_subsystem.temperature._value,
+                self.mm_subsystem.friction._value/1000,
+                residues=residues,
+                settle_dists=settle_dists
+            )
+        #
+        #with open("./velocities.csv","w") as fh:
+        #    for vel in self.velocities:
+        #        fh.write(f"{vel[0]},{vel[1]},{vel[2]}\n")
+        #
         self.calculator = QMMMHamiltonian(self)
 
     def write_atoms(self, name, ftype="xyz", append=False):

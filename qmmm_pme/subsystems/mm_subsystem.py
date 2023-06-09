@@ -172,7 +172,6 @@ class MMSubsystem(MM_base, System):
            # Crash if CustomNonbondedForce exists, because
            # setup_system_lj_forces cannot handle this.
            print("""CustomNonbondedForce not currently supported.""")
-           sys.exit()
         # Set long-range interaction method. It may be fine to hard code
         # these settings in as these should be used in anything but test cases.
         self.nonbonded_force.setNonbondedMethod(openmm.NonbondedForce.PME)
@@ -258,7 +257,7 @@ class MMSubsystem(MM_base, System):
     def build_lj_exclusions(self):
         """
         this sets up the force classes for QM/MM mechanical embedding,
-        which is dowithin system_lj
+        which is done within system_lj
 
         essentially, all irrelevant force classes are removed from the system
         object, and the mechanical embedding is done by creating a

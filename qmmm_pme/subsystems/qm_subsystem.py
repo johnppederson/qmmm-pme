@@ -78,6 +78,7 @@ class QMSubsystem(System):
             charge_weights="none",
             q0 = None,
             n_threads=1,
+            memory="500 MB",
             read_guess=False,
             reference_energy=None,
             particle_groups=None,
@@ -101,6 +102,7 @@ class QMSubsystem(System):
         self.qmmm_pme = qmmm_pme
         self.n_threads = n_threads
         psi4.set_num_threads(n_threads)
+        psi4.set_memory(memory)
         psi4.core.set_global_option("PRINT", 0)
         self.options = {
             "basis": self.basis_set,
@@ -348,7 +350,8 @@ class QMSubsystem(System):
                 q = q[0:m,:]
             psi4_charges = q.flatten()
         self.wfn = psi4_wfn
-        psi4_energy = (psi4_energy - self.ground_state_energy) * kjmol_per_hartree
+        psi4.core.clean()
+        psi4_energy = (psi4_energy - self.ground_state_energy) * kJmol_per_eh
         if return_forces:
             psi4_forces = psi4.gradient(
                 self.functional,
@@ -356,7 +359,7 @@ class QMSubsystem(System):
                 **kwargs
             )
             psi4_forces = (-np.asarray(psi4_forces)
-                           * kjmol_per_hartree
+                           * kJmol_per_eh
                            * bohr_per_angstrom)
             return psi4_energy, psi4_forces, psi4_charges
         else:

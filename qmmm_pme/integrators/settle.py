@@ -139,7 +139,7 @@ def settle(positions_0, positions_1, residues, masses, tol=0.0001, dists=[1,1.63
     hb_1 = hb_0 + xp2
 
     pos_1 = np.concatenate((oxy_1[:,np.newaxis,:], ha_1[:,np.newaxis,:], hb_1[:,np.newaxis,:]), axis=1)
-    positions_1 = pos_1.reshape(positions_0.shape)
+    positions_1[residues,:] = pos_1.reshape(pos_0.shape)
     return positions_1
 
 def settle_vel(positions_0, velocities_0, residues, masses):
@@ -202,5 +202,6 @@ def settle_vel(positions_0, velocities_0, residues, masses):
     hb_v = hb_v + (eCA*tca - eBC*tbc)/m_hb
     
     vel_1 = np.concatenate((oxy_v[:,np.newaxis,:], ha_v[:,np.newaxis,:], hb_v[:,np.newaxis,:]), axis=1)
-    velocities_1 = vel_1.reshape(velocities_0.shape)
+    velocities_1 = velocities_0
+    velocities_1[residues,:] = vel_1.reshape(vel_0.shape)
     return velocities_1
