@@ -29,15 +29,15 @@ repos:
     hooks:
     -   id: pyupgrade
         args: [--py38-plus]
+-   repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v2.0.2
+    hooks:
+    -   id: autopep8
 #-   repo: https://github.com/PyCQA/flake8
 #    rev: 6.1.0
 #    hooks:
 #    -   id: flake8
 #        additional_dependencies: [flake8-typing-imports==1.14.0]
-#-   repo: https://github.com/pre-commit/mirrors-autopep8
-#    rev: v2.0.2
-#    hooks:
-#    -   id: autopep8
 #-   repo: https://github.com/pre-commit/mirrors-mypy
 #    rev: v1.5.1
 #    hooks:
