@@ -3,10 +3,10 @@
 engine.
 """
 from __future__ import annotations
+
+from .calculator_factory import calculator_factory
 __author__ = "Jesse McDaniel, John Pederson"
 
 from .._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
-
-from .calculator_factory import calculator_factory

@@ -78,7 +78,7 @@ class PBCCalculator(Calculator):
             0,
             sum(
                 (
-                    -v*q*KJMOL_PER_EH for v,q in
+                    -v*q*KJMOL_PER_EH for v, q in
                     zip(pme_results[1], self._state.charges[qm_atoms])
                 ),
             ),
@@ -106,10 +106,10 @@ class PBCCalculator(Calculator):
             0, norms[2], self.pme_gridnumber, endpoint=False,
         )
         X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
-        x = X.flatten()[:,np.newaxis]
-        y = Y.flatten()[:,np.newaxis]
-        z = Z.flatten()[:,np.newaxis]
-        pme_xyz = np.concatenate((x,y,z), axis=1)
+        x = X.flatten()[:, np.newaxis]
+        y = Y.flatten()[:, np.newaxis]
+        z = Z.flatten()[:, np.newaxis]
+        pme_xyz = np.concatenate((x, y, z), axis=1)
         # Project quadrature grid to reciprocal space.
         points_project = self.project_to_grid(self.quadrature)
         x_i = points_project
@@ -117,7 +117,7 @@ class PBCCalculator(Calculator):
         edges = list(itertools.product(*[[i, i + 1] for i in indices]))
         edges = [np.stack(x, axis=-1) for x in edges]
         x_f = np.unique(np.concatenate(tuple(edges), axis=0), axis=0)
-        x_f[x_f==self.pme_gridnumber] = 0
+        x_f[x_f == self.pme_gridnumber] = 0
         pme_exclusions = np.unique(x_f, axis=0)
         return pme_xyz, pme_exclusions
 
@@ -129,22 +129,22 @@ class PBCCalculator(Calculator):
         """Apply exlcusions to relevant PME potential grid points.
         """
         indices = (
-            pme_exclusions[:,0]*self.pme_gridnumber**2
-            + pme_exclusions[:,1]*self.pme_gridnumber
-            + pme_exclusions[:,2]
+            pme_exclusions[:, 0]*self.pme_gridnumber**2
+            + pme_exclusions[:, 1]*self.pme_gridnumber
+            + pme_exclusions[:, 2]
         ).astype(np.int)
         # Collect atoms to be excluded.
         qm_atoms = self._topology.groups["qm_atom"]
-        #qm_drudes = self._topology.groups["qm_drude"]
+        # qm_drudes = self._topology.groups["qm_drude"]
         ae_atoms = [
             x for y in self._topology.groups["analytic"] for x in y
         ]
-        atoms = qm_atoms + ae_atoms #+ qm_drudes
+        atoms = qm_atoms + ae_atoms  # + qm_drudes
         # Gather relevant State data.
         positions = self._state.positions[atoms] * BOHR_PER_ANGSTROM
         charges = self._state.charges[atoms]
         # Perform exclusion calculation
-        exclusions = pme_xyz[indices,:]
+        exclusions = pme_xyz[indices, :]
         beta = self.pme_alpha / BOHR_PER_NM
         self.pme_potential = _compute_reciprocal_exclusions(
             self.pme_potential,
@@ -196,9 +196,9 @@ class PBCCalculator(Calculator):
             points_project.T,
         )
         edges = list(itertools.product(*[[i, i + 1] for i in indices]))
-        grad_x=0
-        grad_y=0
-        grad_z=0
+        grad_x = 0
+        grad_y = 0
+        grad_z = 0
         for edge_indices in edges:
             weight_x = 1
             weight_y = 1
@@ -229,9 +229,9 @@ class PBCCalculator(Calculator):
             ) * weight_z
         grad_du = np.concatenate(
             (
-                grad_x.reshape((-1,1)),
-                 grad_y.reshape((-1,1)),
-                 grad_z.reshape((-1,1)),
+                grad_x.reshape((-1, 1)),
+                grad_y.reshape((-1, 1)),
+                grad_z.reshape((-1, 1)),
             ),
             axis=1,
         )
@@ -269,7 +269,7 @@ class PBCCalculator(Calculator):
 
     def update(self, attr: str, value: Any) -> None:
         if "quadrature" in attr:
-            self.quadrature = np.transpose(np.array(value))[:,0:3]
+            self.quadrature = np.transpose(np.array(value))[:, 0:3]
         elif "pme_potential" in attr:
             self.pme_potential = np.array(value) / KJMOL_PER_EH
         elif "box" in attr:
@@ -279,7 +279,7 @@ class PBCCalculator(Calculator):
         elif "pme_gridnumber" in attr:
             indices = np.array(list(range(-1, self.pme_gridnumber+1)))
             self.grid = (indices,) * 3
-        #else:
+        # else:
         #    raise AttributeError(
         #        (f"Unknown attribute '{attr}' attempted to be updated "
         #         + f"for {self.__class__.__name__}."),
@@ -302,13 +302,14 @@ def _compute_reciprocal_exclusions(
         for j in range(m):
             ssc = 0
             for k in range(3):
-                r = exclusions[i,k] - positions[j,k]
-                d = box[k,k] * math.floor(r/box[k,k] + 0.5)
+                r = exclusions[i, k] - positions[j, k]
+                d = box[k, k] * math.floor(r/box[k, k] + 0.5)
                 ssc += (r - d)**2
             dr = ssc**0.5
             erf = math.erf(beta * dr)
             if erf <= 1*10**(-6):
-                external_grid[indices[i]] -= beta * charges[j] * 2 * math.pi**(-0.5)
+                external_grid[indices[i]] -= beta * \
+                    charges[j] * 2 * math.pi**(-0.5)
             else:
                 external_grid[indices[i]] -= charges[j] * erf / dr
     return external_grid

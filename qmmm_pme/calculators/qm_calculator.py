@@ -29,6 +29,7 @@ class QMCalculator(Calculator):
     :param read_guess: |read_guess|
     :param reference_energy: |reference_energy|
     """
+
     def __init__(
             self,
             basis_set: str,
@@ -37,7 +38,7 @@ class QMCalculator(Calculator):
             spin: int,
             quadrature_spherical: int | None = 302,
             quadrature_radial: int | None = 75,
-            scf_type: str | None ="df",
+            scf_type: str | None = "df",
             read_guess: bool | None = True,
             reference_energy: float | int | None = None,
     ) -> None:
@@ -169,7 +170,7 @@ class QMCalculator(Calculator):
             psi4.set_num_threads(num_threads)
         elif "namespace" in attr:
             self.psi4[attr.split(".")[1]] = value
-        #else:
+        # else:
         #    raise AttributeError(
         #        (
         #            f"Unknown attribute '{attr}' attempted to be updated "
