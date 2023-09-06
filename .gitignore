@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Test directory
-.testing/
+# Experimental directory
+.experimental/
+
+# Run data
+*.dat
