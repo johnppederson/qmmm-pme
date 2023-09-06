@@ -5,7 +5,10 @@ residues.
 """
 from __future__ import annotations
 __author__ = "Jesse McDaniel, John Pederson"
-__version__ = "1.0.0"
+
+from .._version import get_versions
+__version__ = get_versions()['version']
+del get_versions
 
 from .files import Files
 from .namespace import Namespace
