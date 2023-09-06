@@ -1,0 +1,661 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>qmmm_pme.calculators package &#8212; QM/MM/PME 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+          <div class="body" role="main">
+
+  <section id="qmmm-pme-calculators-package">
+<h1>qmmm_pme.calculators package<a class="headerlink" href="#qmmm-pme-calculators-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-qmmm_pme.calculators.calculator">
+<span id="qmmm-pme-calculators-calculator-module"></span><h2>qmmm_pme.calculators.calculator module<a class="headerlink" href="#module-qmmm_pme.calculators.calculator" title="Permalink to this heading">¶</a></h2>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.calculators.calculator.Calculator" title="qmmm_pme.calculators.calculator.Calculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code></a> base class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.calculator.Calculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.calculators.calculator.</span></span><span class="sig-name descname"><span class="pre">Calculator</span></span><a class="reference internal" href="_modules/qmmm_pme/calculators/calculator.html#Calculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.calculator.Calculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qmmm_pme.common.html#qmmm_pme.common.core.Core" title="qmmm_pme.common.core.Core"><code class="xref py py-class docutils literal notranslate"><span class="pre">Core</span></code></a></p>
+<p>The base class for defining calculators.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.calculator.Calculator.calculate">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_forces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/calculator.html#Calculator.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.calculator.Calculator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate energies and forces for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with
+the <a class="reference internal" href="#qmmm_pme.calculators.calculator.Calculator" title="qmmm_pme.calculators.calculator.Calculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>return_forces</strong> (<em>bool</em>) – Determine whether or not to return forces.</p></li>
+<li><p><strong>return_components</strong> (<em>bool</em>) – Determine whether or not to return
+the components of the energy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[Any, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.calculator.Calculator.update">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/calculator.html#Calculator.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.calculator.Calculator.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method to update the <a class="reference internal" href="#qmmm_pme.calculators.calculator.Calculator" title="qmmm_pme.calculators.calculator.Calculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attr</strong> (<em>str</em>) – The attribute to update.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The new value of the attribute.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.calculators.calculator_factory">
+<span id="qmmm-pme-calculators-calculator-factory-module"></span><h2>qmmm_pme.calculators.calculator_factory module<a class="headerlink" href="#module-qmmm_pme.calculators.calculator_factory" title="Permalink to this heading">¶</a></h2>
+<p>A module containing methods to create <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> objects
+given a <code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code> object.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.calculator_factory.calculator_factory">
+<span class="sig-prename descclassname"><span class="pre">qmmm_pme.calculators.calculator_factory.</span></span><span class="sig-name descname"><span class="pre">calculator_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/calculator_factory.html#calculator_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.calculator_factory.calculator_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Factory for the various <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>hamiltonian</strong> (<a class="reference internal" href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><em>Hamiltonian</em></a>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code> object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> object corresponding to the given
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qmmm_pme.calculators.calculator.Calculator" title="qmmm_pme.calculators.calculator.Calculator">Calculator</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.calculators.mm_calculator">
+<span id="qmmm-pme-calculators-mm-calculator-module"></span><h2>qmmm_pme.calculators.mm_calculator module<a class="headerlink" href="#module-qmmm_pme.calculators.mm_calculator" title="Permalink to this heading">¶</a></h2>
+<p>A module to define the <a class="reference internal" href="#qmmm_pme.calculators.mm_calculator.MMCalculator" title="qmmm_pme.calculators.mm_calculator.MMCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMCalculator</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.mm_calculator.MMCalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.calculators.mm_calculator.</span></span><span class="sig-name descname"><span class="pre">MMCalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nonbonded_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PME'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonbonded_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_gridnumber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/mm_calculator.html#MMCalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.mm_calculator.MMCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.calculators.calculator.Calculator" title="qmmm_pme.calculators.calculator.Calculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> class for performing molecular mechanics
+calculations for an entire system using OpenMM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nonbonded_method</strong> (<em>str</em><em> | </em><em>None</em>) – The OpenMM nonbonded method.</p></li>
+<li><p><strong>nonbonded_cutoff</strong> (<em>float</em><em> | </em><em>int</em><em> | </em><em>None</em>) – The OpenMM nonbonded cutoff.</p></li>
+<li><p><strong>pme_gridnumber</strong> (<em>int</em><em> | </em><em>None</em>) – The number of PME gridpoints to use along each box vector.</p></li>
+<li><p><strong>pme_alpha</strong> (<em>float</em><em> | </em><em>int</em><em> | </em><em>None</em>) – The PME alpha parameter for Gaussian widths.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.mm_calculator.MMCalculator.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_forces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/mm_calculator.html#MMCalculator.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.mm_calculator.MMCalculator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate energies and forces for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>return_forces</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return forces.</p></li>
+<li><p><strong>return_components</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return
+the components of the energy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[Any, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.mm_calculator.MMCalculator.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/mm_calculator.html#MMCalculator.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.mm_calculator.MMCalculator.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method to update the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attr</strong> (<em>str</em>) – The attribute to update.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The new value of the attribute.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.calculators.mm_pme_calculator">
+<span id="qmmm-pme-calculators-mm-pme-calculator-module"></span><h2>qmmm_pme.calculators.mm_pme_calculator module<a class="headerlink" href="#module-qmmm_pme.calculators.mm_pme_calculator" title="Permalink to this heading">¶</a></h2>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.calculators.mm_pme_calculator.MMPMECalculator" title="qmmm_pme.calculators.mm_pme_calculator.MMPMECalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMPMECalculator</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.mm_pme_calculator.MMPMECalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.calculators.mm_pme_calculator.</span></span><span class="sig-name descname"><span class="pre">MMPMECalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/mm_pme_calculator.html#MMPMECalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.mm_pme_calculator.MMPMECalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator" title="qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMQMMMCalculator</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> class for performing molecular mechanics
+calculations for the MM subsystem of a QM/MM/PME system using
+OpenMM.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.mm_pme_calculator.MMPMECalculator.compute_pme_potential">
+<span class="sig-name descname"><span class="pre">compute_pme_potential</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/mm_pme_calculator.html#MMPMECalculator.compute_pme_potential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.mm_pme_calculator.MMPMECalculator.compute_pme_potential" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the PME potential grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The PME potential grid calculated by OpenMM.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Any</em></p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Requires investigation of return type.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.calculators.mm_qmmm_calculator">
+<span id="qmmm-pme-calculators-mm-qmmm-calculator-module"></span><h2>qmmm_pme.calculators.mm_qmmm_calculator module<a class="headerlink" href="#module-qmmm_pme.calculators.mm_qmmm_calculator" title="Permalink to this heading">¶</a></h2>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator" title="qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMQMMMCalculator</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.calculators.mm_qmmm_calculator.</span></span><span class="sig-name descname"><span class="pre">MMQMMMCalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nonbonded_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PME'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonbonded_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_gridnumber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/mm_qmmm_calculator.html#MMQMMMCalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.calculators.mm_calculator.MMCalculator" title="qmmm_pme.calculators.mm_calculator.MMCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMCalculator</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> class for performing molecular mechanics
+calculations for the MM subsystem of a QM/MM system using OpenMM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nonbonded_method</strong> (<em>str</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>nonbonded_cutoff</strong> (<em>float</em><em> | </em><em>int</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>pme_gridnumber</strong> (<em>int</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>pme_alpha</strong> (<em>float</em><em> | </em><em>int</em><em> | </em><em>None</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_forces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/mm_qmmm_calculator.html#MMQMMMCalculator.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate energies and forces for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>return_forces</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return forces.</p></li>
+<li><p><strong>return_components</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return
+the components of the energy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[Any, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.calculators.pbc_calculator">
+<span id="qmmm-pme-calculators-pbc-calculator-module"></span><h2>qmmm_pme.calculators.pbc_calculator module<a class="headerlink" href="#module-qmmm_pme.calculators.pbc_calculator" title="Permalink to this heading">¶</a></h2>
+<p>A module to define the <a class="reference internal" href="#qmmm_pme.calculators.pbc_calculator.PBCCalculator" title="qmmm_pme.calculators.pbc_calculator.PBCCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PBCCalculator</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.pbc_calculator.PBCCalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.calculators.pbc_calculator.</span></span><span class="sig-name descname"><span class="pre">PBCCalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pme_gridnumber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/pbc_calculator.html#PBCCalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.pbc_calculator.PBCCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.calculators.calculator.Calculator" title="qmmm_pme.calculators.calculator.Calculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> class for performing operations on a PME
+potential grid produced by OpenMM with a quadrature supplied by
+Psi4 for the QM/MM/PME system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pme_gridnumber</strong> (<em>int</em><em> | </em><em>None</em>) – The number of PME gridpoints to use along each box vector.</p></li>
+<li><p><strong>pme_alpha</strong> (<em>float</em><em> | </em><em>int</em><em> | </em><em>None</em>) – The PME alpha parameter for Gaussian widths.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.pbc_calculator.PBCCalculator.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_forces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/pbc_calculator.html#PBCCalculator.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.pbc_calculator.PBCCalculator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate energies and forces for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>return_forces</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return forces.</p></li>
+<li><p><strong>return_components</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return
+the components of the energy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[Any, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.pbc_calculator.PBCCalculator.pme_potential">
+<span class="sig-name descname"><span class="pre">pme_potential</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qmmm_pme.calculators.pbc_calculator.PBCCalculator.pme_potential" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.pbc_calculator.PBCCalculator.project_to_grid">
+<span class="sig-name descname"><span class="pre">project_to_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/pbc_calculator.html#PBCCalculator.project_to_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.pbc_calculator.PBCCalculator.project_to_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Project points onto a PME grid in reciprocal space.  This
+algorithm is identical to that used in method
+‘pme_update_grid_index_and_fraction’ in OpenMM source code,
+ReferencePME.cpp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>points</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The real-space points, in Bohr, to project onto
+the reciprocal-space PME grid.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The projected points in reciprocal-space, in inverse
+Bohr.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[np.flaot64]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.pbc_calculator.PBCCalculator.quadrature">
+<span class="sig-name descname"><span class="pre">quadrature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qmmm_pme.calculators.pbc_calculator.PBCCalculator.quadrature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.pbc_calculator.PBCCalculator.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/pbc_calculator.html#PBCCalculator.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.pbc_calculator.PBCCalculator.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method to update the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attr</strong> (<em>str</em>) – The attribute to update.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The new value of the attribute.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.calculators.qm_calculator">
+<span id="qmmm-pme-calculators-qm-calculator-module"></span><h2>qmmm_pme.calculators.qm_calculator module<a class="headerlink" href="#module-qmmm_pme.calculators.qm_calculator" title="Permalink to this heading">¶</a></h2>
+<p>A module to define the <a class="reference internal" href="#qmmm_pme.calculators.qm_calculator.QMCalculator" title="qmmm_pme.calculators.qm_calculator.QMCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMCalculator</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qm_calculator.QMCalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.calculators.qm_calculator.</span></span><span class="sig-name descname"><span class="pre">QMCalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basis_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_spherical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">302</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_radial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scf_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'df'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_energy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qm_calculator.html#QMCalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qm_calculator.QMCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.calculators.calculator.Calculator" title="qmmm_pme.calculators.calculator.Calculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> class for performing quantum mechanics
+calculations for an entire system using Psi4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basis_set</strong> (<em>str</em>) – The basis set to use for Psi4 calculations.</p></li>
+<li><p><strong>functional</strong> (<em>str</em>) – The DFT functional to use for the Psi4 calculations.</p></li>
+<li><p><strong>charge</strong> (<em>int</em>) – The net molecular charge of the QM atoms.</p></li>
+<li><p><strong>spin</strong> (<em>int</em>) – The net molecular spin of the QM atoms.</p></li>
+<li><p><strong>quadrature_spherical</strong> (<em>int</em><em> | </em><em>None</em>) – The number of spherical (angular and azimuthal) points to use in the Lebedev quadrature implemented in Psi4.</p></li>
+<li><p><strong>quadrature_radial</strong> (<em>int</em><em> | </em><em>None</em>) – The number of radial points to use in the Lebedev quadrature implemented in Psi4.</p></li>
+<li><p><strong>scf_type</strong> (<em>str</em><em> | </em><em>None</em>) – The type of SCF to perform in Psi4.</p></li>
+<li><p><strong>read_guess</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not read in wavefunction from previous calculation.</p></li>
+<li><p><strong>reference_energy</strong> (<em>float</em><em> | </em><em>int</em><em> | </em><em>None</em>) – The base potential energy for QM energies.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qm_calculator.QMCalculator.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_forces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qm_calculator.html#QMCalculator.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qm_calculator.QMCalculator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate energies and forces for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>return_forces</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return forces.</p></li>
+<li><p><strong>return_components</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return
+the components of the energy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[Any, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qm_calculator.QMCalculator.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qm_calculator.html#QMCalculator.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qm_calculator.QMCalculator.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method to update the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attr</strong> (<em>str</em>) – The attribute to update.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The new value of the attribute.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.calculators.qm_pme_calculator">
+<span id="qmmm-pme-calculators-qm-pme-calculator-module"></span><h2>qmmm_pme.calculators.qm_pme_calculator module<a class="headerlink" href="#module-qmmm_pme.calculators.qm_pme_calculator" title="Permalink to this heading">¶</a></h2>
+<p>A module to define the <a class="reference internal" href="#qmmm_pme.calculators.qm_pme_calculator.QMPMECalculator" title="qmmm_pme.calculators.qm_pme_calculator.QMPMECalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMPMECalculator</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qm_pme_calculator.QMPMECalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.calculators.qm_pme_calculator.</span></span><span class="sig-name descname"><span class="pre">QMPMECalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qm_pme_calculator.html#QMPMECalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qm_pme_calculator.QMPMECalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator" title="qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMQMMMCalculator</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> class for performing molecular mechanics
+calculations for the QM subsystem of a QM/MM/PME system using Psi4.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qm_pme_calculator.QMPMECalculator.compute_quadrature">
+<span class="sig-name descname"><span class="pre">compute_quadrature</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qm_pme_calculator.html#QMPMECalculator.compute_quadrature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qm_pme_calculator.QMPMECalculator.compute_quadrature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a reference quadrature to interpolate into the PME
+potential grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A reference quadrature constructed from the geometry of
+the QM subsystem.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em>[<em>Any</em>, <em>dtype</em>[<em>float64</em>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.calculators.qm_qmmm_calculator">
+<span id="qmmm-pme-calculators-qm-qmmm-calculator-module"></span><h2>qmmm_pme.calculators.qm_qmmm_calculator module<a class="headerlink" href="#module-qmmm_pme.calculators.qm_qmmm_calculator" title="Permalink to this heading">¶</a></h2>
+<p>A module to define the <a class="reference internal" href="#qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator" title="qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMQMMMCalculator</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.calculators.qm_qmmm_calculator.</span></span><span class="sig-name descname"><span class="pre">QMQMMMCalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basis_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_spherical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">302</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_radial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scf_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'df'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_energy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qm_qmmm_calculator.html#QMQMMMCalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.calculators.qm_calculator.QMCalculator" title="qmmm_pme.calculators.qm_calculator.QMCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMCalculator</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> class for performing molecular mechanics
+calculations for the QM subsystem of a QM/MM system using Psi4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basis_set</strong> (<em>str</em>) – </p></li>
+<li><p><strong>functional</strong> (<em>str</em>) – </p></li>
+<li><p><strong>charge</strong> (<em>int</em>) – </p></li>
+<li><p><strong>spin</strong> (<em>int</em>) – </p></li>
+<li><p><strong>quadrature_spherical</strong> (<em>int</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>quadrature_radial</strong> (<em>int</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>scf_type</strong> (<em>str</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>read_guess</strong> (<em>bool</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>reference_energy</strong> (<em>float</em><em> | </em><em>int</em><em> | </em><em>None</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_forces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qm_qmmm_calculator.html#QMQMMMCalculator.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate energies and forces for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>return_forces</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return forces.</p></li>
+<li><p><strong>return_components</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return
+the components of the energy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[Any, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator.charge_field">
+<span class="sig-name descname"><span class="pre">charge_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator.charge_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.calculators.qmmm_calculator">
+<span id="qmmm-pme-calculators-qmmm-calculator-module"></span><h2>qmmm_pme.calculators.qmmm_calculator module<a class="headerlink" href="#module-qmmm_pme.calculators.qmmm_calculator" title="Permalink to this heading">¶</a></h2>
+<p>A module to define the <a class="reference internal" href="#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator" title="qmmm_pme.calculators.qmmm_calculator.QMMMCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculator</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qmmm_calculator.QMMMCalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.calculators.qmmm_calculator.</span></span><span class="sig-name descname"><span class="pre">QMMMCalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qm_calculator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mm_calculator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding_cutoff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qmmm_calculator.html#QMMMCalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.calculators.calculator.Calculator" title="qmmm_pme.calculators.calculator.Calculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> class for performing QM/MM calculations for
+an entire system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mm_calculator</strong> (<a class="reference internal" href="#qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator" title="qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator"><em>MMQMMMCalculator</em></a>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> for the MM Subsystem.</p></li>
+<li><p><strong>qm_calculator</strong> (<a class="reference internal" href="#qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator" title="qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator"><em>QMQMMMCalculator</em></a>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> for the QM Subsystem.</p></li>
+<li><p><strong>embedding_cutoff</strong> (<em>float</em><em> | </em><em>int</em>) – The QM/MM analytic embedding cutoff, in
+Angstroms.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_forces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qmmm_calculator.html#QMMMCalculator.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate energies and forces for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>return_forces</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return forces.</p></li>
+<li><p><strong>return_components</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return
+the components of the energy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[Any, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.compute_correction_energy">
+<span class="sig-name descname"><span class="pre">compute_correction_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_forces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qmmm_calculator.html#QMMMCalculator.compute_correction_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.compute_correction_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the correction energy for analytic embedding atoms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>return_forces</strong> – Determine whether or not to calculate
+forces, defaults to True.</p></li>
+<li><p><strong>return_components</strong> – Determine whether or not to calculate
+energy components, defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The correction energy or the energy and forces, defaults
+to True.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qmmm_calculator.html#QMMMCalculator.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the settings for OpenMM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>settings</strong> (<em>dict</em>) – The updated settings.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.calculators.qmmm_pme_calculator">
+<span id="qmmm-pme-calculators-qmmm-pme-calculator-module"></span><h2>qmmm_pme.calculators.qmmm_pme_calculator module<a class="headerlink" href="#module-qmmm_pme.calculators.qmmm_pme_calculator" title="Permalink to this heading">¶</a></h2>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.calculators.qmmm_pme_calculator.QMMMPMECalculator" title="qmmm_pme.calculators.qmmm_pme_calculator.QMMMPMECalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMPMECalculator</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qmmm_pme_calculator.QMMMPMECalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.calculators.qmmm_pme_calculator.</span></span><span class="sig-name descname"><span class="pre">QMMMPMECalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qm_calculator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mm_calculator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pbc_calculator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding_cutoff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qmmm_pme_calculator.html#QMMMPMECalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qmmm_pme_calculator.QMMMPMECalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator" title="qmmm_pme.calculators.qmmm_calculator.QMMMCalculator"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculator</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> class for performing QM/MM/PME calculations
+for an entire system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mm_calculator</strong> (<a class="reference internal" href="#qmmm_pme.calculators.mm_pme_calculator.MMPMECalculator" title="qmmm_pme.calculators.mm_pme_calculator.MMPMECalculator"><em>MMPMECalculator</em></a>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> for the MM Subsystem.</p></li>
+<li><p><strong>qm_calculator</strong> (<a class="reference internal" href="#qmmm_pme.calculators.qm_pme_calculator.QMPMECalculator" title="qmmm_pme.calculators.qm_pme_calculator.QMPMECalculator"><em>QMPMECalculator</em></a>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> for the QM Subsystem.</p></li>
+<li><p><strong>pbc_calculator</strong> (<a class="reference internal" href="#qmmm_pme.calculators.pbc_calculator.PBCCalculator" title="qmmm_pme.calculators.pbc_calculator.PBCCalculator"><em>PBCCalculator</em></a>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> for the PBC Subsystem.</p></li>
+<li><p><strong>embedding_cutoff</strong> (<em>float</em><em> | </em><em>int</em>) – The QM/MM analytic embedding cutoff, in
+Angstroms.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.calculators.qmmm_pme_calculator.QMMMPMECalculator.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_forces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/calculators/qmmm_pme_calculator.html#QMMMPMECalculator.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.calculators.qmmm_pme_calculator.QMMMPMECalculator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate energies and forces for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>return_forces</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return forces.</p></li>
+<li><p><strong>return_components</strong> (<em>bool</em><em> | </em><em>None</em>) – Determine whether or not to return
+the components of the energy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[Any, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.calculators">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qmmm_pme.calculators" title="Permalink to this heading">¶</a></h2>
+<p>A sub-package containing the low-level calculators of the simulation
+engine.</p>
+</section>
+</section>
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">QM/MM/PME</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, John P. Pederson, Jesse G. McDaniel.
+
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+      |
+      <a href="_sources/qmmm_pme.calculators.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+
+
+
+  </body>
+</html>
