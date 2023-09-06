@@ -1,33 +1,21 @@
 #! /usr/bin/env python3
-# -*- coding: utf-8 -*-
+"""A module defining the :class:`VelocityVerlet` class.
 """
-"""
-import time
-import numpy as np
+from __future__ import annotations
 
-from .settle import *
-from .units import *
+from .integrator import Integrator
 
 
-class VelocityVerlet:
+class VelocityVerlet(Integrator):
+    """An integrator based on the Velocity Verlet algorithm.
     """
-    """
-    def __init__(self, timestep, residues=None, settle_dists=None):
-        self.timestep = timestep
-        self.residues = residues
-        self.dists = settle_dists
 
-    def integrate(self, masses, positions, velocities, forces):
-        """
-        """
-        # Based on code in ase.md.verlet
-        positions_0 = positions
-        masses = masses.reshape((-1,1))
-        momenta = velocities * masses
-        momenta = momenta + self.timestep * forces * (10**-4)
-        positions_1 = positions + self.timestep * momenta / masses
-        velocities_1 = momenta / masses
-        if self.residues:
-            positions_1 = settle(positions_0, positions_1, self.residues, masses, dists=self.dists)
-            velocities_1[self.residues,:] = (positions_1[self.residues,:] - positions_0[self.residues,:]) / self.timestep
-        return positions_1, velocities_1
+    def integrate(
+            self,
+    ) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
+        masses = self._state.masses.reshape((-1, 1))
+        momenta = self._state.velocities*masses
+        momenta = momenta + self.timestep*self._state.forces*(10**-4)
+        final_positions = self._state.positions + self.timestep*momenta/masses
+        final_velocities = momenta/masses
+        return final_positions, final_velocities

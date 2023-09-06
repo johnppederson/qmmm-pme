@@ -1,0 +1,42 @@
+
+Host: login-phoenix-slurm-4.pace.gatech.edu
+
+Timers On : Wed Sep  6 11:48:02 2023
+Timers Off: Wed Sep  6 11:48:14 2023
+
+Wall Time:       11.49 seconds
+
+                                                       Time (seconds)
+Module                                       User      System        Wall        Calls
+
+--------------------------------------------------------------------------------------
+
+**************************************************************************************
+
+Host: login-phoenix-slurm-4.pace.gatech.edu
+
+Timers On : Wed Sep  6 11:51:27 2023
+Timers Off: Wed Sep  6 11:51:30 2023
+
+Wall Time:        3.11 seconds
+
+                                                       Time (seconds)
+Module                                       User      System        Wall        Calls
+
+--------------------------------------------------------------------------------------
+
+**************************************************************************************
+
+Host: login-phoenix-slurm-4.pace.gatech.edu
+
+Timers On : Wed Sep  6 11:52:48 2023
+Timers Off: Wed Sep  6 11:52:51 2023
+
+Wall Time:        3.30 seconds
+
+                                                       Time (seconds)
+Module                                       User      System        Wall        Calls
+
+--------------------------------------------------------------------------------------
+
+**************************************************************************************
