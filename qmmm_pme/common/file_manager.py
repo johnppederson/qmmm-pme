@@ -7,15 +7,16 @@ from __future__ import annotations
 import array
 import os
 import struct
-from typing import Optional
+from typing import TYPE_CHECKING
 
 import numpy as np
 import openmm.app
 import simtk.unit
-from numpy.typing import NDArray
 
 from .utils import compute_lattice_constants
-from qmmm_pme.records import Files
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 class FileManager:
@@ -28,7 +29,6 @@ class FileManager:
         self._working_directory = working_directory
         if not os.path.isdir(working_directory):
             os.makedirs(working_directory)
-        self.files = Files()
 
     def load(
             self,
@@ -37,8 +37,9 @@ class FileManager:
             forcefield_list: list[str],
             input_json: str | None = None,
     ) -> tuple[
-            dict[str: NDArray[np.float64]],
-            dict[str: dict[str: list[list[int]]] | list[int | str]],
+        dict[str, NDArray[np.float64]],
+        dict[str, list[str]],
+        dict[str, list[list[int]]],
     ]:
         """Load files necessary to generate a system.
 
@@ -54,22 +55,17 @@ class FileManager:
         # record.
         for fh in pdb_list:
             _check_ext(fh, "pdb")
-        self.files.pdb_list = pdb_list
         for fh in topology_list:
             _check_ext(fh, "xml")
-        self.files.topology_list = topology_list
         for fh in forcefield_list:
             _check_ext(fh, "xml")
-        self.files.forcefield_list = forcefield_list
-        if input_json:
-            self.files.input_json = input_json
         # Generate and return :class:`System` data using OpenMM.
-        state_data, topology_data = _get_system_data(
-            self.files.pdb_list,
-            self.files.topology_list,
-            self.files.forcefield_list,
+        state_data, name_data, residue_data = _get_system_data(
+            pdb_list,
+            topology_list,
+            forcefield_list,
         )
-        return state_data, topology_data
+        return state_data, name_data, residue_data
 
     def write_to_pdb(
             self,
@@ -274,7 +270,7 @@ class FileManager:
         with open(filename, "a") as fh:
             fh.write(line + "\n")
 
-    def _parse_name(self, name: str, ext: str | None = "") -> str:
+    def _parse_name(self, name: str, ext: str = "") -> str:
         """Ensure that the given name has the correct directory path
         and extension.
 
@@ -311,8 +307,9 @@ def _get_system_data(
         topology_list: list[str],
         forcefield_list: list[str],
 ) -> tuple[
-        dict[str: NDArray[np.float64]],
-        dict[str: dict[str: list[list[int]]] | list[int | str]],
+        dict[str, NDArray[np.float64]],
+        dict[str, list[str]],
+        dict[str, list[list[int]]],
 ]:
     """Extract :class:`State` and :class:`Topology` data from PDB and
     XML files using OpenMM.
@@ -334,18 +331,19 @@ def _get_system_data(
     )
     openmm_residues = list(openmm_pdb.topology.residues())
     openmm_atoms = list(openmm_pdb.topology.atoms())
-    groups = {}
-    groups["all"] = [
+    atoms = [
         [atom.index for atom in residue.atoms()]
         for residue in openmm_residues
     ]
-    residues = [residue.name for residue in openmm_residues]
     elements = [atom.element.symbol for atom in openmm_atoms]
-    atoms = [atom.name for atom in openmm_atoms]
-    topology_data = {
-        "groups": groups,
-        "residues": residues,
+    residue_names = [residue.name for residue in openmm_residues]
+    atom_names = [atom.name for atom in openmm_atoms]
+    name_data = {
         "elements": elements,
+        "residue_names": residue_names,
+        "atom_names": atom_names,
+    }
+    residue_data = {
         "atoms": atoms,
     }
     # Load the OpenMM ForceField and create a System in order to get
@@ -397,4 +395,4 @@ def _get_system_data(
         "positions": positions,
         "box": box,
     }
-    return state_data, topology_data
+    return state_data, name_data, residue_data

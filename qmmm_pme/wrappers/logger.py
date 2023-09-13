@@ -3,10 +3,9 @@
 """
 from __future__ import annotations
 
-from contextlib import nullcontext
 from dataclasses import dataclass
 from typing import Any
-from typing import Optional
+from typing import Dict
 from typing import TYPE_CHECKING
 
 from qmmm_pme.common import align_dict
@@ -15,6 +14,18 @@ from qmmm_pme.common import FileManager
 if TYPE_CHECKING:
     from .system import System
     from .simulation import Simulation
+    EnergyDict = Dict[str, float]
+
+
+class NullLogger:
+    def __enter__(self) -> NullLogger:
+        return self
+
+    def __exit__(self, type_: Any, value: Any, traceback: Any) -> None:
+        pass
+
+    def record(self, simulation: Simulation) -> None:
+        pass
 
 
 @dataclass
@@ -26,16 +37,16 @@ class Logger:
     """
     output_directory: str
     system: System
-    write_to_log: bool | None = True
-    decimal_places: int | None = 6
-    log_write_interval: int | None = 1
-    write_to_csv: bool | None = True
-    csv_write_interval: int | None = 1
-    write_to_dcd: bool | None = True
-    dcd_write_interval: int | None = 50
-    write_to_pdb: bool | None = True
+    write_to_log: bool = True
+    decimal_places: int = 6
+    log_write_interval: int = 1
+    write_to_csv: bool = True
+    csv_write_interval: int = 1
+    write_to_dcd: bool = True
+    dcd_write_interval: int = 50
+    write_to_pdb: bool = True
 
-    def __enter__(self) -> None:
+    def __enter__(self) -> Logger:
         """Create output files which will house output data from the
         :class:`Simulation`.
         """
@@ -62,12 +73,12 @@ class Logger:
         if self.write_to_pdb:
             self.file_manager.write_to_pdb(
                 "output.pdb",
-                self.system.state.positions,
-                self.system.state.box,
-                self.system.topology.groups["all"],
-                self.system.topology.residues,
-                self.system.topology.elements,
-                self.system.topology.atoms,
+                self.system.state.positions(),
+                self.system.state.box(),
+                self.system.topology.atoms(),
+                self.system.topology.residue_names(),
+                self.system.topology.elements(),
+                self.system.topology.atom_names(),
             )
 
     def record(self, simulation: Simulation) -> None:
@@ -80,7 +91,7 @@ class Logger:
             self.file_manager.write_to_log(
                 self.log,
                 self._unwrap_energy(simulation.energy),
-                simulation.system.state.frame,
+                simulation.frame,
             )
         if self.write_to_csv:
             self.file_manager.write_to_csv(
@@ -95,16 +106,16 @@ class Logger:
                 self.dcd,
                 self.dcd_write_interval,
                 len(self.system),
-                simulation.system.state.positions,
-                simulation.system.state.box,
-                simulation.system.state.frame,
+                simulation.system.state.positions(),
+                simulation.system.state.box(),
+                simulation.frame,
             )
 
     def _unwrap_energy(
             self,
-            energy: dict[str: Any],
-            spaces: int | None = 0,
-            cont: list[Any, ...] | None = [],
+            energy: EnergyDict,
+            spaces: int = 0,
+            cont: list[int] = [],
     ) -> str:
         """Generate the Log string given the :class:`Simulation` energy
         dictionary.
@@ -131,8 +142,3 @@ class Logger:
                     )+"|_"+key
                 string += f"{key}:{value: >{72-len(key)}}"
         return string
-
-
-class NullLogger(nullcontext):
-    def record(*args, **kwargs):
-        pass

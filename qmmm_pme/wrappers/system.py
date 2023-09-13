@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from qmmm_pme.common import FileManager
+from qmmm_pme.records import Files
 from qmmm_pme.records import State
 from qmmm_pme.records import Topology
 
@@ -25,16 +26,19 @@ class System:
     ) -> None:
         self.state = State()
         self.topology = Topology()
+        self.files = Files()
         file_manager = FileManager()
-        state_data, topology_data = file_manager.load(
+        state_data, name_data, residue_data = file_manager.load(
             pdb_list,
             topology_list,
             forcefield_list,
         )
-        for key, value in state_data.items():
-            setattr(self.state, key, value)
-        for key, value in topology_data.items():
-            setattr(self.topology, key, value)
+        for state_key, state_value in state_data.items():
+            getattr(self.state, state_key).update(state_value)
+        for name_key, name_value in name_data.items():
+            getattr(self.topology, name_key).update(name_value)
+        for residue_key, residue_value in residue_data.items():
+            getattr(self.topology, residue_key).update(residue_value)
 
     def __len__(self) -> int:
-        return len(self.topology.atoms)
+        return len(self.topology.atom_names())

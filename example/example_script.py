@@ -15,7 +15,7 @@ from qmmm_pme import *
 from qmmm_pme.plugins import SETTLE
 
 
-def main():
+def main() -> int:
 
     # Load system first.
     system = System(
@@ -26,7 +26,6 @@ def main():
 
     # Define QM Hamiltonian.
     qm = QMHamiltonian(
-        system,
         basis_set="def2-SVP",
         functional="PBE",
         charge=0,
@@ -35,15 +34,15 @@ def main():
 
     # Define MM Hamiltonian.
     mm = MMHamiltonian(
-        system,
         pme_gridnumber=30,
     )
 
     # Define QM/MM Hamiltonian
-    qmmm = qm[0:3] + mm[3:] | 14.0
+    qmmm = qm[0:3] + mm[3:]
+    qmmm | 14.0
 
     # Define the integrator to use.
-    integrator = VelocityVerlet(1, 300)
+    dynamics = VelocityVerlet(1, 300)
 
     # Define the logger.
     logger = Logger("./output/", system, dcd_write_interval=1)
@@ -53,14 +52,15 @@ def main():
     simulation = Simulation(
         system=system,
         hamiltonian=mm,
-        integrator=integrator,
+        dynamics=dynamics,
         logger=logger,
         plugins=[settle],
     )
 
     # Run simulation
     simulation.run_dynamics(10)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    exit(main())

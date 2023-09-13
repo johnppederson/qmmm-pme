@@ -8,20 +8,46 @@ from abc import abstractmethod
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from qmmm_pme.common.core import Core
+    from qmmm_pme.calculators.calculator import ModifiableCalculator
+    from qmmm_pme.calculators import QMMMCalculator
+    from qmmm_pme.integrators.integrator import ModifiableIntegrator
 
 
 class Plugin(ABC):
     """The base class for creating QM/MM/PME plugins.
     """
-    _keys = []
-    _modifieds = []
+    _modifieds: list[str] = []
+    _key: str = ""
+
+
+class CalculatorPlugin(Plugin):
+    """
+    """
+    _key: str = "Calculator"
 
     @abstractmethod
-    def modify(self, modifable: Core) -> None:
-        """Perform pluggable modifications on object inheriting from
-        :class:`Core` requested in the keys class attribute.
+    def modify(self, calculator: ModifiableCalculator) -> None:
+        """
+        """
 
-        :param modifiable: An instance of a class inheriting from
-            :class:`Core`.
+
+class QMMMCalculatorPlugin(Plugin):
+    """
+    """
+    _key: str = "Calculator"
+
+    @abstractmethod
+    def modify(self, calculator: QMMMCalculator) -> None:
+        """
+        """
+
+
+class IntegratorPlugin(Plugin):
+    """
+    """
+    _key: str = "Integrator"
+
+    @abstractmethod
+    def modify(self, integrator: ModifiableIntegrator) -> None:
+        """
         """

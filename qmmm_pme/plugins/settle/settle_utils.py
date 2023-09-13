@@ -8,7 +8,7 @@ from numpy.typing import NDArray
 
 
 def settle_positions(
-        residues: list[int],
+        residues: list[list[int]],
         positions_i: NDArray[np.float64],
         positions_f: NDArray[np.float64],
         masses: NDArray[np.float64],
@@ -166,7 +166,7 @@ def settle_positions(
 
 
 def settle_velocities(
-        residues: list[int],
+        residues: list[list[int]],
         positions_i: NDArray[np.float64],
         velocities_i: NDArray[np.float64],
         masses: NDArray[np.float64],
@@ -234,7 +234,11 @@ def settle_velocities(
     hb_v = hb_v + (eCA*tca - eBC*tbc)/m_hb
 
     vel_1 = np.concatenate(
-        (oxy_v[:, np.newaxis, :], ha_v[:, np.newaxis, :], hb_v[:, np.newaxis, :]),
+        (
+            oxy_v[:, np.newaxis, :],
+            ha_v[:, np.newaxis, :],
+            hb_v[:, np.newaxis, :],
+        ),
         axis=1,
     )
     velocities_f = velocities_i

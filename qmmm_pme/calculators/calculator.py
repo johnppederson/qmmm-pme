@@ -3,26 +3,48 @@
 """
 from __future__ import annotations
 
+from abc import ABC
 from abc import abstractmethod
+from dataclasses import astuple
+from dataclasses import dataclass
+from enum import Enum
 from typing import Any
+from typing import TYPE_CHECKING
 
-from qmmm_pme.common import Core
-from qmmm_pme.records import Files
+import numpy as np
+
+if TYPE_CHECKING:
+    from qmmm_pme.interfaces.interface import SoftwareInterface
+    from qmmm_pme.plugins.plugin import CalculatorPlugin
+    from qmmm_pme import System
+    from numpy.typing import NDArray
 
 
-class Calculator(Core):
+class CalculatorType(Enum):
+    QM = "A QM Calculator."
+    MM = "An MM Calculator."
+    ME = "An ME Calculator."
+
+
+@dataclass
+class Results:
+    """
+    """
+    energy: float = 0
+    forces: NDArray[np.float64] = np.empty(0)
+    components: dict[str, float] = {}
+
+
+class ModifiableCalculator(ABC):
     """The base class for defining calculators.
     """
-
-    def __init__(self) -> None:
-        super().__init__()
-        self.files = Files(self)
+    _plugins: list[str] = []
 
     @abstractmethod
     def calculate(
             self,
-            return_forces: bool = True,
-            return_components: bool = True,
+            return_forces: bool | None = True,
+            return_components: bool | None = True,
     ) -> tuple[Any, ...]:
         """Calculate energies and forces for the :class:`System` with
         the :class:`Calculator`.
@@ -32,10 +54,44 @@ class Calculator(Core):
             the components of the energy.
         """
 
-    @abstractmethod
-    def update(self, attr: str, value: Any) -> None:
-        """A method to update the :class:`Calculator`.
+    def register_plugin(self, plugin: CalculatorPlugin) -> None:
+        """Register any plugins applied to an instance of a class
+        inheriting from :class:`Core`.
 
-        :param attr: The attribute to update.
-        :param value: The new value of the attribute.
+        :param plugin: An instance of a class inheriting from
+            :class:`Plugin`.
         """
+        self._plugins.append(type(plugin).__name__)
+        plugin.modify(self)
+
+    def active_plugins(self) -> list[str]:
+        """Return the list of active plugins.
+
+        :return: A list of the active plugins being employed by the
+            class.
+        """
+        return self._plugins
+
+
+@dataclass
+class StandaloneCalculator(ModifiableCalculator):
+    """The base class for defining standalone calculators.
+    """
+    system: System
+    interface: SoftwareInterface
+    options: dict[str, Any] = {}
+
+    def calculate(
+            self,
+            return_forces: bool | None = True,
+            return_components: bool | None = True,
+    ) -> tuple[Any, ...]:
+        energy = self.interface.compute_energy(**self.options)
+        results = Results(energy)
+        if return_forces:
+            forces = self.interface.compute_forces(**self.options)
+            results.forces = forces
+        if return_components:
+            components = self.interface.compute_components(**self.options)
+            results.components = components
+        return astuple(results)

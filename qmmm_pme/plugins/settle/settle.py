@@ -6,19 +6,19 @@ from __future__ import annotations
 __author__ = "Jesse McDaniel, John Pederson"
 __version__ = "1.0.0"
 
-from typing import Callable, Optional, TYPE_CHECKING
+from typing import Callable, TYPE_CHECKING
 
 import numpy as np
 from numpy.typing import NDArray
-from qmmm_pme.plugins.plugin import Plugin
+from qmmm_pme.plugins.plugin import IntegratorPlugin
 
 from .settle_utils import settle_positions, settle_velocities
 
 if TYPE_CHECKING:
-    from qmmm_pme.integrators.integrator import Integrator
+    from qmmm_pme.integrators.integrator import ModifiableIntegrator
 
 
-class SETTLE(Plugin):
+class SETTLE(IntegratorPlugin):
     """A :class:`Plugin` which implements the SETTLE algorithm for
     positions and velocities.
 
@@ -32,18 +32,17 @@ class SETTLE(Plugin):
 
     def __init__(
             self,
-            oh_distance: float | int | None = 1.,
-            hh_distance: float | int | None = 1.632981,
-            hoh_residue: str | None = "HOH",
+            oh_distance: float | int = 1.,
+            hh_distance: float | int = 1.632981,
+            hoh_residue: str = "HOH",
     ) -> None:
         self.oh_distance = oh_distance
         self.hh_distance = hh_distance
         self.hoh_residue = hoh_residue
-        self._keys = ["integrator"]
 
     def modify(
             self,
-            integrator: Integrator,
+            integrator: ModifiableIntegrator,
     ) -> None:
         """Perform necessary modifications to the :class:`Integrator`
         object.
@@ -52,13 +51,12 @@ class SETTLE(Plugin):
             functionality.
         """
         self._modifieds.append(integrator.__class__.__name__)
-        self._state = integrator._state
-        self._topology = integrator._topology
+        self.system = integrator.system
         self.timestep = integrator.timestep
         self.residues = [
             res for i, res
-            in enumerate(self._topology.groups["mm_atom"])
-            if self._topology.residues[i] == self.hoh_residue
+            in enumerate(self.system.topology.mm_atoms())
+            if self.system.topology.residue_names()[i] == self.hoh_residue
         ]
         integrator.integrate = self._modify_integrate(integrator.integrate)
         integrator.compute_velocities = self._modify_compute_velocities(
@@ -70,25 +68,28 @@ class SETTLE(Plugin):
 
     def _modify_integrate(
             self,
-            integrate:
-                Callable[[], tuple[NDArray[np.float64], NDArray[np.float64]]],
+            integrate: Callable[
+                [], tuple[
+                    NDArray[np.float64], NDArray[np.float64],
+                ],
+            ],
     ) -> Callable[[], tuple[NDArray[np.float64], NDArray[np.float64]]]:
         """
         """
-        def inner():
+        def inner() -> tuple[NDArray[np.float64], NDArray[np.float64]]:
             positions, velocities = integrate()
             positions = settle_positions(
                 self.residues,
-                self._state.positions,
+                self.system.state.positions(),
                 positions,
-                self._state.masses,
+                self.system.state.masses(),
                 self.oh_distance,
                 self.hh_distance,
             )
             velocities[self.residues, :] = (
                 (
                     positions[self.residues, :]
-                    - self._state.positions[self.residues, :]
+                    - self.system.state.positions()[self.residues, :]
                 ) / self.timestep
             )
             return positions, velocities
@@ -100,13 +101,13 @@ class SETTLE(Plugin):
     ) -> Callable[[], NDArray[np.float64]]:
         """
         """
-        def inner():
+        def inner() -> NDArray[np.float64]:
             velocities = compute_velocities()
             velocities = settle_velocities(
                 self.residues,
-                self._state.positions,
+                self.system.state.positions(),
                 velocities,
-                self._state.masses,
+                self.system.state.masses(),
             )
             return velocities
         return inner
@@ -117,20 +118,20 @@ class SETTLE(Plugin):
     ) -> Callable[[], float]:
         """
         """
-        def inner():
-            masses = self._state.masses.reshape(-1, 1)
+        def inner() -> float:
+            masses = self.system.state.masses().reshape(-1, 1)
             velocities = (
-                self._state.velocities
+                self.system.state.velocities()
                 + (
                     0.5*self.timestep
-                    * self._state.forces*(10**-4)/masses
+                    * self.system.state.forces()*(10**-4)/masses
                 )
             )
             velocities = settle_velocities(
                 self.residues,
-                self._state.positions,
+                self.system.state.positions(),
                 velocities,
-                self._state.masses,
+                self.system.state.masses(),
             )
             kinetic_energy = (
                 np.sum(0.5*masses*(velocities)**2)

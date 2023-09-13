@@ -66,12 +66,12 @@ class NotThisMethod(Exception):
 
 
 LONG_VERSION_PY: dict[str, str] = {}
-HANDLERS: dict[str, dict[str, Callable]] = {}
+HANDLERS: dict[str, dict[str, Callable[..., Any]]] = {}
 
 
-def register_vcs_handler(vcs: str, method: str) -> Callable:  # decorator
+def register_vcs_handler(vcs: str, method: str) -> Callable[..., Any]:  # decorator
     """Create decorator to mark a method as the handler of a VCS."""
-    def decorate(f: Callable) -> Callable:
+    def decorate(f: Callable[..., Any]) -> Callable[..., Any]:
         """Store f in HANDLERS[vcs][method]."""
         if vcs not in HANDLERS:
             HANDLERS[vcs] = {}
@@ -269,7 +269,7 @@ def git_pieces_from_vcs(
     tag_prefix: str,
     root: str,
     verbose: bool,
-    runner: Callable = run_command,
+    runner: Callable[..., Any] = run_command,
 ) -> dict[str, Any]:
     """Get version from 'git describe' in the root of the source tree.
 

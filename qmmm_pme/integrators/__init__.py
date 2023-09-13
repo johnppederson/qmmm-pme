@@ -3,10 +3,6 @@
 """
 from __future__ import annotations
 
-from .langevin import Langevin
-from .velocity_verlet import VelocityVerlet
+from .langevin_integrator import LangevinIntegrator
+from .velocity_verlet_integrator import VelocityVerletIntegrator
 __author__ = "Jesse McDaniel, John Pederson"
-
-from .._version import get_versions
-__version__ = get_versions()['version']
-del get_versions
