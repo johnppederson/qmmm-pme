@@ -81,6 +81,10 @@ class StandaloneCalculator(ModifiableCalculator):
     interface: SoftwareInterface
     options: dict[str, Any] = {}
 
+    def __post_init__(self) -> None:
+        for key, value in self.interface.get_state_notifiers().items():
+            getattr(self.system.state, key).register_notifier(value)
+
     def calculate(
             self,
             return_forces: bool | None = True,

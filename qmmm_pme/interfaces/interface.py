@@ -6,6 +6,7 @@ from __future__ import annotations
 from abc import ABC
 from abc import abstractmethod
 from enum import Enum
+from typing import Callable
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -48,4 +49,11 @@ class SoftwareInterface(ABC):
         """Calculate the components of the energy.
 
         :return: The individual contributions to the energy.
+        """
+
+    @abstractmethod
+    def get_state_notifiers(
+            self,
+    ) -> dict[str, Callable[[NDArray[np.float64]], None]]:
+        """
         """

@@ -14,7 +14,7 @@ class Variable:
     __slots__ = "_value", "_notifiers"
     _notifiers: list[Callable[[Any], None]] = []
 
-    def register_notifier(self, notifier: Callable[[Any], None]) -> None:
+    def register_notifier(self, notifier: Callable[..., None]) -> None:
         """Add a notifier to the :class:`Variable`, which will
         be called whenever the :class:`Variable` is changed.
 

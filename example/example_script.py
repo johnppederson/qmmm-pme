@@ -12,6 +12,7 @@ import sys
 import numpy as np
 
 from qmmm_pme import *
+from qmmm_pme.plugins import PME
 from qmmm_pme.plugins import SETTLE
 
 
@@ -19,7 +20,7 @@ def main() -> int:
 
     # Load system first.
     system = System(
-        pdb_list=["./data/spce.pdb"],
+        pdb_list=["./data/hoh.pdb"],
         topology_list=["./data/spce_residues.xml"],
         forcefield_list=["./data/spce.xml"],
     )
@@ -38,23 +39,20 @@ def main() -> int:
     )
 
     # Define QM/MM Hamiltonian
-    qmmm = qm[0:3] + mm[3:]
-    qmmm | 14.0
+    #qmmm = qm[0:3] + mm[3:] | 14.0
 
     # Define the integrator to use.
     dynamics = VelocityVerlet(1, 300)
 
     # Define the logger.
     logger = Logger("./output/", system, dcd_write_interval=1)
-    settle = SETTLE()
 
     # Define simulation.
     simulation = Simulation(
         system=system,
-        hamiltonian=mm,
+        hamiltonian=qm,
         dynamics=dynamics,
         logger=logger,
-        plugins=[settle],
     )
 
     # Run simulation

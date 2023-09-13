@@ -6,6 +6,7 @@ from __future__ import annotations
 from dataclasses import asdict
 from dataclasses import dataclass
 from functools import lru_cache
+from typing import Callable
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -221,6 +222,16 @@ class Psi4Interface(SoftwareInterface):
         :param positions: |positions|
         """
         psi4.set_memory(memory)
+
+    def get_state_notifiers(
+            self,
+    ) -> dict[str, Callable[..., None]]:
+        """
+        """
+        notifiers = {
+            "positions": self.update_positions,
+        }
+        return notifiers
 
 
 def psi4_system_factory(settings: Psi4Settings) -> Psi4Interface:

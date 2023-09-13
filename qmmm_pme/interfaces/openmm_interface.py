@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from typing import Any
+from typing import Callable
 from typing import TYPE_CHECKING
 
 from openmm import Context
@@ -158,6 +159,18 @@ class OpenMMInterface(SoftwareInterface):
 
         .. warning:: This method is not currently implemented.
         """
+
+    def get_state_notifiers(
+            self,
+    ) -> dict[str, Callable[[NDArray[np.float64]], None]]:
+        """
+        """
+        notifiers = {
+            "charges": self.update_charges,
+            "positions": self.update_positions,
+            "box": self.update_box,
+        }
+        return notifiers
 
 
 def openmm_system_factory(settings: OpenMMSettings) -> OpenMMInterface:
