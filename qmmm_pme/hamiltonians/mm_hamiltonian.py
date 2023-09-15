@@ -32,6 +32,8 @@ class MMHamiltonian(MMHamiltonianInterface):
     pme_alpha: float | int = 5.0
 
     def build_calculator(self, system: System) -> StandaloneCalculator:
+        mm_atoms = self.parse_atoms(system)
+        system.topology.mm_atoms.update(mm_atoms)
         settings = MMSettings(system=system, **asdict(self))
         interface = mm_factories[self.system_type](settings)
         calculator = StandaloneCalculator(system=system, interface=interface)

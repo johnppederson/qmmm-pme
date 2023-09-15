@@ -50,7 +50,7 @@ class SETTLE(IntegratorPlugin):
         :param integrator: The integrator to modify with the SETTLE
             functionality.
         """
-        self._modifieds.append(integrator.__class__.__name__)
+        self._modifieds.append(type(integrator).__name__)
         self.system = integrator.system
         self.timestep = integrator.timestep
         self.residues = [

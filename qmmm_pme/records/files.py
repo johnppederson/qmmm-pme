@@ -12,7 +12,6 @@ from .record import Variable
 class FilesVariable(Variable):
     """A class wrapping a variable belonging to the :class:`Files`.
     """
-    __slots__ = Variable.__slots__
     _value: list[str] = []
 
     def update(self, value: list[str]) -> None:

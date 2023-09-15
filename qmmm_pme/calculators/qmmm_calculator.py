@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from dataclasses import astuple
 from dataclasses import dataclass
+from dataclasses import field
 from typing import Any
 from typing import TYPE_CHECKING
 
@@ -33,7 +34,7 @@ class QMMMCalculator(ModifiableCalculator):
     system: System
     calculators: dict[CalculatorType, StandaloneCalculator]
     embedding_cutoff: float | int
-    options: dict[str, Any] = {}
+    options: dict[str, Any] = field(default_factory=dict)
 
     def calculate(
             self,
@@ -131,10 +132,10 @@ class QMMMCalculator(ModifiableCalculator):
                     ) * BOHR_PER_ANGSTROM
                     ae_charge = self.system.state.charges()[atom]
                     charge_field.append(
-                        [
+                        (
                             ae_charge,
-                            [ae_position[0], ae_position[1], ae_position[2]],
-                        ],
+                            (ae_position[0], ae_position[1], ae_position[2]),
+                        ),
                     )
                     # Loop through each QM atom to add onto real-space
                     # correction energy and forces.
@@ -155,4 +156,4 @@ class QMMMCalculator(ModifiableCalculator):
                     correction_forces[atom, :] -= correction_force
         # Update the topology with the current embedding atoms.
         self.system.topology.ae_atoms.update(ae_atoms)
-        return correction_energy, correction_forces, charge_field
+        return correction_energy, correction_forces, tuple(charge_field)

@@ -35,6 +35,8 @@ class QMHamiltonian(QMHamiltonianInterface):
     reference_energy: float | int | None = None
 
     def build_calculator(self, system: System) -> StandaloneCalculator:
+        qm_atoms = self.parse_atoms(system)
+        system.topology.qm_atoms.update(qm_atoms)
         settings = QMSettings(system=system, **asdict(self))
         interface = qm_factories[self.system_type](settings)
         calculator = StandaloneCalculator(system=system, interface=interface)

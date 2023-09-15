@@ -39,6 +39,9 @@ class System:
             getattr(self.topology, name_key).update(name_value)
         for residue_key, residue_value in residue_data.items():
             getattr(self.topology, residue_key).update(residue_value)
+        self.files.pdb_list.update(pdb_list)
+        self.files.topology_list.update(topology_list)
+        self.files.forcefield_list.update(forcefield_list)
 
     def __len__(self) -> int:
         return len(self.topology.atom_names())

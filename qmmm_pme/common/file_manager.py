@@ -229,6 +229,7 @@ class FileManager:
         with open(filename, "a") as fh:
             fh.write(f"{' Frame ' + f'{frame:0>6}' + ' ':-^72}\n")
             fh.write(lines + "\n")
+            fh.flush()
 
     def end_log(
             self,
@@ -269,6 +270,7 @@ class FileManager:
         filename = self._parse_name(name, ext="csv")
         with open(filename, "a") as fh:
             fh.write(line + "\n")
+            fh.flush()
 
     def _parse_name(self, name: str, ext: str = "") -> str:
         """Ensure that the given name has the correct directory path

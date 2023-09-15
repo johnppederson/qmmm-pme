@@ -15,7 +15,6 @@ from .record import Variable
 class StateVariable(Variable):
     """A class wrapping a variable belonging to the :class:`State`.
     """
-    __slots__ = Variable.__slots__
     _value: NDArray[np.float64] = np.empty(0)
 
     def update(self, value: NDArray[np.float64]) -> None:

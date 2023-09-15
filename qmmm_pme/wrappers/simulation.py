@@ -3,8 +3,8 @@
 """
 from __future__ import annotations
 
-from dataclasses import asdict
 from dataclasses import dataclass
+from dataclasses import field
 from typing import Any
 from typing import Dict
 from typing import TYPE_CHECKING
@@ -42,14 +42,14 @@ class Simulation:
     logger: Any = NullLogger
     num_threads: int = 1
     memory: str = "1 GB"
-    plugins: list[Plugin] = []
+    plugins: list[Plugin] = field(default_factory=list)
     frame: int = 0
-    energy: EnergyDict = {}
+    energy: EnergyDict = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         self.calculator = self.hamiltonian.build_calculator(self.system)
         self.integrator = self.dynamics.build_integrator(self.system)
-        self._register_plugins
+        self._register_plugins()
 
     def run_dynamics(self, steps: int) -> None:
         """Run simulation using the :class:`System`.
@@ -114,4 +114,4 @@ class Simulation:
         """Register dynamically loaded plugins.
         """
         for plugin in self.plugins:
-            asdict(self)[plugin._key].register_plugin(plugin)
+            getattr(self, plugin._key).register_plugin(plugin)

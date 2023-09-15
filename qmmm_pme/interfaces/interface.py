@@ -57,3 +57,10 @@ class SoftwareInterface(ABC):
     ) -> dict[str, Callable[[NDArray[np.float64]], None]]:
         """
         """
+
+    @abstractmethod
+    def get_topology_notifiers(
+            self,
+    ) -> dict[str, Callable[..., None]]:
+        """
+        """

@@ -24,6 +24,9 @@ if TYPE_CHECKING:
     ComputationOptions = float
 
 
+psi4.core.be_quiet()
+
+
 @dataclass(frozen=True)
 class Psi4Settings(SoftwareSettings):
     """A class which holds the Psi4 settings.
@@ -40,14 +43,23 @@ class Psi4Settings(SoftwareSettings):
     reference_energy: float | int | None = None
 
 
-@dataclass
 class Psi4Context:
-    atoms: list[list[int]]
-    embedding: list[list[int]]
-    elements: list[str]
-    positions: NDArray[np.float64]
-    charge: int
-    spin: int
+
+    def __init__(
+            self,
+            atoms: list[list[int]],
+            embedding: list[list[int]],
+            elements: list[str],
+            positions: NDArray[np.float64],
+            charge: int,
+            spin: int,
+    ) -> None:
+        self.atoms = atoms
+        self.embedding = embedding
+        self.elements = elements
+        self.positions = positions
+        self.charge = charge
+        self.spin = spin
 
     @lru_cache
     def generate_molecule(self) -> psi4.core.Molecule:
@@ -75,6 +87,9 @@ class Psi4Context:
         self.positions = positions
         self.generate_molecule.cache_clear()
 
+    def update_embedding(self, embedding: list[list[int]]) -> None:
+        self.embedding = embedding
+
 
 @dataclass(frozen=True)
 class Psi4Options:
@@ -89,13 +104,26 @@ class Psi4Options:
 
 
 @dataclass(frozen=True)
+class Psi4Reference:
+    """
+    """
+    total: float | int
+    nuclear_repulsion: float | int
+    one_electron: float | int
+    kinetic: float | int
+    potential: float | int
+    two_electron: float | int
+    exchange_correlation: float | int
+
+
+@dataclass(frozen=True)
 class Psi4Interface(SoftwareInterface):
     """A class which wraps the functional components of Psi4.
     """
     options: Psi4Options
     functional: str
     context: Psi4Context
-    reference_energy: float | int
+    reference: Psi4Reference
 
     @lru_cache
     def _generate_wavefunction(
@@ -118,7 +146,7 @@ class Psi4Interface(SoftwareInterface):
     def compute_energy(self, **kwargs: ComputationOptions) -> float:
         wfn = self._generate_wavefunction(**kwargs)
         energy = wfn.energy()
-        energy = (energy-self.reference_energy) * KJMOL_PER_EH
+        energy = (energy-self.reference.total) * KJMOL_PER_EH
         return energy
 
     def compute_forces(
@@ -134,16 +162,10 @@ class Psi4Interface(SoftwareInterface):
         )
         forces = forces.to_array() * -KJMOL_PER_EH * BOHR_PER_ANGSTROM
         forces_temp = np.zeros_like(self.context.positions)
-        forces_temp[self.context.atoms, :] = forces[
-            :len(
-                self.context.atoms,
-            ), :
-        ]
-        forces_temp[self.context.embedding, :] = forces[
-            len(
-                self.context.atoms,
-            ):, :
-        ]
+        indices = [atom for residue in self.context.atoms for atom in residue]
+        forces_temp[indices, :] = forces[:len(indices), :]
+        if self.context.embedding:
+            forces_temp[self.context.embedding, :] = forces[len(indices):, :]
         forces = forces_temp
         return forces
 
@@ -162,20 +184,38 @@ class Psi4Interface(SoftwareInterface):
         Db = wfn.Db()
         one_e_components = {
             "Electronic Kinetic Energy":
-                Da.vector_dot(T) + Db.vector_dot(T),
+                (
+                    Da.vector_dot(T) + Db.vector_dot(T)
+                    - self.reference.kinetic
+                ) * KJMOL_PER_EH,
             "Electronic Potential Energy":
-                Da.vector_dot(V) + Db.vector_dot(V),
+                (
+                    Da.vector_dot(V) + Db.vector_dot(V)
+                    - self.reference.potential
+                ) * KJMOL_PER_EH,
         }
         components = {
             "Nuclear Repulsion Energy":
-                wfn.variable("NUCLEAR REPULSION ENERGY"),
+                (
+                    wfn.variable("NUCLEAR REPULSION ENERGY")
+                    - self.reference.nuclear_repulsion
+                ) * KJMOL_PER_EH,
             "One-Electron Energy":
-                wfn.variable("ONE-ELECTRON ENERGY"),
+                (
+                    wfn.variable("ONE-ELECTRON ENERGY")
+                    - self.reference.one_electron
+                ) * KJMOL_PER_EH,
             ".": one_e_components,
             "Two-Electron Energy":
-                wfn.variable("TWO-ELECTRON ENERGY"),
+                (
+                    wfn.variable("TWO-ELECTRON ENERGY")
+                    - self.reference.two_electron
+                ) * KJMOL_PER_EH,
             "Exchange-Correlation Energy":
-                wfn.variable("DFT XC ENERGY"),
+                (
+                    wfn.variable("DFT XC ENERGY")
+                    - self.reference.exchange_correlation
+                ) * KJMOL_PER_EH,
         }
         return components
 
@@ -198,7 +238,10 @@ class Psi4Interface(SoftwareInterface):
         )
         vbase = psi4.core.VBase.build(basis, sup_func, "RV")
         vbase.initialize()
-        quadrature = (vbase.get_np_xyzw().T)[:, 0:3]
+        quadrature = np.concatenate(
+            tuple([coord.reshape(-1, 1) for coord in vbase.get_np_xyzw()[0:3]]),
+            axis=1,
+        )
         return quadrature
 
     def update_positions(self, positions: NDArray[np.float64]) -> None:
@@ -207,6 +250,14 @@ class Psi4Interface(SoftwareInterface):
         :param positions: |positions|
         """
         self.context.update_positions(positions)
+        self._generate_wavefunction.cache_clear()
+
+    def update_embedding(self, embedding: list[list[int]]) -> None:
+        """Update the particle positions for Psi4.
+
+        :param positions: |positions|
+        """
+        self.context.update_embedding(embedding)
         self._generate_wavefunction.cache_clear()
 
     def update_num_threads(self, num_threads: int) -> None:
@@ -233,6 +284,16 @@ class Psi4Interface(SoftwareInterface):
         }
         return notifiers
 
+    def get_topology_notifiers(
+            self,
+    ) -> dict[str, Callable[..., None]]:
+        """
+        """
+        notifiers = {
+            "ae_atoms": self.update_embedding,
+        }
+        return notifiers
+
 
 def psi4_system_factory(settings: Psi4Settings) -> Psi4Interface:
     """A function which constructs the :class:`Psi4Interface`.
@@ -240,10 +301,12 @@ def psi4_system_factory(settings: Psi4Settings) -> Psi4Interface:
     options = _build_options(settings)
     functional = settings.functional
     context = _build_context(settings)
-    reference_energy = _build_reference_energy(
+    reference = _build_reference(
         settings, options, functional, context,
     )
-    wrapper = Psi4Interface(options, functional, context, reference_energy)
+    wrapper = Psi4Interface(
+        options, functional, context, reference,
+    )
     return wrapper
 
 
@@ -271,22 +334,47 @@ def _build_context(settings: Psi4Settings) -> Psi4Context:
     return context
 
 
-def _build_reference_energy(
+def _build_reference(
         settings: Psi4Settings, options: Psi4Options,
         functional: str, context: Psi4Context,
-) -> float | int:
+) -> Psi4Reference:
     """Calculate the ground state energy of the QM atoms.
     """
+    reference = {
+        "total": 0.,
+        "nuclear_repulsion": 0.,
+        "one_electron": 0.,
+        "kinetic": 0.,
+        "potential": 0.,
+        "two_electron": 0.,
+        "exchange_correlation": 0.,
+    }
     if isinstance(settings.reference_energy, (int, float)):
-        reference_energy = settings.reference_energy
+        reference["total"] += settings.reference_energy
     else:
-        psi4.set_options(options)
+        psi4.set_options(asdict(options))
         molecule = context.generate_molecule()
-        reference_energy = psi4.optimize(
+        context.generate_molecule.cache_clear()
+        energy, wfn = psi4.optimize(
             functional,
             molecule=molecule,
+            return_wfn=True,
         )
-    return reference_energy
+        T = wfn.mintshelper().ao_kinetic()
+        V = wfn.mintshelper().ao_potential()
+        Da = wfn.Da()
+        Db = wfn.Db()
+        reference["total"] += energy
+        reference["nuclear_repulsion"] += wfn.variable(
+            "NUCLEAR REPULSION ENERGY",
+        )
+        reference["one_electron"] += wfn.variable("ONE-ELECTRON ENERGY")
+        reference["kinetic"] += Da.vector_dot(T) + Db.vector_dot(T)
+        reference["potential"] += Da.vector_dot(V) + Db.vector_dot(V)
+        reference["two_electron"] += wfn.variable("TWO-ELECTRON ENERGY")
+        reference["exchange_correlation"] += wfn.variable("DFT XC ENERGY")
+    psi4_reference = Psi4Reference(**reference)
+    return psi4_reference
 
 
 FACTORIES = {

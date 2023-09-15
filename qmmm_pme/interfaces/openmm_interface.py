@@ -5,10 +5,12 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from dataclasses import field
 from typing import Any
 from typing import Callable
 from typing import TYPE_CHECKING
 
+import numpy as np
 from openmm import Context
 from openmm import CustomNonbondedForce
 from openmm import HarmonicAngleForce
@@ -37,10 +39,11 @@ from .interface import SystemTypes
 
 if TYPE_CHECKING:
     import qmmm_pme
-    import numpy as np
     from numpy.typing import NDArray
-    ComputationOptions = bool
 
+
+# def default_properties():
+#    return {"ReferenceVextGrid": "true"}
 
 @dataclass(frozen=True)
 class OpenMMSettings(SoftwareSettings):
@@ -54,7 +57,7 @@ class OpenMMSettings(SoftwareSettings):
     temperature: float | int = 300.
     friction: float | int = 0.001
     timestep: float | int = 1.
-    properties: dict[str, str] = {}
+    properties: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -67,7 +70,7 @@ class OpenMMInterface(SoftwareInterface):
     system: System
     context: Context
 
-    def _generate_state(self, **kwargs: ComputationOptions) -> State:
+    def _generate_state(self, **kwargs: bool | set[int]) -> State:
         """Create the OpenMM State which is used to compute energies
         and forces.
         """
@@ -76,7 +79,7 @@ class OpenMMInterface(SoftwareInterface):
         )
         return state
 
-    def compute_energy(self, **kwargs: ComputationOptions) -> float:
+    def compute_energy(self, **kwargs: bool) -> float:
         # Get energy and forces from the state.
         state = self._generate_state(getEnergy=True, **kwargs)
         energy = state.getPotentialEnergy() / kilojoule_per_mole
@@ -84,7 +87,7 @@ class OpenMMInterface(SoftwareInterface):
 
     def compute_forces(
             self,
-            **kwargs: ComputationOptions,
+            **kwargs: bool,
     ) -> NDArray[np.float64]:
         state = self._generate_state(getForces=True, **kwargs)
         forces = state.getForces(asNumpy=True) / kilojoule_per_mole * angstrom
@@ -92,7 +95,7 @@ class OpenMMInterface(SoftwareInterface):
 
     def compute_components(
             self,
-            **kwargs: ComputationOptions,
+            **kwargs: bool,
     ) -> dict[str, float]:
         """Calculate the components of the energy.
 
@@ -104,13 +107,13 @@ class OpenMMInterface(SoftwareInterface):
             key = " ".join(re.findall("[A-Z][a-z]*", key))
             value = self._generate_state(
                 getEnergy=True,
-                groups=force.getForceGroup(),
+                groups={force.getForceGroup()},
                 **kwargs,
             ).getPotentialEnergy() / kilojoule_per_mole
             components[key] = value
         return components
 
-    def compute_pme_potential(self, **kwargs: ComputationOptions) -> Any:
+    def compute_pme_potential(self, **kwargs: bool) -> Any:
         """Creates the PME potential grid.
 
         :return: The PME potential grid calculated by OpenMM.
@@ -118,7 +121,7 @@ class OpenMMInterface(SoftwareInterface):
         .. warning:: Requires investigation of return type.
         """
         state = self._generate_state(getVext_grids=True, **kwargs)
-        pme_potential = state.getVext_grid()
+        pme_potential = np.array(state.getVext_grid())
         return pme_potential
 
     def update_charges(self, charges: NDArray[np.float64]) -> None:
@@ -172,6 +175,14 @@ class OpenMMInterface(SoftwareInterface):
         }
         return notifiers
 
+    def get_topology_notifiers(
+            self,
+    ) -> dict[str, Callable[..., None]]:
+        """
+        """
+        notifiers: dict[str, Callable[..., None]] = {}
+        return notifiers
+
 
 def openmm_system_factory(settings: OpenMMSettings) -> OpenMMInterface:
     """A function which constructs the :class:`OpenMMInterface`.
@@ -219,6 +230,9 @@ def _build_pdb(settings: OpenMMSettings) -> PDBFile:
     # for xml in files.topology_list:
     #    Topology().loadBondDefinitions(xml)
     pdb = PDBFile(settings.system.files.pdb_list()[0])
+    pdb.topology.loadBondDefinitions(
+        settings.system.files.topology_list()[0],
+    )
     return pdb
 
 
@@ -244,8 +258,7 @@ def _build_system(
     """
     system = forcefield.createSystem(
         modeller.topology,
-        getattr(NonbondedForce, settings.nonbonded_method),
-        settings.nonbonded_cutoff * angstrom,
+        nonbondedCutoff=settings.nonbonded_cutoff * angstrom,
         rigidWater=False,
     )
     return system
@@ -254,12 +267,17 @@ def _build_system(
 def _adjust_forces(settings: OpenMMSettings, system: System) -> None:
     """Generate OpenMM non-bonded forces.
     """
+    for i, force in enumerate(system.getForces()):
+        force.setForceGroup(i)
     # Get force types and set method.
     nonbonded_forces = [
         force for force in system.getForces()
         if isinstance(force, NonbondedForce)
     ]
     for force in nonbonded_forces:
+        force.setNonbondedMethod(
+            getattr(NonbondedForce, settings.nonbonded_method),
+        )
         force.setPMEParameters(
             settings.pme_alpha,
             settings.pme_gridnumber,
@@ -303,7 +321,10 @@ def _exclude_qm_atoms(settings: OpenMMSettings, system: System) -> None:
         force for force in system.getForces()
         if isinstance(force, RBTorsionForce)
     ]
-    qm_atoms = settings.system.topology.qm_atoms()
+    qm_atoms = [
+        atom for residue in settings.system.topology.qm_atoms()
+        for atom in residue
+    ]
     # Remove double-counted intramolecular interactions for QM atoms.
     for force in harmonic_bond_forces:
         for i in range(force.getNumBonds()):
@@ -368,7 +389,10 @@ def _exclude_non_embedding(
     ]
     embedding_forces = []
     # Interaction groups require atom indices to be input as sets.
-    qm_atom_set = set(settings.system.topology.qm_atoms())
+    qm_atom_set = {
+        atom for residue in settings.system.topology.qm_atoms()
+        for atom in residue
+    }
     mm_atom_set = {
         atom for residue in settings.system.topology.mm_atoms()
         for atom in residue

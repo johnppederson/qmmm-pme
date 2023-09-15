@@ -8,7 +8,7 @@ from abc import abstractmethod
 from typing import Any
 from typing import TYPE_CHECKING
 
-from qmmm.interfaces import SystemTypes
+from qmmm_pme.interfaces import SystemTypes
 
 if TYPE_CHECKING:
     from qmmm_pme import System
@@ -39,6 +39,29 @@ class Hamiltonian(ABC):
     def build_calculator(self, system: System) -> ModifiableCalculator:
         """
         """
+
+    def parse_atoms(self, system: System) -> list[list[int]]:
+        indices = []
+        for i in self.atoms:
+            if isinstance(i, int):
+                indices.append(i)
+            else:
+                indices.extend(
+                    list(
+                        range(
+                            i.start if i.start else 0,
+                            i.stop if i.stop else len(system),
+                            i.step if i.step else 1,
+                        ),
+                    ),
+                )
+        if not self.atoms:
+            indices = [i for i in range(len(system))]
+        residues = [
+            x for residue in system.topology.atoms()
+            if (x := [i for i in residue if i in indices])
+        ]
+        return residues
 
     @abstractmethod
     def __add__(self, other: Any) -> Hamiltonian:

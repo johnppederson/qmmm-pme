@@ -9,11 +9,10 @@ from dataclasses import dataclass
 from typing import Any
 from typing import TYPE_CHECKING
 
-from qmmm.interfaces import SystemTypes
-
 from .hamiltonian import QMMMHamiltonianInterface
 from qmmm_pme.calculators import QMMMCalculator
 from qmmm_pme.calculators.calculator import CalculatorType
+from qmmm_pme.interfaces import SystemTypes
 
 if TYPE_CHECKING:
     from qmmm_pme import System

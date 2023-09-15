@@ -7,6 +7,7 @@ from abc import ABC
 from abc import abstractmethod
 from dataclasses import astuple
 from dataclasses import dataclass
+from dataclasses import field
 from enum import Enum
 from typing import Any
 from typing import TYPE_CHECKING
@@ -32,7 +33,7 @@ class Results:
     """
     energy: float = 0
     forces: NDArray[np.float64] = np.empty(0)
-    components: dict[str, float] = {}
+    components: dict[str, float] = field(default_factory=dict)
 
 
 class ModifiableCalculator(ABC):
@@ -79,11 +80,17 @@ class StandaloneCalculator(ModifiableCalculator):
     """
     system: System
     interface: SoftwareInterface
-    options: dict[str, Any] = {}
+    options: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
-        for key, value in self.interface.get_state_notifiers().items():
-            getattr(self.system.state, key).register_notifier(value)
+        state_generator = self.interface.get_state_notifiers().items()
+        for state_key, state_value in state_generator:
+            getattr(self.system.state, state_key).register_notifier(state_value)
+        topology_generator = self.interface.get_topology_notifiers().items()
+        for topology_key, topology_value in topology_generator:
+            getattr(self.system.topology, topology_key).register_notifier(
+                topology_value,
+            )
 
     def calculate(
             self,

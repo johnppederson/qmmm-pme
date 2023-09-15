@@ -23,7 +23,7 @@ class Plugin(ABC):
 class CalculatorPlugin(Plugin):
     """
     """
-    _key: str = "Calculator"
+    _key: str = "calculator"
 
     @abstractmethod
     def modify(self, calculator: ModifiableCalculator) -> None:
@@ -34,7 +34,7 @@ class CalculatorPlugin(Plugin):
 class QMMMCalculatorPlugin(Plugin):
     """
     """
-    _key: str = "Calculator"
+    _key: str = "calculator"
 
     @abstractmethod
     def modify(self, calculator: QMMMCalculator) -> None:
@@ -45,7 +45,7 @@ class QMMMCalculatorPlugin(Plugin):
 class IntegratorPlugin(Plugin):
     """
     """
-    _key: str = "Integrator"
+    _key: str = "integrator"
 
     @abstractmethod
     def modify(self, integrator: ModifiableIntegrator) -> None:

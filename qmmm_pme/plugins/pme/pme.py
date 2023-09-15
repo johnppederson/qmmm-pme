@@ -9,6 +9,10 @@ __version__ = "1.0.0"
 from dataclasses import astuple
 from typing import Callable, Any, TYPE_CHECKING
 
+from openmm import NonbondedForce
+from simtk.unit import nanometer
+
+from qmmm_pme.common import KJMOL_PER_EH
 from qmmm_pme.plugins.plugin import QMMMCalculatorPlugin
 from qmmm_pme.calculators.calculator import CalculatorType, Results
 
@@ -36,12 +40,17 @@ class PME(QMMMCalculatorPlugin):
         self._modifieds.append(type(calculator).__name__)
         self.system = calculator.system
         self.calculators = calculator.calculators
-        self.pme_gridnumber = calculator.calculators[
+        interface = calculator.calculators[
             CalculatorType.MM
-        ].pme_gridnumber
-        self.pme_alpha = calculator.calculators[
-            CalculatorType.MM
-        ].pme_alpha
+        ].interface
+        nonbonded_forces = [
+            force for force in interface.system.getForces()
+            if isinstance(force, NonbondedForce)
+        ]
+        (
+            self.pme_alpha, self.pme_gridnumber, _, _,
+        ) = nonbonded_forces[0].getPMEParameters()
+        self.pme_alpha *= nanometer
         calculator.calculate = self._modify_calculate(calculator.calculate)
 
     def _modify_calculate(
@@ -53,7 +62,7 @@ class PME(QMMMCalculatorPlugin):
         def inner(**kwargs: bool) -> tuple[Any, ...]:
             pme_potential = self.calculators[
                 CalculatorType.MM
-            ].interface.compute_pme_potential()
+            ].interface.compute_pme_potential() / KJMOL_PER_EH
             quadrature = self.calculators[
                 CalculatorType.QM
             ].interface.compute_quadrature()
@@ -69,9 +78,11 @@ class PME(QMMMCalculatorPlugin):
             )
             self.calculators[CalculatorType.QM].options.update(
                 {
-                    "quad_extd_pot": quadrature_pme_potential,
-                    "nuc_extd_pot": nuclei_pme_potential,
-                    "nuc_extd_grad": nuclei_pme_gradient,
+                    "quad_extd_pot": tuple(quadrature_pme_potential),
+                    "nuc_extd_pot": tuple(nuclei_pme_potential),
+                    "nuc_extd_grad": tuple(
+                        [tuple(x) for x in nuclei_pme_gradient],
+                    ),
                 },
             )
             qmmm_energy, qmmm_forces, qmmm_components = calculate(**kwargs)

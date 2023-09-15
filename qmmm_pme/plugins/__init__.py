@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import importlib
 
-from .pme import PME
 from .settle import SETTLE
 __author__ = "Jesse McDaniel, John Pederson"
 

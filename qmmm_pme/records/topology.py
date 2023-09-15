@@ -12,8 +12,7 @@ from .record import Variable
 class NameVariable(Variable):
     """A class wrapping a variable belonging to the :class:`Topology`.
     """
-    __slots__ = Variable.__slots__
-    _value: list[str]
+    _value: list[str] = []
 
     def update(self, value: list[str]) -> None:
         """Update the value of the :class:`TopologyVariable`.
@@ -36,8 +35,7 @@ class NameVariable(Variable):
 class ResidueVariable(Variable):
     """A class wrapping a variable belonging to the :class:`Topology`.
     """
-    __slots__ = Variable.__slots__
-    _value: list[list[int]]
+    _value: list[list[int]] = []
 
     def update(self, value: list[list[int]]) -> None:
         """Update the value of the :class:`TopologyVariable`.

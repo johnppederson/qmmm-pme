@@ -11,8 +11,9 @@ class Variable:
     """A base class for wrapping a variable belonging to a
     :class:`Record`.
     """
-    __slots__ = "_value", "_notifiers"
-    _notifiers: list[Callable[[Any], None]] = []
+
+    def __init__(self) -> None:
+        self._notifiers: list[Callable[[Any], None]] = []
 
     def register_notifier(self, notifier: Callable[..., None]) -> None:
         """Add a notifier to the :class:`Variable`, which will
