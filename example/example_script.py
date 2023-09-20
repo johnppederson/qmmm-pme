@@ -21,7 +21,7 @@ def main() -> int:
     system = System(
         pdb_list=["./data/hoh_dimer.pdb"],
         topology_list=["./data/spce_residues.xml"],
-        forcefield_list=["./data/spce.xml"],
+        forcefield_list=["./data/spcfw.xml"],
     )
 
     # Define QM Hamiltonian.
@@ -38,30 +38,46 @@ def main() -> int:
     )
 
     # Define QM/MM Hamiltonian
-    qmmm = qm[0:3] + mm[3:] | 14.0
+    #qmmm = qm[0:3] + mm[3:] | 14.0
 
     # Define the integrator to use.
     dynamics = VelocityVerlet(1, 300)
 
     # Define the logger.
-    logger = Logger("./output/", system, dcd_write_interval=1)
+    logger = Logger("./output/", system, dcd_write_interval=1, decimal_places=12)
 
     # Define plugin objects.
-    settle = SETTLE()
+    #settle = SETTLE()
 
     # Define simulation.
     simulation = Simulation(
         system=system,
-        hamiltonian=qmmm,
+        hamiltonian=mm,
         dynamics=dynamics,
         logger=logger,
-        plugins=[settle],
+    #    plugins=[settle],
     )
 
-    simulation.run_dynamics(10)
-    # for i in range(10):
-    #    simulation.run_dynamics(1)
-    #    print(simulation.system.state.forces())
+    v0 = simulation.integrator.compute_velocities()*100
+    print("\nFORCES BEFORE FIRST STEP")
+    print(simulation.system.state.forces())
+    print("\nVELOCITIES BEFORE FIRST STEP")
+    print(v0)
+    p0 = simulation.system.state.positions()
+    #sys.exit()
+
+    simulation.run_dynamics(100)
+    #for i in range(1):
+        #simulation.run_dynamics(1)
+        #print("\nFORCES AFTER FIRST STEP")
+        #print(simulation.system.state.forces()*10)
+        #print("\nVELOCITIES AFTER FIRST STEP")
+        #print(simulation.system.state.velocities()*100)
+        #print("\nPOSITIONS->VELOCITIES AFTER FIRST STEP")
+        #print((simulation.system.state.positions()-p0)*100)
+        #simulation.calculate_energy_forces()
+        #print("\nFORCES AFTER FIRST STEP")
+        #print(simulation.system.state.forces()*10)
     return 0
 
 

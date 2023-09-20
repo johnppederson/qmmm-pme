@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 
 from qmmm_pme.integrators import LangevinIntegrator
 from qmmm_pme.integrators import VelocityVerletIntegrator
+from qmmm_pme.integrators import VerletIntegrator
 
 if TYPE_CHECKING:
     from qmmm_pme import System
@@ -47,9 +48,23 @@ class VelocityVerlet(Dynamics):
 
 
 @dataclass
+class Verlet(Dynamics):
+    """A dynamics object storing parameters necessary for creating
+    the Verlet integrator.
+
+    :param temperature: |temperature|
+    """
+    temperature: float | int
+
+    def build_integrator(self, system: System) -> Integrator:
+        integrator = VerletIntegrator(system=system, **asdict(self))
+        return integrator
+
+
+@dataclass
 class Langevin(Dynamics):
     """A dynamics object storing parameters necessary for creating
-    the Velocity Verlet integrator.
+    the Langevin integrator.
 
     :param temperature: |temperature|
     :param friction: |friction|

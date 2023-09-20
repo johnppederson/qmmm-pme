@@ -9,7 +9,7 @@ from numpy.typing import NDArray
 from .integrator import Integrator
 
 
-class VelocityVerletIntegrator(Integrator):
+class VerletIntegrator(Integrator):
     """An integrator based on the Velocity Verlet algorithm.
     """
 
@@ -24,5 +24,4 @@ class VelocityVerletIntegrator(Integrator):
             + self.timestep*momenta/masses
         )
         final_velocities = momenta/masses
-
         return final_positions, final_velocities

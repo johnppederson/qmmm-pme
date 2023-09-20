@@ -50,24 +50,25 @@ class Simulation:
         self.calculator = self.hamiltonian.build_calculator(self.system)
         self.integrator = self.dynamics.build_integrator(self.system)
         self._register_plugins()
+        if not self.system.state.velocities().size:
+            self.system.state.velocities.update(
+                self.integrator.compute_velocities(),
+            )
+        self.calculate_energy_forces()
 
     def run_dynamics(self, steps: int) -> None:
         """Run simulation using the :class:`System`.
 
         :param steps: The number of steps to take.
         """
-        if not self.system.state.velocities().size:
-            self.system.state.velocities.update(
-                self.integrator.compute_velocities(),
-            )
         with self.logger as logger:
             for i in range(steps):
-                self.calculate_energy_forces()
-                logger.record(self)
                 new_positions, new_velocities = self.integrator.integrate()
                 self.system.state.positions.update(new_positions)
                 self.system.state.velocities.update(new_velocities)
                 self.wrap_positions()
+                logger.record(self)
+                self.calculate_energy_forces()
                 self.frame += 1
 
     def calculate_energy_forces(self) -> None:
@@ -88,6 +89,15 @@ class Simulation:
             },
         }
         self.energy = energy
+
+    def calculate_forces(self) -> None:
+        """Update the :class:`State` using calculations from the
+        :class:`System`.
+        """
+        (
+            potential_energy, forces, components,
+        ) = self.calculator.calculate()
+        self.system.state.forces.update(forces)
 
     def wrap_positions(self) -> None:
         """Atoms are wrapped to stay inside of the periodic box.  This
