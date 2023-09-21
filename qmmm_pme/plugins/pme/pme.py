@@ -3,20 +3,20 @@
 algorithm for the QM/MM/PME repository.
 """
 from __future__ import annotations
-__author__ = "Jesse McDaniel, John Pederson"
-__version__ = "1.0.0"
 
 from dataclasses import astuple
-from typing import Callable, Any, TYPE_CHECKING
+from typing import Any
+from typing import Callable
+from typing import TYPE_CHECKING
 
 from openmm import NonbondedForce
 from simtk.unit import nanometer
 
+from .pme_utils import pme_components
+from qmmm_pme.calculators.calculator import CalculatorType
+from qmmm_pme.calculators.calculator import Results
 from qmmm_pme.common import KJMOL_PER_EH
 from qmmm_pme.plugins.plugin import QMMMCalculatorPlugin
-from qmmm_pme.calculators.calculator import CalculatorType, Results
-
-from .pme_utils import pme_components
 
 if TYPE_CHECKING:
     from qmmm_pme.calculators import QMMMCalculator

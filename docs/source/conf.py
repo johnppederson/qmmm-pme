@@ -12,25 +12,25 @@ from __future__ import annotations
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath("../.."))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'QM/MM/PME'
-copyright = '2023, John P. Pederson, Jesse G. McDaniel'
-author = 'John P. Pederson, Jesse G. McDaniel'
+project: str = "QM/MM/PME"
+copyright: str = "2023, John P. Pederson, Jesse G. McDaniel"
+author: str = "John P. Pederson, Jesse G. McDaniel"
 
 # The full version, including alpha/beta/rc tags
-release = "0.1.1"
+release: str = "0.2.0"
 
 
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+# extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
-extensions = [
+extensions: list[str] = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
@@ -38,10 +38,10 @@ extensions = [
 ]
 
 # Add support for function annotations.
-autodoc_typehints = "description"
+autodoc_typehints: str = "description"
 
 # Define substitutions for common parameters and returns.
-rst_epilog = """
+rst_epilog: str = """
 .. |masses| replace:: The current masses of all atoms in the :class:`System`, in Daltons.
 .. |charges| replace:: The current charges of all atoms in the :class:`System`, in elementary charge units.
 .. |positions| replace:: The current positions of all atoms in the :class:`System`, in Angstroms.
@@ -72,15 +72,16 @@ rst_epilog = """
 .. |reference_energy| replace:: The base potential energy for QM energies.
 .. |friction| replace:: The friction felt by particles as dynamics propagate.
 .. |timestep| replace:: The timestep with which to propagate the simulation.
+.. |package| replace:: QM/MM/PME
 """
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path: list[str] = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns: list[str] = []
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -88,9 +89,9 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme: str = "alabaster"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path: list[str] = ["_static"]

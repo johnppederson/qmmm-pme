@@ -3,10 +3,11 @@
 for enhanced sampling in the QM/MM/PME repository.
 """
 from __future__ import annotations
-__author__ = "John Hymel, John Pederson"
 
 from dataclasses import astuple
-from typing import Any, Callable, TYPE_CHECKING
+from typing import Any
+from typing import Callable
+from typing import TYPE_CHECKING
 
 import numpy as np
 import plumed

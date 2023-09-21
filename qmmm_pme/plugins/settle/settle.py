@@ -3,16 +3,16 @@
 algorithm for the QM/MM/PME repository.
 """
 from __future__ import annotations
-__author__ = "Jesse McDaniel, John Pederson"
-__version__ = "1.0.0"
 
-from typing import Callable, TYPE_CHECKING
+from typing import Callable
+from typing import TYPE_CHECKING
 
 import numpy as np
 from numpy.typing import NDArray
-from qmmm_pme.plugins.plugin import IntegratorPlugin
 
-from .settle_utils import settle_positions, settle_velocities
+from .settle_utils import settle_positions
+from .settle_utils import settle_velocities
+from qmmm_pme.plugins.plugin import IntegratorPlugin
 
 if TYPE_CHECKING:
     from qmmm_pme.integrators.integrator import ModifiableIntegrator

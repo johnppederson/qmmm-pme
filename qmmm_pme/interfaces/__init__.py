@@ -10,8 +10,4 @@ from .openmm_interface import OpenMMSettings as MMSettings
 from .psi4_interface import FACTORIES as qm_factories
 from .psi4_interface import Psi4Settings as QMSettings
 
-__author__ = "Jesse McDaniel, John Pederson"
-
-from .._version import get_versions
-__version__ = get_versions()['version']
-del get_versions
+__author__ = "John Pederson"

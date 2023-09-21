@@ -3,7 +3,6 @@
 integration procedure.
 """
 from __future__ import annotations
-__author__ = "Jesse McDaniel, John Pederson"
-__version__ = "1.0.0"
+__author__ = "John Pederson"
 
 from .settle import SETTLE

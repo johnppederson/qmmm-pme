@@ -6,8 +6,4 @@ from __future__ import annotations
 from .dynamics import Langevin
 from .dynamics import VelocityVerlet
 from .dynamics import Verlet
-__author__ = "Jesse McDaniel, John Pederson"
-
-from .._version import get_versions
-__version__ = get_versions()['version']
-del get_versions
+__author__ = "John Pederson"
