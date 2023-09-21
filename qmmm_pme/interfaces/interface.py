@@ -15,8 +15,8 @@ if TYPE_CHECKING:
 
 
 class SoftwareTypes(Enum):
-    QM = "A quantum chemistry software."
-    MM = "A molecular dynamics software."
+    QM = "A software for performing QM calculations."
+    MM = "A software for performing MM calculations."
 
 
 class SystemTypes(Enum):

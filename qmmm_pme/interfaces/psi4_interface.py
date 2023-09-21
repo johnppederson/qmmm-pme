@@ -15,6 +15,7 @@ from numpy.typing import NDArray
 
 from .interface import SoftwareInterface
 from .interface import SoftwareSettings
+from .interface import SoftwareTypes
 from .interface import SystemTypes
 from qmmm_pme.common.units import BOHR_PER_ANGSTROM
 from qmmm_pme.common.units import KJMOL_PER_EH
@@ -22,6 +23,9 @@ from qmmm_pme.common.units import KJMOL_PER_EH
 if TYPE_CHECKING:
     from qmmm_pme import System
     ComputationOptions = float
+
+
+SOFTWARE_TYPE = SoftwareTypes.QM
 
 
 psi4.core.be_quiet()
@@ -388,3 +392,6 @@ FACTORIES = {
     SystemTypes.SYSTEM: psi4_system_factory,
     SystemTypes.SUBSYSTEM: psi4_system_factory,
 }
+
+
+Settings = Psi4Settings

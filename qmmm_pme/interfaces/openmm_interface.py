@@ -35,6 +35,7 @@ from simtk.unit import Quantity
 
 from .interface import SoftwareInterface
 from .interface import SoftwareSettings
+from .interface import SoftwareTypes
 from .interface import SystemTypes
 
 if TYPE_CHECKING:
@@ -42,8 +43,8 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-# def default_properties():
-#    return {"ReferenceVextGrid": "true"}
+SOFTWARE_TYPE = SoftwareTypes.MM
+
 
 @dataclass(frozen=True)
 class OpenMMSettings(SoftwareSettings):
@@ -440,3 +441,6 @@ FACTORIES = {
     SystemTypes.SUBSYSTEM: openmm_subsystem_factory,
     SystemTypes.EMBEDDING: openmm_embedding_factory,
 }
+
+
+Settings = OpenMMSettings
