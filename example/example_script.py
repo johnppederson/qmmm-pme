@@ -12,6 +12,7 @@ import sys
 import numpy as np
 
 from qmmm_pme import *
+from qmmm_pme.plugins import AtomEmbedding
 from qmmm_pme.plugins import SETTLE
 from qmmm_pme.plugins import Stationary
 
@@ -48,8 +49,6 @@ def main() -> int:
     logger = Logger("./output/", system, dcd_write_interval=1, decimal_places=12)
 
     # Define plugin objects.
-    #settle = SETTLE()
-    #stationary = Stationary(["BF4"])
 
     # Define simulation.
     simulation = Simulation(
@@ -57,7 +56,6 @@ def main() -> int:
         hamiltonian=qmmm,
         dynamics=dynamics,
         logger=logger,
-        #plugins=[stationary],
     )
 
     simulation.run_dynamics(10)
