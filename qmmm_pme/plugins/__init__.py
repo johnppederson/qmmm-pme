@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import importlib
 
+from .plumed import Plumed
 from .settle import SETTLE
 __author__ = "Jesse McDaniel, John Pederson"
 

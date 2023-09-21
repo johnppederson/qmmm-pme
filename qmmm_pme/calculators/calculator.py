@@ -39,6 +39,7 @@ class Results:
 class ModifiableCalculator(ABC):
     """The base class for defining calculators.
     """
+    system: System
     _plugins: list[str] = []
 
     @abstractmethod
