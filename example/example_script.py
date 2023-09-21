@@ -13,15 +13,16 @@ import numpy as np
 
 from qmmm_pme import *
 from qmmm_pme.plugins import SETTLE
+from qmmm_pme.plugins import Stationary
 
 
 def main() -> int:
 
     # Load system first.
     system = System(
-        pdb_list=["./data/hoh_dimer.pdb"],
-        topology_list=["./data/spce_residues.xml"],
-        forcefield_list=["./data/spcfw.xml"],
+        pdb_list=["./data/bbh.pdb"],
+        topology_list=["./data/bmim_residues.xml"],
+        forcefield_list=["./data/bmim.xml"],
     )
 
     # Define QM Hamiltonian.
@@ -38,7 +39,7 @@ def main() -> int:
     )
 
     # Define QM/MM Hamiltonian
-    #qmmm = qm[0:3] + mm[3:] | 14.0
+    qmmm = qm[2580:] + mm[:2580] | 14.0
 
     # Define the integrator to use.
     dynamics = VelocityVerlet(1, 300)
@@ -48,36 +49,18 @@ def main() -> int:
 
     # Define plugin objects.
     #settle = SETTLE()
+    #stationary = Stationary(["BF4"])
 
     # Define simulation.
     simulation = Simulation(
         system=system,
-        hamiltonian=mm,
+        hamiltonian=qmmm,
         dynamics=dynamics,
         logger=logger,
-    #    plugins=[settle],
+        #plugins=[stationary],
     )
 
-    v0 = simulation.integrator.compute_velocities()*100
-    print("\nFORCES BEFORE FIRST STEP")
-    print(simulation.system.state.forces())
-    print("\nVELOCITIES BEFORE FIRST STEP")
-    print(v0)
-    p0 = simulation.system.state.positions()
-    #sys.exit()
-
-    simulation.run_dynamics(100)
-    #for i in range(1):
-        #simulation.run_dynamics(1)
-        #print("\nFORCES AFTER FIRST STEP")
-        #print(simulation.system.state.forces()*10)
-        #print("\nVELOCITIES AFTER FIRST STEP")
-        #print(simulation.system.state.velocities()*100)
-        #print("\nPOSITIONS->VELOCITIES AFTER FIRST STEP")
-        #print((simulation.system.state.positions()-p0)*100)
-        #simulation.calculate_energy_forces()
-        #print("\nFORCES AFTER FIRST STEP")
-        #print(simulation.system.state.forces()*10)
+    simulation.run_dynamics(10)
     return 0
 
 

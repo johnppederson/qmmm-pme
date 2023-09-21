@@ -112,7 +112,7 @@ class Simulation:
         new_positions = np.zeros_like(positions)
         for residue in self.system.topology.atoms():
             residue_positions = positions[residue, :]
-            residue_centroid = np.average(residue_positions, axis=1)
+            residue_centroid = np.average(residue_positions, axis=0)
             inverse_centroid = residue_centroid @ inverse_box
             mask = np.floor(inverse_centroid)
             diff = (-mask @ box).reshape((-1, 3))

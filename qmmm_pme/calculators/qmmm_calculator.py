@@ -74,7 +74,7 @@ class QMMMCalculator(ModifiableCalculator):
                 },
             )
             qmmm_components = {
-                "MM Energy": mm_energy - me_energy,
+                "MM Energy": mm_energy,
                 ".": mm_components,
                 "QM Energy": qm_energy,
                 "..": qm_components,

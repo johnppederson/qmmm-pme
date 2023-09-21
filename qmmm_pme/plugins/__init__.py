@@ -6,8 +6,9 @@ from __future__ import annotations
 
 import importlib
 
-from .plumed import Plumed
+from .atom_embedding import AtomEmbedding
 from .rigid import RigidBody
 from .rigid import Stationary
 from .settle import SETTLE
+# from .plumed import Plumed
 __author__ = "John Pederson"

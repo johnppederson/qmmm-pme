@@ -162,10 +162,17 @@ class Psi4Interface(SoftwareInterface):
         )
         forces = forces.to_array() * -KJMOL_PER_EH * BOHR_PER_ANGSTROM
         forces_temp = np.zeros_like(self.context.positions)
-        indices = [atom for residue in self.context.atoms for atom in residue]
-        forces_temp[indices, :] = forces[:len(indices), :]
-        if self.context.embedding:
-            forces_temp[self.context.embedding, :] = forces[len(indices):, :]
+        qm_indices = [
+            atom for residue in self.context.atoms
+            for atom in residue
+        ]
+        forces_temp[qm_indices, :] = forces[:len(qm_indices), :]
+        ae_indices = [
+            atom for residue in self.context.embedding
+            for atom in residue
+        ]
+        if ae_indices:
+            forces_temp[ae_indices, :] = forces[len(qm_indices):, :]
         forces = forces_temp
         return forces
 
