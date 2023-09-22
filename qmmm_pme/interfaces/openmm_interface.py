@@ -30,7 +30,6 @@ from simtk.unit import femtosecond
 from simtk.unit import kelvin
 from simtk.unit import kilojoule_per_mole
 from simtk.unit import nanometer
-from simtk.unit import Quantity
 
 from .interface import MMSettings
 from .interface import SoftwareInterface
@@ -289,72 +288,80 @@ def _build_context(
 def _exclude_qm_atoms(settings: MMSettings, system: System) -> None:
     """Generate OpenMM Force exclusions for the QM atoms.
     """
+    # Remove double-counted intramolecular interactions for QM atoms.
+    qm_atoms = {
+        atom for residue in settings.system.topology.qm_atoms()
+        for atom in residue
+    }
+    _exclude_harmonic_bond(system, qm_atoms)
+    _exclude_harmonic_angle(system, qm_atoms)
+    _exclude_periodic_torsion(system, qm_atoms)
+    _exclude_rb_torsion(system, qm_atoms)
+
+
+def _exclude_harmonic_bond(system: System, atoms: set[int]) -> None:
+    """
+    """
     harmonic_bond_forces = [
         force for force in system.getForces()
         if isinstance(force, HarmonicBondForce)
     ]
+    for force in harmonic_bond_forces:
+        for i in range(force.getNumBonds()):
+            *p, r0, k = force.getBondParameters(i)
+            if not set(p).isdisjoint(atoms):
+                k *= 0
+                force.setBondParameters(i, *p, r0, k)
+
+
+def _exclude_harmonic_angle(system: System, atoms: set[int]) -> None:
+    """
+    """
     harmonic_angle_forces = [
         force for force in system.getForces()
         if isinstance(force, HarmonicAngleForce)
     ]
+    for force in harmonic_angle_forces:
+        for i in range(force.getNumAngles()):
+            *p, r0, k = force.getAngleParameters(i)
+            if not set(p).isdisjoint(atoms):
+                k *= 0
+                force.setAngleParameters(i, *p, r0, k)
+
+
+def _exclude_periodic_torsion(system: System, atoms: set[int]) -> None:
+    """
+    """
     periodic_torsion_forces = [
         force for force in system.getForces()
         if isinstance(force, PeriodicTorsionForce)
     ]
+    for force in periodic_torsion_forces:
+        for i in range(force.getNumTorsions()):
+            *p, n, t, k = force.getTorsionParameters(i)
+            if not set(p).isdisjoint(atoms):
+                k *= 0
+                force.setTorsionParameters(i, *p, n, t, k)
+
+
+def _exclude_rb_torsion(system: System, atoms: set[int]) -> None:
+    """
+    """
     rb_torsion_forces = [
         force for force in system.getForces()
         if isinstance(force, RBTorsionForce)
     ]
-    qm_atoms = [
-        atom for residue in settings.system.topology.qm_atoms()
-        for atom in residue
-    ]
-    # Remove double-counted intramolecular interactions for QM atoms.
-    for force in harmonic_bond_forces:
-        for i in range(force.getNumBonds()):
-            p1, p2, r0, k = force.getBondParameters(i)
-            if p1 in qm_atoms and p2 in qm_atoms:
-                k = Quantity(0, unit=k.unit)
-                force.setBondParameters(i, p1, p2, r0, k)
-    for force in harmonic_angle_forces:
-        for i in range(force.getNumAngles()):
-            p1, p2, p3, r0, k = force.getAngleParameters(i)
-            if p1 in qm_atoms and p2 in qm_atoms and p3 in qm_atoms:
-                k = Quantity(0, unit=k.unit)
-                force.setAngleParameters(
-                    i, p1, p2, p3, r0, k,
-                )
-    for force in periodic_torsion_forces:
-        for i in range(force.getNumTorsions()):
-            (
-                p1, p2, p3, p4, n, t, k,
-            ) = force.getTorsionParameters(i)
-            if (
-                p1 in qm_atoms and p2 in qm_atoms
-                and p3 in qm_atoms and p4 in qm_atoms
-            ):
-                k = Quantity(0, unit=k.unit)
-                force.setTorsionParameters(
-                    i, p1, p2, p3, p4, n, t, k,
-                )
     for force in rb_torsion_forces:
         for i in range(force.getNumTorsions()):
-            (
-                p1, p2, p3, p4, c0, c1, c2, c3, c4, c5,
-            ) = force.getTorsionParameters(i)
-            if (
-                p1 in qm_atoms and p2 in qm_atoms
-                and p3 in qm_atoms and p4 in qm_atoms
-            ):
-                c0 = Quantity(0, unit=c0.unit)
-                c1 = Quantity(0, unit=c1.unit)
-                c2 = Quantity(0, unit=c2.unit)
-                c3 = Quantity(0, unit=c3.unit)
-                c4 = Quantity(0, unit=c4.unit)
-                c5 = Quantity(0, unit=c5.unit)
-                force.setTorsionParameters(
-                    i, p1, p2, p3, p4, c0, c1, c2, c3, c4, c5,
-                )
+            *p, c0, c1, c2, c3, c4, c5 = force.getTorsionParameters(i)
+            if not set(p).isdisjoint(atoms):
+                c0 *= 0
+                c1 *= 0
+                c2 *= 0
+                c3 *= 0
+                c4 *= 0
+                c5 *= 0
+                force.setTorsionParameters(i, *p, c0, c1, c2, c3, c4, c5)
 
 
 def _exclude_non_embedding(
