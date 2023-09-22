@@ -13,15 +13,14 @@ import numpy as np
 import psi4.core
 from numpy.typing import NDArray
 
+from .interface import QMSettings
 from .interface import SoftwareInterface
-from .interface import SoftwareSettings
 from .interface import SoftwareTypes
 from .interface import SystemTypes
 from qmmm_pme.common.units import BOHR_PER_ANGSTROM
 from qmmm_pme.common.units import KJMOL_PER_EH
 
 if TYPE_CHECKING:
-    from qmmm_pme import System
     ComputationOptions = float
 
 
@@ -29,22 +28,6 @@ SOFTWARE_TYPE = SoftwareTypes.QM
 
 
 psi4.core.be_quiet()
-
-
-@dataclass(frozen=True)
-class Psi4Settings(SoftwareSettings):
-    """A class which holds the Psi4 settings.
-    """
-    system: System
-    basis_set: str
-    functional: str
-    charge: int
-    spin: int
-    quadrature_spherical: int = 302
-    quadrature_radial: int = 75
-    scf_type: str = "df"
-    read_guess: bool = True
-    reference_energy: float | int | None = None
 
 
 class Psi4Context:
@@ -306,7 +289,7 @@ class Psi4Interface(SoftwareInterface):
         return notifiers
 
 
-def psi4_system_factory(settings: Psi4Settings) -> Psi4Interface:
+def psi4_system_factory(settings: QMSettings) -> Psi4Interface:
     """A function which constructs the :class:`Psi4Interface`.
     """
     options = _build_options(settings)
@@ -321,7 +304,7 @@ def psi4_system_factory(settings: Psi4Settings) -> Psi4Interface:
     return wrapper
 
 
-def _build_options(settings: Psi4Settings) -> Psi4Options:
+def _build_options(settings: QMSettings) -> Psi4Options:
     options = Psi4Options(
         settings.basis_set,
         settings.quadrature_spherical,
@@ -333,7 +316,7 @@ def _build_options(settings: Psi4Settings) -> Psi4Options:
     return options
 
 
-def _build_context(settings: Psi4Settings) -> Psi4Context:
+def _build_context(settings: QMSettings) -> Psi4Context:
     context = Psi4Context(
         settings.system.topology.qm_atoms(),
         [],
@@ -346,7 +329,7 @@ def _build_context(settings: Psi4Settings) -> Psi4Context:
 
 
 def _build_reference(
-        settings: Psi4Settings, options: Psi4Options,
+        settings: QMSettings, options: Psi4Options,
         functional: str, context: Psi4Context,
 ) -> Psi4Reference:
     """Calculate the ground state energy of the QM atoms.
@@ -392,6 +375,3 @@ FACTORIES = {
     SystemTypes.SYSTEM: psi4_system_factory,
     SystemTypes.SUBSYSTEM: psi4_system_factory,
 }
-
-
-Settings = Psi4Settings

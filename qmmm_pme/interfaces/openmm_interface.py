@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from dataclasses import field
 from typing import Any
 from typing import Callable
 from typing import TYPE_CHECKING
@@ -33,32 +32,16 @@ from simtk.unit import kilojoule_per_mole
 from simtk.unit import nanometer
 from simtk.unit import Quantity
 
+from .interface import MMSettings
 from .interface import SoftwareInterface
-from .interface import SoftwareSettings
 from .interface import SoftwareTypes
 from .interface import SystemTypes
 
 if TYPE_CHECKING:
-    import qmmm_pme
     from numpy.typing import NDArray
 
 
 SOFTWARE_TYPE = SoftwareTypes.MM
-
-
-@dataclass(frozen=True)
-class OpenMMSettings(SoftwareSettings):
-    """A class which holds the OpenMM settings.
-    """
-    system: qmmm_pme.System
-    nonbonded_method: str = "PME"
-    nonbonded_cutoff: float | int = 14.
-    pme_gridnumber: int = 30
-    pme_alpha: float | int = 5.
-    temperature: float | int = 300.
-    friction: float | int = 0.001
-    timestep: float | int = 1.
-    properties: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -185,7 +168,7 @@ class OpenMMInterface(SoftwareInterface):
         return notifiers
 
 
-def openmm_system_factory(settings: OpenMMSettings) -> OpenMMInterface:
+def openmm_system_factory(settings: MMSettings) -> OpenMMInterface:
     """A function which constructs the :class:`OpenMMInterface`.
     """
     pdb, modeller, forcefield, system = _build_base(settings)
@@ -194,7 +177,7 @@ def openmm_system_factory(settings: OpenMMSettings) -> OpenMMInterface:
     return wrapper
 
 
-def openmm_subsystem_factory(settings: OpenMMSettings) -> OpenMMInterface:
+def openmm_subsystem_factory(settings: MMSettings) -> OpenMMInterface:
     """A function which constructs the :class:`OpenMMInterface`.
     """
     pdb, modeller, forcefield, system = _build_base(settings)
@@ -204,7 +187,7 @@ def openmm_subsystem_factory(settings: OpenMMSettings) -> OpenMMInterface:
     return wrapper
 
 
-def openmm_embedding_factory(settings: OpenMMSettings) -> OpenMMInterface:
+def openmm_embedding_factory(settings: MMSettings) -> OpenMMInterface:
     """A function which constructs the :class:`OpenMMInterface`.
     """
     pdb, modeller, forcefield, system = _build_base(settings)
@@ -215,7 +198,7 @@ def openmm_embedding_factory(settings: OpenMMSettings) -> OpenMMInterface:
 
 
 def _build_base(
-        settings: OpenMMSettings,
+        settings: MMSettings,
 ) -> tuple[PDBFile, Modeller, ForceField, System]:
     pdb = _build_pdb(settings)
     modeller = _build_modeller(pdb)
@@ -225,7 +208,7 @@ def _build_base(
     return pdb, modeller, forcefield, system
 
 
-def _build_pdb(settings: OpenMMSettings) -> PDBFile:
+def _build_pdb(settings: MMSettings) -> PDBFile:
     """
     """
     # for xml in files.topology_list:
@@ -244,7 +227,7 @@ def _build_modeller(pdb: PDBFile) -> Modeller:
     return modeller
 
 
-def _build_forcefield(settings: OpenMMSettings, modeller: Modeller) -> Modeller:
+def _build_forcefield(settings: MMSettings, modeller: Modeller) -> Modeller:
     """
     """
     forcefield = ForceField(*settings.system.files.forcefield_list())
@@ -253,7 +236,7 @@ def _build_forcefield(settings: OpenMMSettings, modeller: Modeller) -> Modeller:
 
 
 def _build_system(
-        settings: OpenMMSettings, forcefield: ForceField, modeller: Modeller,
+        settings: MMSettings, forcefield: ForceField, modeller: Modeller,
 ) -> System:
     """
     """
@@ -265,7 +248,7 @@ def _build_system(
     return system
 
 
-def _adjust_forces(settings: OpenMMSettings, system: System) -> None:
+def _adjust_forces(settings: MMSettings, system: System) -> None:
     """Generate OpenMM non-bonded forces.
     """
     for i, force in enumerate(system.getForces()):
@@ -288,7 +271,7 @@ def _adjust_forces(settings: OpenMMSettings, system: System) -> None:
 
 
 def _build_context(
-        settings: OpenMMSettings, system: System, modeller: Modeller,
+        settings: MMSettings, system: System, modeller: Modeller,
 ) -> Context:
     """
     """
@@ -298,12 +281,12 @@ def _build_context(
         settings.timestep * femtosecond,
     )
     platform = Platform.getPlatformByName("CPU")
-    context = Context(system, integrator, platform, settings.properties)
+    context = Context(system, integrator, platform)
     context.setPositions(modeller.positions)
     return context
 
 
-def _exclude_qm_atoms(settings: OpenMMSettings, system: System) -> None:
+def _exclude_qm_atoms(settings: MMSettings, system: System) -> None:
     """Generate OpenMM Force exclusions for the QM atoms.
     """
     harmonic_bond_forces = [
@@ -375,7 +358,7 @@ def _exclude_qm_atoms(settings: OpenMMSettings, system: System) -> None:
 
 
 def _exclude_non_embedding(
-        settings: OpenMMSettings, pdb: PDBFile, system: System,
+        settings: MMSettings, pdb: PDBFile, system: System,
 ) -> None:
     """Create additional OpenMM System with mechanical embedding
     forces.
@@ -441,6 +424,3 @@ FACTORIES = {
     SystemTypes.SUBSYSTEM: openmm_subsystem_factory,
     SystemTypes.EMBEDDING: openmm_embedding_factory,
 }
-
-
-Settings = OpenMMSettings

@@ -3,32 +3,14 @@
 """
 from __future__ import annotations
 
-from configparser import ConfigParser
-from os import listdir
-
+from .interface import MMSettings
+from .interface import QMSettings
 from .interface import SystemTypes
-config = ConfigParser()
-config.read("./interfaces.conf")
-del ConfigParser
+from .interface_manager import get_software_factories
 
-qm_name = config["DEFAULT"]["QMSoftware"].lower()
-mm_name = config["DEFAULT"]["MMSoftware"].lower()
-del config
+mm_factories = get_software_factories("MMSoftware")
+qm_factories = get_software_factories("QMSoftware")
 
-file_names = listdir()
-del listdir
-
-for name in file_names:
-    if qm_name in name:
-        qm_factories = __import__(name).__dict__["FACTORIES"]
-        QMSettings = __import__(name).__dict__["Settings"]
-    if mm_name in name:
-        mm_factories = __import__(name).__dict__["FACTORIES"]
-        MMSettings = __import__(name).__dict__["Settings"]
-
-del file_names
-del name
-del qm_name
-del mm_name
+del get_software_factories
 
 __author__ = "John Pederson"

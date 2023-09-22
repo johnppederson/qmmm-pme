@@ -58,7 +58,7 @@ def main() -> int:
         logger=logger,
     )
 
-    simulation.run_dynamics(10)
+    simulation.run_dynamics(1)
     return 0
 
 
