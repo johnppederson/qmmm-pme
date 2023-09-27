@@ -12,18 +12,16 @@ import sys
 import numpy as np
 
 from qmmm_pme import *
-from qmmm_pme.plugins import AtomEmbedding
 from qmmm_pme.plugins import SETTLE
-from qmmm_pme.plugins import Stationary
 
 
 def main() -> int:
 
     # Load system first.
     system = System(
-        pdb_list=["./data/bbh.pdb"],
-        topology_list=["./data/bmim_residues.xml"],
-        forcefield_list=["./data/bmim.xml"],
+        pdb_list=["../data/spce.pdb"],
+        topology_list=["../data/spce_residues.xml"],
+        forcefield_list=["../data/spce.xml"],
     )
 
     # Define QM Hamiltonian.
@@ -40,15 +38,16 @@ def main() -> int:
     )
 
     # Define QM/MM Hamiltonian
-    qmmm = qm[2580:] + mm[:2580] | 14.0
+    qmmm = qm[:3] + mm[3:] | 14.0
 
     # Define the integrator to use.
     dynamics = VelocityVerlet(1, 300)
 
     # Define the logger.
-    logger = Logger("./output/", system, dcd_write_interval=1, decimal_places=12)
+    logger = Logger("./output/", system, dcd_write_interval=1, decimal_places=6)
 
-    # Define plugin objects.
+    # Define plugins.
+    settle = SETTLE()
 
     # Define simulation.
     simulation = Simulation(
@@ -56,9 +55,10 @@ def main() -> int:
         hamiltonian=qmmm,
         dynamics=dynamics,
         logger=logger,
+        plugins=[settle],
     )
 
-    simulation.run_dynamics(1)
+    simulation.run_dynamics(10)
     return 0
 
 

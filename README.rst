@@ -4,15 +4,15 @@ QM/MM/PME
 
 :Author: John Pederson
 :Author Email: jpederson6@gatech.edu
-:Project: QM_MM
+:Project: qmmm-pme
 :Date Written: August 27, 2022
-:Last Date Modified: August 27, 2022
+:Last Date Modified: September 27, 2023
 
 Summary
 -------
-
-This package implements dynamics for the QM/MM/PME method described by
-John Pederson and Professor Jesse McDaniel:
+This package implements dynamics for the both QM/MM and for the
+QM/MM/PME method described by John Pederson and Professor Jesse
+McDaniel:
 
 DOI: `10.1063/5.0087386 <https://aip.scitation.org/doi/10.1063/5.0087386>`_
 
@@ -39,32 +39,19 @@ The modified psi4 requires the following dependencies:
 - libxc
 - numpy>=1.19.2
 
-The QM/MM repository requires the following additional dependencies:
+Once the modified psi4 and openmm repositories are built, the qmmm-pme
+repository may be cloned.
 
-- lxml
-- scipy
+``git clone https://github.com/johnppederson/qmmm-pme``
 
-Once the modified psi4 and openmm repositories are built, the QM_MM
-repository may be cloned.  No source requires compilation.
-
-Usage
------
-
-Any python run file should include this directory in its path in order
-to use this software.  An anaconda environment should point towards the
-modified openmm and psi4 repositories.  Required input files include PDB,
-topology XML, and forcefield XML for the OpenMM interface.  All other
-options may be passed as options in the instantiation of the
-MMSubsystem, QMSubsystem, and QMMMSystem objects.
-
-Documentation
--------------
-
-The documentation for this project can be found `here
-<>`_!
+The repository must then be pip installed.
+``cd qmmm-pme``
+``python -m pip install ./``
 
 Authors
 -------
+
+John Hymel
 
 Shahriar Khan
 

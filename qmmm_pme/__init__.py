@@ -9,6 +9,7 @@ from __future__ import annotations
 from . import _version
 from .dynamics import Langevin
 from .dynamics import VelocityVerlet
+from .dynamics import Verlet
 from .hamiltonians import MMHamiltonian
 from .hamiltonians import QMHamiltonian
 from .hamiltonians import QMMMHamiltonian
@@ -17,6 +18,5 @@ from .wrappers import Simulation
 from .wrappers import System
 __author__ = "Jesse McDaniel, John Pederson"
 
-from ._version import get_versions
-__version__ = get_versions()['version']
-del get_versions
+__version__ = _version.get_versions()['version']
+del _version
