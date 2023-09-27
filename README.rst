@@ -40,13 +40,14 @@ The modified psi4 requires the following dependencies:
 - numpy>=1.19.2
 
 Once the modified psi4 and openmm repositories are built, the qmmm-pme
-repository may be cloned.
+repository may be cloned.::
 
-``git clone https://github.com/johnppederson/qmmm-pme``
+    git clone https://github.com/johnppederson/qmmm-pme
 
-The repository must then be pip installed.
-``cd qmmm-pme``
-``python -m pip install ./``
+The repository must then be pip installed.::
+
+    cd qmmm-pme
+    python -m pip install ./
 
 Authors
 -------
