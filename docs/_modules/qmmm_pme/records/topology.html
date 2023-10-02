@@ -33,23 +33,77 @@
 
   <h1>Source code for qmmm_pme.records.topology</h1><div class="highlight"><pre>
 <span></span><span class="ch">#! /usr/bin/env python3</span>
-<span class="sd">&quot;&quot;&quot;A module defining the :class:`Topology` record container.</span>
+<span class="sd">&quot;&quot;&quot;A module defining the :class:`Topology` data container.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
 <span class="kn">from</span> <span class="nn">.record</span> <span class="kn">import</span> <span class="n">Record</span>
-<span class="kn">from</span> <span class="nn">.record</span> <span class="kn">import</span> <span class="n">recordclass</span>
+<span class="kn">from</span> <span class="nn">.record</span> <span class="kn">import</span> <span class="n">Variable</span>
 
 
-<div class="viewcode-block" id="Topology"><a class="viewcode-back" href="../../../qmmm_pme.records.html#qmmm_pme.records.topology.Topology">[docs]</a><span class="k">class</span> <span class="nc">Topology</span><span class="p">(</span><span class="n">Record</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">recordclass</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A :class:`Record` class for maintaining data about the topology</span>
-<span class="sd">    of the :class:`System`, comprising atom groups, residue names,</span>
-<span class="sd">    element symbols, and atom names.</span>
+<div class="viewcode-block" id="NameVariable"><a class="viewcode-back" href="../../../qmmm_pme.records.html#qmmm_pme.records.topology.NameVariable">[docs]</a><span class="k">class</span> <span class="nc">NameVariable</span><span class="p">(</span><span class="n">Variable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper class for name variables belonging to the</span>
+<span class="sd">    :class:`Topology` record.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_groups</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">_residues</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">_elements</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">_atoms</span> <span class="o">=</span> <span class="p">[]</span></div>
+    <span class="n">_value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="NameVariable.update"><a class="viewcode-back" href="../../../qmmm_pme.records.html#qmmm_pme.records.topology.NameVariable.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the value of the :class:`NameVariable`.</span>
+
+<span class="sd">        :param value: The updated value to set the</span>
+<span class="sd">            :class:`NameVariable` value to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">for</span> <span class="n">notify</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_notifiers</span><span class="p">:</span>
+            <span class="n">notify</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the value of the :class:`NameVariable`.</span>
+
+<span class="sd">        :return: The value of the :class:`NameVariable`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span></div>
+
+
+<div class="viewcode-block" id="ResidueVariable"><a class="viewcode-back" href="../../../qmmm_pme.records.html#qmmm_pme.records.topology.ResidueVariable">[docs]</a><span class="k">class</span> <span class="nc">ResidueVariable</span><span class="p">(</span><span class="n">Variable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper class for residue group variables belonging to the</span>
+<span class="sd">    :class:`Topology` record.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="ResidueVariable.update"><a class="viewcode-back" href="../../../qmmm_pme.records.html#qmmm_pme.records.topology.ResidueVariable.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the value of the :class:`ResidueVariable`.</span>
+
+<span class="sd">        :param value: The updated value to set the</span>
+<span class="sd">            :class:`ResidueVariable` value to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">for</span> <span class="n">notify</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_notifiers</span><span class="p">:</span>
+            <span class="n">notify</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the value of the :class:`ResidueVariable`.</span>
+
+<span class="sd">        :return: The value of the :class:`ResidueVariable`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span></div>
+
+
+<div class="viewcode-block" id="Topology"><a class="viewcode-back" href="../../../qmmm_pme.records.html#qmmm_pme.records.topology.Topology">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Topology</span><span class="p">(</span><span class="n">Record</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A data container for information about the topology of the</span>
+<span class="sd">    :class:`System`, comprising atom groups, residue names, element</span>
+<span class="sd">    symbols, and atom names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">atoms</span><span class="p">:</span> <span class="n">ResidueVariable</span> <span class="o">=</span> <span class="n">ResidueVariable</span><span class="p">()</span>
+    <span class="n">qm_atoms</span><span class="p">:</span> <span class="n">ResidueVariable</span> <span class="o">=</span> <span class="n">ResidueVariable</span><span class="p">()</span>
+    <span class="n">mm_atoms</span><span class="p">:</span> <span class="n">ResidueVariable</span> <span class="o">=</span> <span class="n">ResidueVariable</span><span class="p">()</span>
+    <span class="n">ae_atoms</span><span class="p">:</span> <span class="n">ResidueVariable</span> <span class="o">=</span> <span class="n">ResidueVariable</span><span class="p">()</span>
+    <span class="n">elements</span><span class="p">:</span> <span class="n">NameVariable</span> <span class="o">=</span> <span class="n">NameVariable</span><span class="p">()</span>
+    <span class="n">residue_names</span><span class="p">:</span> <span class="n">NameVariable</span> <span class="o">=</span> <span class="n">NameVariable</span><span class="p">()</span>
+    <span class="n">atom_names</span><span class="p">:</span> <span class="n">NameVariable</span> <span class="o">=</span> <span class="n">NameVariable</span><span class="p">()</span></div>
 </pre></div>
 
           </div>

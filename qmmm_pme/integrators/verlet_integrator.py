@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-"""A module defining the :class:`VelocityVerlet` class.
+"""A module defining the :class:`VerletIntegrator` class.
 """
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from .integrator import Integrator
 
 
 class VerletIntegrator(Integrator):
-    """An integrator based on the Velocity Verlet algorithm.
+    """An :class:`Integrator` based on the Verlet algorithm.
     """
 
     def integrate(

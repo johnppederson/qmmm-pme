@@ -1,0 +1,603 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>qmmm_pme.interfaces.openmm_interface &#8212; QM/MM/PME 0.1.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+          <div class="body" role="main">
+
+  <h1>Source code for qmmm_pme.interfaces.openmm_interface</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;A module to define the :class:`OpenMMInterface` class.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">Context</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">CustomNonbondedForce</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">HarmonicAngleForce</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">HarmonicBondForce</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">LangevinIntegrator</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">NonbondedForce</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">PeriodicTorsionForce</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">Platform</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">RBTorsionForce</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">State</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">System</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">Vec3</span>
+<span class="kn">from</span> <span class="nn">openmm.app</span> <span class="kn">import</span> <span class="n">ForceField</span>
+<span class="kn">from</span> <span class="nn">openmm.app</span> <span class="kn">import</span> <span class="n">Modeller</span>
+<span class="kn">from</span> <span class="nn">openmm.app</span> <span class="kn">import</span> <span class="n">PDBFile</span>
+<span class="kn">from</span> <span class="nn">simtk.unit</span> <span class="kn">import</span> <span class="n">angstrom</span>
+<span class="kn">from</span> <span class="nn">simtk.unit</span> <span class="kn">import</span> <span class="n">femtosecond</span>
+<span class="kn">from</span> <span class="nn">simtk.unit</span> <span class="kn">import</span> <span class="n">kelvin</span>
+<span class="kn">from</span> <span class="nn">simtk.unit</span> <span class="kn">import</span> <span class="n">kilojoule_per_mole</span>
+<span class="kn">from</span> <span class="nn">simtk.unit</span> <span class="kn">import</span> <span class="n">nanometer</span>
+
+<span class="kn">from</span> <span class="nn">.interface</span> <span class="kn">import</span> <span class="n">MMSettings</span>
+<span class="kn">from</span> <span class="nn">.interface</span> <span class="kn">import</span> <span class="n">SoftwareInterface</span>
+<span class="kn">from</span> <span class="nn">.interface</span> <span class="kn">import</span> <span class="n">SoftwareTypes</span>
+<span class="kn">from</span> <span class="nn">.interface</span> <span class="kn">import</span> <span class="n">SystemTypes</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
+
+
+<span class="n">SOFTWARE_TYPE</span> <span class="o">=</span> <span class="n">SoftwareTypes</span><span class="o">.</span><span class="n">MM</span>
+
+
+<div class="viewcode-block" id="OpenMMInterface"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">OpenMMInterface</span><span class="p">(</span><span class="n">SoftwareInterface</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A :class:`SoftwareInterface` class which wraps the functional</span>
+<span class="sd">    components of OpenMM.</span>
+
+<span class="sd">    :param pdb: The OpenMM PDBFile object for the interface.</span>
+<span class="sd">    :param modeller: The OpenMM Modeller object for the interface.</span>
+<span class="sd">    :param forcefield: The OpenMM ForceField object for the interface.</span>
+<span class="sd">    :param system: The OpenMM System object for the interface.</span>
+<span class="sd">    :param context: The OpenMM Context object for the interface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pdb</span><span class="p">:</span> <span class="n">PDBFile</span>
+    <span class="n">modeller</span><span class="p">:</span> <span class="n">Modeller</span>
+    <span class="n">forcefield</span><span class="p">:</span> <span class="n">ForceField</span>
+    <span class="n">system</span><span class="p">:</span> <span class="n">System</span>
+    <span class="n">context</span><span class="p">:</span> <span class="n">Context</span>
+
+    <span class="k">def</span> <span class="nf">_generate_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">State</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the OpenMM State object which is used to compute</span>
+<span class="sd">        energies and forces.</span>
+
+<span class="sd">        :return: The current OpenMM State object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">getState</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span>
+
+<div class="viewcode-block" id="OpenMMInterface.compute_energy"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_energy">[docs]</a>    <span class="k">def</span> <span class="nf">compute_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="c1"># Get energy and forces from the state.</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_state</span><span class="p">(</span><span class="n">getEnergy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">energy</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">getPotentialEnergy</span><span class="p">()</span> <span class="o">/</span> <span class="n">kilojoule_per_mole</span>
+        <span class="k">return</span> <span class="n">energy</span></div>
+
+<div class="viewcode-block" id="OpenMMInterface.compute_forces"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_forces">[docs]</a>    <span class="k">def</span> <span class="nf">compute_forces</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_state</span><span class="p">(</span><span class="n">getForces</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">forces</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">getForces</span><span class="p">(</span><span class="n">asNumpy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="n">kilojoule_per_mole</span> <span class="o">*</span> <span class="n">angstrom</span>
+        <span class="k">return</span> <span class="n">forces</span></div>
+
+<div class="viewcode-block" id="OpenMMInterface.compute_components"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_components">[docs]</a>    <span class="k">def</span> <span class="nf">compute_components</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="n">components</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">getForces</span><span class="p">():</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">force</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Force&quot;</span><span class="p">,</span> <span class="s2">&quot;Energy&quot;</span><span class="p">)</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;[A-Z][a-z]*&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_state</span><span class="p">(</span>
+                <span class="n">getEnergy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">groups</span><span class="o">=</span><span class="p">{</span><span class="n">force</span><span class="o">.</span><span class="n">getForceGroup</span><span class="p">()},</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">getPotentialEnergy</span><span class="p">()</span> <span class="o">/</span> <span class="n">kilojoule_per_mole</span>
+            <span class="n">components</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="n">components</span></div>
+
+<div class="viewcode-block" id="OpenMMInterface.compute_pme_potential"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_pme_potential">[docs]</a>    <span class="k">def</span> <span class="nf">compute_pme_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_state</span><span class="p">(</span><span class="n">getVext_grids</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">pme_potential</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">getVext_grid</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">pme_potential</span></div>
+
+<div class="viewcode-block" id="OpenMMInterface.update_charges"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_charges">[docs]</a>    <span class="k">def</span> <span class="nf">update_charges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">charges</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the atom charges for OpenMM.</span>
+
+<span class="sd">        :param charges: |charges|</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nonbonded_forces</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">force</span> <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">getForces</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">force</span><span class="p">,</span> <span class="n">NonbondedForce</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">nonbonded_forces</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">charge</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">charges</span><span class="p">):</span>
+                <span class="n">_</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">force</span><span class="o">.</span><span class="n">getParticleParameters</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">force</span><span class="o">.</span><span class="n">setParticleParameters</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">charge</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+            <span class="n">force</span><span class="o">.</span><span class="n">updateParametersInContext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenMMInterface.update_positions"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_positions">[docs]</a>    <span class="k">def</span> <span class="nf">update_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the atom positions for OpenMM.</span>
+
+<span class="sd">        :param positions: |positions|</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">positions_temp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">positions</span><span class="p">)):</span>
+            <span class="n">positions_temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Vec3</span><span class="p">(</span>
+                    <span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span>
+                <span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">setPositions</span><span class="p">(</span><span class="n">positions_temp</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenMMInterface.update_box"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_box">[docs]</a>    <span class="k">def</span> <span class="nf">update_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">box</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the box vectors for OpenMM.</span>
+
+<span class="sd">        :param box: |box|</span>
+
+<span class="sd">        .. warning:: This method is not currently implemented.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="OpenMMInterface.get_state_notifiers"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.get_state_notifiers">[docs]</a>    <span class="k">def</span> <span class="nf">get_state_notifiers</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]]:</span>
+        <span class="n">notifiers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;charges&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_charges</span><span class="p">,</span>
+            <span class="s2">&quot;positions&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_positions</span><span class="p">,</span>
+            <span class="s2">&quot;box&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_box</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">notifiers</span></div>
+
+<div class="viewcode-block" id="OpenMMInterface.get_topology_notifiers"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.get_topology_notifiers">[docs]</a>    <span class="k">def</span> <span class="nf">get_topology_notifiers</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]:</span>
+        <span class="n">notifiers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">notifiers</span></div></div>
+
+
+<div class="viewcode-block" id="openmm_system_factory"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.openmm_system_factory">[docs]</a><span class="k">def</span> <span class="nf">openmm_system_factory</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">MMSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OpenMMInterface</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A function which constructs the :class:`OpenMMInterface` for a </span>
+<span class="sd">    standalone MM system.</span>
+
+<span class="sd">    :param settings: The :class:`MMSettings` object to build the</span>
+<span class="sd">        standalone MM system interface from.</span>
+<span class="sd">    :return: The :class:`OpenMMInterface` for the standalone MM system.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pdb</span><span class="p">,</span> <span class="n">modeller</span><span class="p">,</span> <span class="n">forcefield</span><span class="p">,</span> <span class="n">system</span> <span class="o">=</span> <span class="n">_build_base</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">_build_context</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">modeller</span><span class="p">)</span>
+    <span class="n">wrapper</span> <span class="o">=</span> <span class="n">OpenMMInterface</span><span class="p">(</span><span class="n">pdb</span><span class="p">,</span> <span class="n">modeller</span><span class="p">,</span> <span class="n">forcefield</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+<div class="viewcode-block" id="openmm_subsystem_factory"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.openmm_subsystem_factory">[docs]</a><span class="k">def</span> <span class="nf">openmm_subsystem_factory</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">MMSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OpenMMInterface</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A function which constructs the :class:`OpenMMInterface` for an </span>
+<span class="sd">    MM subsystem of a QM/MM supersystem.</span>
+
+<span class="sd">    :param settings: The :class:`MMSettings` object to build the</span>
+<span class="sd">        MM subsystem interface from.</span>
+<span class="sd">    :return: The :class:`OpenMMInterface` for the MM subsystem.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pdb</span><span class="p">,</span> <span class="n">modeller</span><span class="p">,</span> <span class="n">forcefield</span><span class="p">,</span> <span class="n">system</span> <span class="o">=</span> <span class="n">_build_base</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+    <span class="n">_exclude_qm_atoms</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">system</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">_build_context</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">modeller</span><span class="p">)</span>
+    <span class="n">wrapper</span> <span class="o">=</span> <span class="n">OpenMMInterface</span><span class="p">(</span><span class="n">pdb</span><span class="p">,</span> <span class="n">modeller</span><span class="p">,</span> <span class="n">forcefield</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+<div class="viewcode-block" id="openmm_embedding_factory"><a class="viewcode-back" href="../../../qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.openmm_embedding_factory">[docs]</a><span class="k">def</span> <span class="nf">openmm_embedding_factory</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">MMSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OpenMMInterface</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A function which constructs the :class:`OpenMMInterface` for a</span>
+<span class="sd">    mechanical embedding subsystem of a QM/MM supersystem.</span>
+
+<span class="sd">    :param settings: The :class:`MMSettings` object to build the</span>
+<span class="sd">        mechanical embedding subsystem interface from.</span>
+<span class="sd">    :return: The :class:`OpenMMInterface` for the mechanical embedding</span>
+<span class="sd">        subsystem.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pdb</span><span class="p">,</span> <span class="n">modeller</span><span class="p">,</span> <span class="n">forcefield</span><span class="p">,</span> <span class="n">system</span> <span class="o">=</span> <span class="n">_build_base</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+    <span class="n">_exclude_non_embedding</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">pdb</span><span class="p">,</span> <span class="n">system</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">_build_context</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">modeller</span><span class="p">)</span>
+    <span class="n">wrapper</span> <span class="o">=</span> <span class="n">OpenMMInterface</span><span class="p">(</span><span class="n">pdb</span><span class="p">,</span> <span class="n">modeller</span><span class="p">,</span> <span class="n">forcefield</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+<span class="k">def</span> <span class="nf">_build_base</span><span class="p">(</span>
+        <span class="n">settings</span><span class="p">:</span> <span class="n">MMSettings</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">PDBFile</span><span class="p">,</span> <span class="n">Modeller</span><span class="p">,</span> <span class="n">ForceField</span><span class="p">,</span> <span class="n">System</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the common OpenMM PDBFile, Modeller, ForceField, and System</span>
+<span class="sd">    objects.</span>
+
+<span class="sd">    :param settings: The :class:`MMSettings` object to build from.</span>
+<span class="sd">    :return: The OpenMM PDBFile, Modeller, ForceField, and System</span>
+<span class="sd">        objects built from the given settings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pdb</span> <span class="o">=</span> <span class="n">_build_pdb</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+    <span class="n">modeller</span> <span class="o">=</span> <span class="n">_build_modeller</span><span class="p">(</span><span class="n">pdb</span><span class="p">)</span>
+    <span class="n">forcefield</span> <span class="o">=</span> <span class="n">_build_forcefield</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">modeller</span><span class="p">)</span>
+    <span class="n">system</span> <span class="o">=</span> <span class="n">_build_system</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">forcefield</span><span class="p">,</span> <span class="n">modeller</span><span class="p">)</span>
+    <span class="n">_adjust_forces</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">system</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pdb</span><span class="p">,</span> <span class="n">modeller</span><span class="p">,</span> <span class="n">forcefield</span><span class="p">,</span> <span class="n">system</span>
+
+
+<span class="k">def</span> <span class="nf">_build_pdb</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">MMSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PDBFile</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the OpenMM PDBFile object.</span>
+
+<span class="sd">    :param settings: The :class:`MMSettings` object to build from.</span>
+<span class="sd">    :return: The OpenMM PDBFile object built from the given settings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># for xml in files.topology_list:</span>
+    <span class="c1">#    Topology().loadBondDefinitions(xml)</span>
+    <span class="n">pdb</span> <span class="o">=</span> <span class="n">PDBFile</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">pdb_list</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">pdb</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">loadBondDefinitions</span><span class="p">(</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">topology_list</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">pdb</span>
+
+
+<span class="k">def</span> <span class="nf">_build_modeller</span><span class="p">(</span><span class="n">pdb</span><span class="p">:</span> <span class="n">PDBFile</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Modeller</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the OpenMM Modeller object.</span>
+
+<span class="sd">    :param pdb: The OpenMM PDBFile object to build from.</span>
+<span class="sd">    :return: The OpenMM Modeller object built from the given pdb.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">modeller</span> <span class="o">=</span> <span class="n">Modeller</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">pdb</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">modeller</span>
+
+
+<span class="k">def</span> <span class="nf">_build_forcefield</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">MMSettings</span><span class="p">,</span> <span class="n">modeller</span><span class="p">:</span> <span class="n">Modeller</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ForceField</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the OpenMM ForceField object.</span>
+
+<span class="sd">    :param settings: The :class:`MMSettings` object to build from.</span>
+<span class="sd">    :param modeller: The OpenMM Modeller object to build from.</span>
+<span class="sd">    :return: The OpenMM ForceField object built from the given settings</span>
+<span class="sd">        and modeller.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="o">*</span><span class="n">settings</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">forcefield_list</span><span class="p">())</span>
+    <span class="n">modeller</span><span class="o">.</span><span class="n">addExtraParticles</span><span class="p">(</span><span class="n">forcefield</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">forcefield</span>
+
+
+<span class="k">def</span> <span class="nf">_build_system</span><span class="p">(</span>
+        <span class="n">settings</span><span class="p">:</span> <span class="n">MMSettings</span><span class="p">,</span> <span class="n">forcefield</span><span class="p">:</span> <span class="n">ForceField</span><span class="p">,</span> <span class="n">modeller</span><span class="p">:</span> <span class="n">Modeller</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the OpenMM System object.</span>
+
+<span class="sd">    :param settings: The :class:`MMSettings` object to build from.</span>
+<span class="sd">    :param forcefield: The OpenMM ForceField object to build from.</span>
+<span class="sd">    :param modeller: The OpenMM Modeller object to build from.</span>
+<span class="sd">    :return: The OpenMM System object built from the given settings,</span>
+<span class="sd">        forcefield, and modeller.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">system</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span>
+        <span class="n">modeller</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span>
+        <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">nonbonded_cutoff</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">,</span>
+        <span class="n">rigidWater</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">system</span>
+
+
+<span class="k">def</span> <span class="nf">_adjust_forces</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">MMSettings</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adjust the OpenMM Nonbonded forces.</span>
+
+<span class="sd">    :param settings: The :class:`MMSettings` object to adjust with.</span>
+<span class="sd">    :param system: The OpenMM System object to adjust.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">force</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">getForces</span><span class="p">()):</span>
+        <span class="n">force</span><span class="o">.</span><span class="n">setForceGroup</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="c1"># Get force types and set method.</span>
+    <span class="n">nonbonded_forces</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">force</span> <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">getForces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">force</span><span class="p">,</span> <span class="n">NonbondedForce</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">nonbonded_forces</span><span class="p">:</span>
+        <span class="n">force</span><span class="o">.</span><span class="n">setNonbondedMethod</span><span class="p">(</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">NonbondedForce</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">nonbonded_method</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">force</span><span class="o">.</span><span class="n">setPMEParameters</span><span class="p">(</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">pme_alpha</span><span class="p">,</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">pme_gridnumber</span><span class="p">,</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">pme_gridnumber</span><span class="p">,</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">pme_gridnumber</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_build_context</span><span class="p">(</span>
+        <span class="n">settings</span><span class="p">:</span> <span class="n">MMSettings</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">,</span> <span class="n">modeller</span><span class="p">:</span> <span class="n">Modeller</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Context</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the OpenMM Context object.</span>
+
+<span class="sd">    :param settings: The :class:`MMSettings` object to build from.</span>
+<span class="sd">    :param system: The OpenMM System object to build from.</span>
+<span class="sd">    :param modeller: The OpenMM Modeller object to build from.</span>
+<span class="sd">    :return: The OpenMM System object built from the given settings,</span>
+<span class="sd">        system, and modeller.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">integrator</span> <span class="o">=</span> <span class="n">LangevinIntegrator</span><span class="p">(</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">temperature</span> <span class="o">*</span> <span class="n">kelvin</span><span class="p">,</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">friction</span> <span class="o">/</span> <span class="n">femtosecond</span><span class="p">,</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">timestep</span> <span class="o">*</span> <span class="n">femtosecond</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">platform</span> <span class="o">=</span> <span class="n">Platform</span><span class="o">.</span><span class="n">getPlatformByName</span><span class="p">(</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">platform</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">setPositions</span><span class="p">(</span><span class="n">modeller</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">context</span>
+
+
+<span class="k">def</span> <span class="nf">_exclude_qm_atoms</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">MMSettings</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate OpenMM Force exclusions for the QM atoms.</span>
+
+<span class="sd">    :param settings: The :class:`MMSettings` object to make exclusions</span>
+<span class="sd">        with.</span>
+<span class="sd">    :param system: The OpenMM System object to make exclusions on.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Remove double-counted intramolecular interactions for QM atoms.</span>
+    <span class="n">qm_atoms</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">atom</span> <span class="k">for</span> <span class="n">residue</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">qm_atoms</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">residue</span>
+    <span class="p">}</span>
+    <span class="n">_exclude_harmonic_bond</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">qm_atoms</span><span class="p">)</span>
+    <span class="n">_exclude_harmonic_angle</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">qm_atoms</span><span class="p">)</span>
+    <span class="n">_exclude_periodic_torsion</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">qm_atoms</span><span class="p">)</span>
+    <span class="n">_exclude_rb_torsion</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">qm_atoms</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_exclude_harmonic_bond</span><span class="p">(</span><span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">,</span> <span class="n">atoms</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate OpenMM HarmonicBondForce exclusions for a given set of</span>
+<span class="sd">    atoms.</span>
+
+<span class="sd">    :param system: The OpenMM System object to make exclusions on.</span>
+<span class="sd">    :param atoms: The atoms to exlcude from HarmonicBondForce</span>
+<span class="sd">        calculations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">harmonic_bond_forces</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">force</span> <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">getForces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">force</span><span class="p">,</span> <span class="n">HarmonicBondForce</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">harmonic_bond_forces</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">force</span><span class="o">.</span><span class="n">getNumBonds</span><span class="p">()):</span>
+            <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">r0</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">force</span><span class="o">.</span><span class="n">getBondParameters</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">atoms</span><span class="p">):</span>
+                <span class="n">k</span> <span class="o">*=</span> <span class="mi">0</span>
+                <span class="n">force</span><span class="o">.</span><span class="n">setBondParameters</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">r0</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_exclude_harmonic_angle</span><span class="p">(</span><span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">,</span> <span class="n">atoms</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate OpenMM HarmonicAngleForce exclusions for a given set of</span>
+<span class="sd">    atoms.</span>
+
+<span class="sd">    :param system: The OpenMM System object to make exclusions on.</span>
+<span class="sd">    :param atoms: The atoms to exlcude from HarmonicAngleForce</span>
+<span class="sd">        calculations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">harmonic_angle_forces</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">force</span> <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">getForces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">force</span><span class="p">,</span> <span class="n">HarmonicAngleForce</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">harmonic_angle_forces</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">force</span><span class="o">.</span><span class="n">getNumAngles</span><span class="p">()):</span>
+            <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">r0</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">force</span><span class="o">.</span><span class="n">getAngleParameters</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">atoms</span><span class="p">):</span>
+                <span class="n">k</span> <span class="o">*=</span> <span class="mi">0</span>
+                <span class="n">force</span><span class="o">.</span><span class="n">setAngleParameters</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">r0</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_exclude_periodic_torsion</span><span class="p">(</span><span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">,</span> <span class="n">atoms</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate OpenMM PeriodicTorsionForce exclusions for a given set</span>
+<span class="sd">    of atoms.</span>
+
+<span class="sd">    :param system: The OpenMM System object to make exclusions on.</span>
+<span class="sd">    :param atoms: The atoms to exlcude from PeriodicTorsionForce</span>
+<span class="sd">        calculations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">periodic_torsion_forces</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">force</span> <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">getForces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">force</span><span class="p">,</span> <span class="n">PeriodicTorsionForce</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">periodic_torsion_forces</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">force</span><span class="o">.</span><span class="n">getNumTorsions</span><span class="p">()):</span>
+            <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">force</span><span class="o">.</span><span class="n">getTorsionParameters</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">atoms</span><span class="p">):</span>
+                <span class="n">k</span> <span class="o">*=</span> <span class="mi">0</span>
+                <span class="n">force</span><span class="o">.</span><span class="n">setTorsionParameters</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_exclude_rb_torsion</span><span class="p">(</span><span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">,</span> <span class="n">atoms</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate OpenMM RBTorsionForce exclusions for a given set of</span>
+<span class="sd">    atoms.</span>
+
+<span class="sd">    :param system: The OpenMM System object to make exclusions on.</span>
+<span class="sd">    :param atoms: The atoms to exlcude from RBTorsionForce</span>
+<span class="sd">        calculations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rb_torsion_forces</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">force</span> <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">getForces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">force</span><span class="p">,</span> <span class="n">RBTorsionForce</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">rb_torsion_forces</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">force</span><span class="o">.</span><span class="n">getNumTorsions</span><span class="p">()):</span>
+            <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">c0</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">,</span> <span class="n">c4</span><span class="p">,</span> <span class="n">c5</span> <span class="o">=</span> <span class="n">force</span><span class="o">.</span><span class="n">getTorsionParameters</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">atoms</span><span class="p">):</span>
+                <span class="n">c0</span> <span class="o">*=</span> <span class="mi">0</span>
+                <span class="n">c1</span> <span class="o">*=</span> <span class="mi">0</span>
+                <span class="n">c2</span> <span class="o">*=</span> <span class="mi">0</span>
+                <span class="n">c3</span> <span class="o">*=</span> <span class="mi">0</span>
+                <span class="n">c4</span> <span class="o">*=</span> <span class="mi">0</span>
+                <span class="n">c5</span> <span class="o">*=</span> <span class="mi">0</span>
+                <span class="n">force</span><span class="o">.</span><span class="n">setTorsionParameters</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">c0</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">,</span> <span class="n">c4</span><span class="p">,</span> <span class="n">c5</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_exclude_non_embedding</span><span class="p">(</span>
+        <span class="n">settings</span><span class="p">:</span> <span class="n">MMSettings</span><span class="p">,</span> <span class="n">pdb</span><span class="p">:</span> <span class="n">PDBFile</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate OpenMM exclusions for mechanical embedding.</span>
+
+<span class="sd">    :param settings: The :class:`MMSettings` object to make exclusions</span>
+<span class="sd">        with.</span>
+<span class="sd">    :param pdb: The OpenMM PDBFile object to make exclusions with.</span>
+<span class="sd">    :param system: The OpenMM System object to make exclusions on.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nonbonded_forces</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">force</span> <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">getForces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">force</span><span class="p">,</span> <span class="n">NonbondedForce</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">custom_nonbonded_forces</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">force</span> <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">getForces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">force</span><span class="p">,</span> <span class="n">CustomNonbondedForce</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">embedding_forces</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Interaction groups require atom indices to be input as sets.</span>
+    <span class="n">qm_atom_set</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">atom</span> <span class="k">for</span> <span class="n">residue</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">qm_atoms</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">residue</span>
+    <span class="p">}</span>
+    <span class="n">mm_atom_set</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">atom</span> <span class="k">for</span> <span class="n">residue</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">mm_atoms</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">residue</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">custom_nonbonded_forces</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">custom_nonbonded_forces</span><span class="p">:</span>
+            <span class="n">embedding_forces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">force</span><span class="o">.</span><span class="n">__copy__</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">nonbonded_forces</span><span class="p">:</span>
+            <span class="n">sigmas</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">epsilons</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">residue</span> <span class="ow">in</span> <span class="n">pdb</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">residues</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">residue</span><span class="o">.</span><span class="n">atoms</span><span class="p">():</span>
+                    <span class="n">_</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">force</span><span class="o">.</span><span class="n">getParticleParameters</span><span class="p">(</span>
+                        <span class="n">atom</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">sigmas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sigma</span> <span class="o">/</span> <span class="n">nanometer</span><span class="p">)</span>
+                    <span class="n">epsilons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">/</span> <span class="n">kilojoule_per_mole</span><span class="p">)</span>
+            <span class="n">force</span> <span class="o">=</span> <span class="n">CustomNonbondedForce</span><span class="p">(</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot;4*epsilon*((sigma/r)^12-(sigma/r)^6);</span>
+<span class="sd">                sigma=0.5*(sigma1+sigma2);</span>
+<span class="sd">                epsilon=sqrt(epsilon1*epsilon2)&quot;&quot;&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">force</span><span class="o">.</span><span class="n">addPerParticleParameter</span><span class="p">(</span><span class="s2">&quot;epsilon&quot;</span><span class="p">)</span>
+            <span class="n">force</span><span class="o">.</span><span class="n">addPerParticleParameter</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">)</span>
+            <span class="c1"># add particles with LJ parameters</span>
+            <span class="k">for</span> <span class="n">residue</span> <span class="ow">in</span> <span class="n">pdb</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">residues</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">residue</span><span class="o">.</span><span class="n">atoms</span><span class="p">():</span>
+                    <span class="n">force</span><span class="o">.</span><span class="n">addParticle</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">epsilons</span><span class="p">[</span><span class="n">atom</span><span class="o">.</span><span class="n">index</span><span class="p">],</span> <span class="n">sigmas</span><span class="p">[</span><span class="n">atom</span><span class="o">.</span><span class="n">index</span><span class="p">]],</span>
+                    <span class="p">)</span>
+            <span class="n">embedding_forces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">force</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">getForces</span><span class="p">():</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">removeForce</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">embedding_forces</span><span class="p">:</span>
+        <span class="n">force</span><span class="o">.</span><span class="n">addInteractionGroup</span><span class="p">(</span>
+            <span class="n">qm_atom_set</span><span class="p">,</span>
+            <span class="n">mm_atom_set</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">addForce</span><span class="p">(</span><span class="n">force</span><span class="p">)</span>
+
+
+<span class="n">FACTORIES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">SystemTypes</span><span class="o">.</span><span class="n">SYSTEM</span><span class="p">:</span> <span class="n">openmm_system_factory</span><span class="p">,</span>
+    <span class="n">SystemTypes</span><span class="o">.</span><span class="n">SUBSYSTEM</span><span class="p">:</span> <span class="n">openmm_subsystem_factory</span><span class="p">,</span>
+    <span class="n">SystemTypes</span><span class="o">.</span><span class="n">EMBEDDING</span><span class="p">:</span> <span class="n">openmm_embedding_factory</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">QM/MM/PME</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, John P. Pederson, Jesse G. McDaniel.
+
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+    </div>
+
+
+
+
+  </body>
+</html>

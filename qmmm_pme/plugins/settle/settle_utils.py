@@ -16,6 +16,20 @@ def settle_positions(
         hh_distance: int | float = 1.632981,
 ) -> NDArray[np.float64]:
     """A utility to perform the SETTLE algorithm on a set of positions.
+
+    :param residues: The name of the water residues in the
+        :class:`System`.
+    :param positions_i: The initial positions of the :class:`System`, in
+        Angstroms.
+    :param positions_f: The final positions of the :class:`System`, in
+        Angstroms.
+    :param masses: |masses|
+    :param oh_distance: The distance between the oxygen and hydrogen, in
+        Angstroms.
+    :param hh_distance: The distance between the hydrogens, in
+        Angstroms.
+
+    .. note:: Based on the SETTLE kernel in OpenMM.
     """
     pos_0 = positions_i[residues, :]
     oxy_0 = pos_0[:, 0, :]
@@ -172,6 +186,16 @@ def settle_velocities(
         masses: NDArray[np.float64],
 ) -> NDArray[np.float64]:
     """A utility to perform the SETTLE algorithm on a set of velocities.
+
+    :param residues: The name of the water residues in the
+        :class:`System`.
+    :param positions_i: The initial positions of the :class:`System`, in
+        Angstroms.
+    :param velocities_f: The initial velocities of the :class:`System`,
+        in Angstroms per femtosecond.
+    :param masses: |masses|
+
+    .. note:: Based on the SETTLE kernel in OpenMM.
     """
     pos_0 = positions_i[residues, :]
     oxy_p = pos_0[:, 0, :]

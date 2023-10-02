@@ -31,6 +31,15 @@ psi4.core.be_quiet()
 
 
 class Psi4Context:
+    """A wrapper class for managing Psi4 Geometry object generation.
+
+    :param atoms: |qm_atoms|
+    :param embedding: |ae_atoms|
+    :param elements: |elements|
+    :param positions: |positions|
+    :param charge: |charge|
+    :param spin: |spin|
+    """
 
     def __init__(
             self,
@@ -50,7 +59,9 @@ class Psi4Context:
 
     @lru_cache
     def generate_molecule(self) -> psi4.core.Molecule:
-        """Create the Molecule object for the Psi4 calculation.
+        """Create the Geometry object for Psi4 calculations.
+
+        :return: The Psi4 Geometry object.
         """
         geometrystring = """\n"""
         for residue in self.atoms:
@@ -71,16 +82,32 @@ class Psi4Context:
         return psi4.geometry(geometrystring)
 
     def update_positions(self, positions: NDArray[np.float64]) -> None:
+        """Update the atom positions for Psi4.
+
+        :param positions: |positions|
+        """
         self.positions = positions
         self.generate_molecule.cache_clear()
 
     def update_embedding(self, embedding: list[list[int]]) -> None:
+        """Update the analytic embedding atoms for Psi4.
+
+        :param embedding: |ae_atoms|
+        """
         self.embedding = embedding
 
 
 @dataclass(frozen=True)
 class Psi4Options:
-    """
+    """An immutable wrapper class for storing Psi4 global options.
+
+    :param basis: |basis_set|
+    :param dft_spherical_points: |quadrature_spherical|
+    :param dft_radial_points: |quadrature_radial|
+    :param scf_type: |scf_type|
+    :param scf__reference: |reference_energy|
+    :param scf__guess: The type of guess to use for the Psi4
+        calculation.
     """
     basis: str
     dft_spherical_points: int
@@ -92,7 +119,19 @@ class Psi4Options:
 
 @dataclass(frozen=True)
 class Psi4Reference:
-    """
+    """An immutable wrapper class for storing Psi4 reference energies.
+
+    :param total: The total reference energy, in Hartree.
+    :param nuclear_repulsion: The reference nuclear repulsion energy,
+        in Hartree.
+    :param one_electron: The reference one-electron energy, in Hartree.
+    :param kinetic: The reference one-electron kinetic energy, in
+        Hartree.
+    :param potential: The reference one-electron potential energy, in
+        Hartree.
+    :param two_electron: The reference two-electron energy, in Hartree.
+    :param exchange_correlation: The reference exchange-correlation
+        energy, in Hartree.
     """
     total: float | int
     nuclear_repulsion: float | int
@@ -105,7 +144,14 @@ class Psi4Reference:
 
 @dataclass(frozen=True)
 class Psi4Interface(SoftwareInterface):
-    """A class which wraps the functional components of Psi4.
+    """A :class:`SoftwareInterface` class which wraps the functional
+    components of Psi4.
+
+    :param options: The :class:`Psi4Options` object for the interface.
+    :param functional: |functional|
+    :param context: The :class:`Psi4Context` object for the interface.
+    :param reference: The :class:`Psi4Reference` object for the
+        interface.
     """
     options: Psi4Options
     functional: str
@@ -117,6 +163,11 @@ class Psi4Interface(SoftwareInterface):
             self,
             **kwargs: ComputationOptions,
     ) -> psi4.core.Wavefunction:
+        """Generate the Psi4 Wavefunction object for use in Psi4
+        calculations.
+
+        :return: The Psi4 Wavefunction object.
+        """
         molecule = self.context.generate_molecule()
         psi4.set_options(asdict(self.options))
         _, wfn = psi4.energy(
@@ -167,10 +218,6 @@ class Psi4Interface(SoftwareInterface):
             self,
             **kwargs: ComputationOptions,
     ) -> dict[str, float]:
-        """Calculate the components of the energy.
-
-        :return: The individual contributions to the energy.
-        """
         wfn = self._generate_wavefunction(**kwargs)
         T = wfn.mintshelper().ao_kinetic()
         V = wfn.mintshelper().ao_potential()
@@ -214,11 +261,10 @@ class Psi4Interface(SoftwareInterface):
         return components
 
     def compute_quadrature(self) -> NDArray[np.float64]:
-        """Build a reference quadrature to interpolate into the PME
-        potential grid.
+        """Build a reference quadrature.
 
-        :return: A reference quadrature constructed from the geometry of
-            the QM subsystem.
+        :return: A reference quadrature constructed from the Psi4
+            Geometry object.
         """
         molecule = self.context.generate_molecule()
         sup_func = psi4.driver.dft.build_superfunctional(
@@ -239,7 +285,7 @@ class Psi4Interface(SoftwareInterface):
         return quadrature
 
     def update_positions(self, positions: NDArray[np.float64]) -> None:
-        """Update the particle positions for Psi4.
+        """Update the atom positions for Psi4.
 
         :param positions: |positions|
         """
@@ -247,32 +293,30 @@ class Psi4Interface(SoftwareInterface):
         self._generate_wavefunction.cache_clear()
 
     def update_embedding(self, embedding: list[list[int]]) -> None:
-        """Update the particle positions for Psi4.
+        """Update the analytic embedding atoms for Psi4.
 
-        :param positions: |positions|
+        :param embedding: |ae_atoms|
         """
         self.context.update_embedding(embedding)
         self._generate_wavefunction.cache_clear()
 
     def update_num_threads(self, num_threads: int) -> None:
-        """Update the particle positions for Psi4.
+        """Update the number of threads for Psi4 to use.
 
-        :param positions: |positions|
+        :param num_threads: The number of threads for Psi4 to use.
         """
         psi4.set_num_threads(num_threads)
 
     def update_memory(self, memory: str) -> None:
-        """Update the particle positions for Psi4.
+        """Update the amount of memory for Psi4 to use.
 
-        :param positions: |positions|
+        :param memory: The amount of memory for Psi4 to use.
         """
         psi4.set_memory(memory)
 
     def get_state_notifiers(
             self,
     ) -> dict[str, Callable[..., None]]:
-        """
-        """
         notifiers = {
             "positions": self.update_positions,
         }
@@ -281,8 +325,6 @@ class Psi4Interface(SoftwareInterface):
     def get_topology_notifiers(
             self,
     ) -> dict[str, Callable[..., None]]:
-        """
-        """
         notifiers = {
             "ae_atoms": self.update_embedding,
         }
@@ -290,7 +332,12 @@ class Psi4Interface(SoftwareInterface):
 
 
 def psi4_system_factory(settings: QMSettings) -> Psi4Interface:
-    """A function which constructs the :class:`Psi4Interface`.
+    """A function which constructs the :class:`Psi4Interface` for a QM
+    system.
+
+    :param settings: The :class:`QMSettings` object to build the
+        QM system interface from.
+    :return: The :class:`Psi4Interface` for the QM system.
     """
     options = _build_options(settings)
     functional = settings.functional
@@ -305,6 +352,12 @@ def psi4_system_factory(settings: QMSettings) -> Psi4Interface:
 
 
 def _build_options(settings: QMSettings) -> Psi4Options:
+    """Build the :class:`Psi4Options` object.
+
+    :param settings: The :class:`QMSettings` object to build from.
+    :return: The :class:`Psi4Options` object built from the given
+        settings.
+    """
     options = Psi4Options(
         settings.basis_set,
         settings.quadrature_spherical,
@@ -317,6 +370,12 @@ def _build_options(settings: QMSettings) -> Psi4Options:
 
 
 def _build_context(settings: QMSettings) -> Psi4Context:
+    """Build the :class:`Psi4Context` object.
+
+    :param settings: The :class:`QMSettings` object to build from.
+    :return: The :class:`Psi4Context` object built from the given
+        settings.
+    """
     context = Psi4Context(
         settings.system.topology.qm_atoms(),
         [],
@@ -332,7 +391,13 @@ def _build_reference(
         settings: QMSettings, options: Psi4Options,
         functional: str, context: Psi4Context,
 ) -> Psi4Reference:
-    """Calculate the ground state energy of the QM atoms.
+    """Build the :class:`Psi4Reference` object.
+
+    :param settings: The :class:`QMSettings` object to build from.
+    :param functional: |functional|
+    :param context: The :class:`Psi4Context` object to build from.
+    :return: The :class:`Psi4Reference` object built from the given
+        settings.
     """
     reference = {
         "total": 0.,

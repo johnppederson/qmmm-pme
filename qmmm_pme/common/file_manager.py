@@ -35,7 +35,6 @@ class FileManager:
             pdb_list: list[str],
             topology_list: list[str],
             forcefield_list: list[str],
-            input_json: str | None = None,
     ) -> tuple[
         dict[str, NDArray[np.float64]],
         dict[str, list[str]],
@@ -48,8 +47,6 @@ class FileManager:
         :param forcefield_list: |forcefield_list|
         :return: Data for the :class:`State` and :class:`Topology`
             record classes.
-
-        .. warning:: The 'input_json' is not currently implemented.
         """
         # Check the file extensions and add them to the :class:`Files`
         # record.
@@ -205,9 +202,9 @@ class FileManager:
             self,
             name: str,
     ) -> None:
-        """Utility to start writing a Log file.
+        """Utility to start writing a log file.
 
-        :param name: The directory/name of Log file to be written.
+        :param name: The directory/name of log file to be written.
         """
         filename = self._parse_name(name, ext="log")
         with open(filename, "w") as fh:
@@ -219,9 +216,9 @@ class FileManager:
             lines: str,
             frame: int,
     ) -> None:
-        """Write data to an existing Log file.
+        """Write data to an existing log file.
 
-        :param name: The directory/name of Log file to be written.
+        :param name: The directory/name of log file to be written.
         :param lines: The lines to be written to the log file.
         :param frame: |frame|
         """
@@ -235,9 +232,9 @@ class FileManager:
             self,
             name: str,
     ) -> None:
-        """Terminate an existing Log file.
+        """Terminate an existing log file.
 
-        :param name: The directory/name of Log file to be terminated.
+        :param name: The directory/name of log file to be terminated.
         """
         filename = self._parse_name(name, ext="log")
         with open(filename, "a") as fh:
@@ -262,10 +259,10 @@ class FileManager:
             name: str,
             line: str,
     ) -> None:
-        """Write data to an existing Log file.
+        """Write data to an existing CSV file.
 
-        :param name: The directory/name of Log file to be written.
-        :param lines: The lines to be written to the log file.
+        :param name: The directory/name of CSV file to be written.
+        :param lines: The lines to be written to the CSV file.
         """
         filename = self._parse_name(name, ext="csv")
         with open(filename, "a") as fh:

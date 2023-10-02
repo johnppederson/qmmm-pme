@@ -37,51 +37,6 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="module-qmmm_pme.common.core">
-<span id="qmmm-pme-common-core-module"></span><h2>qmmm_pme.common.core module<a class="headerlink" href="#module-qmmm_pme.common.core" title="Permalink to this heading">¶</a></h2>
-<p>A module defining the <a class="reference internal" href="#qmmm_pme.common.core.Core" title="qmmm_pme.common.core.Core"><code class="xref py py-class docutils literal notranslate"><span class="pre">Core</span></code></a> class, which is inherited by the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code> classes.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="qmmm_pme.common.core.Core">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.common.core.</span></span><span class="sig-name descname"><span class="pre">Core</span></span><a class="reference internal" href="_modules/qmmm_pme/common/core.html#Core"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.common.core.Core" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<p>Class for defining classes that are modifiable by plugins.</p>
-<dl class="field-list simple">
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="qmmm_pme.common.core.Core.active_plugins">
-<span class="sig-name descname"><span class="pre">active_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/common/core.html#Core.active_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.common.core.Core.active_plugins" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the list of active plugins.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of the active plugins being employed by the
-class.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list[str]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="qmmm_pme.common.core.Core.register_plugin">
-<span class="sig-name descname"><span class="pre">register_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/common/core.html#Core.register_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.common.core.Core.register_plugin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Register any plugins applied to an instance of a class
-inheriting from <a class="reference internal" href="#qmmm_pme.common.core.Core" title="qmmm_pme.common.core.Core"><code class="xref py py-class docutils literal notranslate"><span class="pre">Core</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>plugin</strong> (<a class="reference internal" href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><em>Plugin</em></a>) – An instance of a class inheriting from
-<code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code>.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
 <section id="module-qmmm_pme.common.file_manager">
 <span id="qmmm-pme-common-file-manager-module"></span><h2>qmmm_pme.common.file_manager module<a class="headerlink" href="#module-qmmm_pme.common.file_manager" title="Permalink to this heading">¶</a></h2>
 <p>A module defining the class and functions needed to load and write
@@ -99,10 +54,10 @@ files.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qmmm_pme.common.file_manager.FileManager.end_log">
 <span class="sig-name descname"><span class="pre">end_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/common/file_manager.html#FileManager.end_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.common.file_manager.FileManager.end_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Terminate an existing Log file.</p>
+<dd><p>Terminate an existing log file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The directory/name of Log file to be terminated.</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The directory/name of log file to be terminated.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -112,15 +67,14 @@ files.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qmmm_pme.common.file_manager.FileManager.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topology_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forcefield_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/common/file_manager.html#FileManager.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.common.file_manager.FileManager.load" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topology_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forcefield_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/common/file_manager.html#FileManager.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.common.file_manager.FileManager.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load files necessary to generate a system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pdb_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the PDB files which define the system geometry.</p></li>
-<li><p><strong>topology_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the XML files which define the system topology.</p></li>
-<li><p><strong>forcefield_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the XML files which define the system interactions in the MM Hamiltonian.</p></li>
-<li><p><strong>input_json</strong> (<em>str</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>pdb_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the PDB files which define the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> geometry.</p></li>
+<li><p><strong>topology_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the XML files which define the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> topology.</p></li>
+<li><p><strong>forcefield_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the XML files which define the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> interactions.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -128,13 +82,9 @@ files.</p>
 record classes.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[dict[str:NDArray[np.float64]], dict[str:dict[str:list[list[int]]] | list[int | str]]]</p>
+<dd class="field-odd"><p>tuple[dict[str, NDArray[np.float64]], dict[str, list[str]], dict[str, list[list[int]]]]</p>
 </dd>
 </dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The ‘input_json’ is not currently implemented.</p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -166,7 +116,7 @@ record classes.</p>
 to the DCD file.</p></li>
 <li><p><strong>num_particles</strong> (<em>int</em>) – The number of particles in the
 <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p></li>
-<li><p><strong>timestep</strong> (<em>int</em><em> | </em><em>float</em>) – The timestep with which to propagate the simulation.</p></li>
+<li><p><strong>timestep</strong> (<em>int</em><em> | </em><em>float</em>) – The timestep that the <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code> propagates with, in femtoseconds.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -182,10 +132,10 @@ to the DCD file.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="qmmm_pme.common.file_manager.FileManager.start_log">
 <span class="sig-name descname"><span class="pre">start_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/common/file_manager.html#FileManager.start_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.common.file_manager.FileManager.start_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Utility to start writing a Log file.</p>
+<dd><p>Utility to start writing a log file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The directory/name of Log file to be written.</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The directory/name of log file to be written.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -196,12 +146,12 @@ to the DCD file.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="qmmm_pme.common.file_manager.FileManager.write_to_csv">
 <span class="sig-name descname"><span class="pre">write_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/common/file_manager.html#FileManager.write_to_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.common.file_manager.FileManager.write_to_csv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write data to an existing Log file.</p>
+<dd><p>Write data to an existing CSV file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em>) – The directory/name of Log file to be written.</p></li>
-<li><p><strong>lines</strong> – The lines to be written to the log file.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The directory/name of CSV file to be written.</p></li>
+<li><p><strong>lines</strong> – The lines to be written to the CSV file.</p></li>
 <li><p><strong>line</strong> (<em>str</em>) – </p></li>
 </ul>
 </dd>
@@ -223,9 +173,9 @@ to the DCD file.</p></li>
 to the DCD file.</p></li>
 <li><p><strong>num_particles</strong> (<em>int</em>) – The number of particles in the
 <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p></li>
-<li><p><strong>positions</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>dtype</em><em>[</em><em>float64</em><em>]</em><em>]</em>) – The current positions of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p></li>
-<li><p><strong>box</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>dtype</em><em>[</em><em>float64</em><em>]</em><em>]</em>) – The current box vectors of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p></li>
-<li><p><strong>frame</strong> (<em>int</em>) – The current frame of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p></li>
+<li><p><strong>positions</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The current positions of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p></li>
+<li><p><strong>box</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The current box vectors of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p></li>
+<li><p><strong>frame</strong> (<em>int</em>) – The current frame of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -241,13 +191,13 @@ to the DCD file.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="qmmm_pme.common.file_manager.FileManager.write_to_log">
 <span class="sig-name descname"><span class="pre">write_to_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/common/file_manager.html#FileManager.write_to_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.common.file_manager.FileManager.write_to_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write data to an existing Log file.</p>
+<dd><p>Write data to an existing log file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em>) – The directory/name of Log file to be written.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The directory/name of log file to be written.</p></li>
 <li><p><strong>lines</strong> (<em>str</em>) – The lines to be written to the log file.</p></li>
-<li><p><strong>frame</strong> (<em>int</em>) – The current frame of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p></li>
+<li><p><strong>frame</strong> (<em>int</em>) – The current frame of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -269,9 +219,9 @@ coordinates.</p>
 <li><p><strong>box</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The current box vectors of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p></li>
 <li><p><strong>all_groups</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – The indices of all atoms in the
 <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> grouped by residue.</p></li>
-<li><p><strong>residues</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The names of all residues in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p></li>
-<li><p><strong>elements</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The element symbols of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p></li>
-<li><p><strong>atoms</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The names of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p></li>
+<li><p><strong>residues</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – <a href="#id1"><span class="problematic" id="id2">|residues|</span></a></p></li>
+<li><p><strong>elements</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The element symbols of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code> of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object.</p></li>
+<li><p><strong>atoms</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – …</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -290,6 +240,10 @@ coordinates.</p>
 <section id="module-qmmm_pme.common.units">
 <span id="qmmm-pme-common-units-module"></span><h2>qmmm_pme.common.units module<a class="headerlink" href="#module-qmmm_pme.common.units" title="Permalink to this heading">¶</a></h2>
 <p>A module containing unit conversions and constants.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This module may be deprecated in the near future.</p>
+</div>
 </section>
 <section id="module-qmmm_pme.common.utils">
 <span id="qmmm-pme-common-utils-module"></span><h2>qmmm_pme.common.utils module<a class="headerlink" href="#module-qmmm_pme.common.utils" title="Permalink to this heading">¶</a></h2>
@@ -303,14 +257,14 @@ coordinates.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>energy</strong> – The energy calculated by the <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code>.</p></li>
-<li><p><strong>dictionary</strong> (<em>dict</em><em>[</em><em>str:Any</em><em>]</em>) – </p></li>
+<li><p><strong>dictionary</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A flattend dictionary of energies.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict[str:float]</p>
+<dd class="field-odd"><p>dict[str, float]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -323,7 +277,7 @@ coordinates.</p>
 a set of box vectors for a periodic triclinic system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>box</strong> (<em>NDAarray</em><em>[</em><em>np.float64</em><em>]</em>) – The current box vectors of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p>
+<dd class="field-odd"><p><strong>box</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The current box vectors of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The characteristic lengths of a triclinic box, in
@@ -346,9 +300,9 @@ system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>i_vector</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – Position vector, in Angstroms.</p></li>
-<li><p><strong>j_vector</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – Reference vector, in Angstroms.</p></li>
-<li><p><strong>box</strong> (<em>NDarray</em><em>[</em><em>np.float64</em><em>]</em>) – The current box vectors of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p></li>
+<li><p><strong>i_vector</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>dtype</em><em>[</em><em>float64</em><em>]</em><em>]</em>) – Position vector, in Angstroms.</p></li>
+<li><p><strong>j_vector</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>dtype</em><em>[</em><em>float64</em><em>]</em><em>]</em>) – Reference vector, in Angstroms.</p></li>
+<li><p><strong>box</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>dtype</em><em>[</em><em>float64</em><em>]</em><em>]</em>) – The current box vectors of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -356,7 +310,7 @@ system.</p>
 the reference vector.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>NDArray[np.float64]</p>
+<dd class="field-odd"><p><em>ndarray</em>[<em>Any</em>, <em>dtype</em>[<em>float64</em>]]</p>
 </dd>
 </dl>
 </dd></dl>

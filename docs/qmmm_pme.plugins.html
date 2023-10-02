@@ -38,6 +38,32 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="qmmm_pme.plugins.atom_embedding.html">qmmm_pme.plugins.atom_embedding package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.atom_embedding.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.atom_embedding.html#module-qmmm_pme.plugins.atom_embedding.atom_embedding">qmmm_pme.plugins.atom_embedding.atom_embedding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.atom_embedding.html#module-qmmm_pme.plugins.atom_embedding">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="qmmm_pme.plugins.plumed.html">qmmm_pme.plugins.plumed package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.plumed.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.plumed.html#qmmm-pme-plugins-plumed-plumed-module">qmmm_pme.plugins.plumed.plumed module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.plumed.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="qmmm_pme.plugins.pme.html">qmmm_pme.plugins.pme package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.pme.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.pme.html#module-qmmm_pme.plugins.pme.pme">qmmm_pme.plugins.pme.pme module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.pme.html#module-qmmm_pme.plugins.pme.pme_utils">qmmm_pme.plugins.pme.pme_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.pme.html#module-qmmm_pme.plugins.pme">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="qmmm_pme.plugins.rigid.html">qmmm_pme.plugins.rigid package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.rigid.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.rigid.html#module-qmmm_pme.plugins.rigid.rigid">qmmm_pme.plugins.rigid.rigid module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.rigid.html#module-qmmm_pme.plugins.rigid.rigid_utils">qmmm_pme.plugins.rigid.rigid_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.rigid.html#module-qmmm_pme.plugins.rigid">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="qmmm_pme.plugins.settle.html">qmmm_pme.plugins.settle package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.settle.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qmmm_pme.plugins.settle.html#module-qmmm_pme.plugins.settle.settle">qmmm_pme.plugins.settle.settle module</a></li>
@@ -53,24 +79,76 @@
 </section>
 <section id="module-qmmm_pme.plugins.plugin">
 <span id="qmmm-pme-plugins-plugin-module"></span><h2>qmmm_pme.plugins.plugin module<a class="headerlink" href="#module-qmmm_pme.plugins.plugin" title="Permalink to this heading">¶</a></h2>
-<p>A module defining the <a class="reference internal" href="#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a> base class.</p>
+<p>A module defining the abstract <a class="reference internal" href="#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a> base class and derived
+classes.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.plugins.plugin.CalculatorPlugin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.plugins.plugin.</span></span><span class="sig-name descname"><span class="pre">CalculatorPlugin</span></span><a class="reference internal" href="_modules/qmmm_pme/plugins/plugin.html#CalculatorPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.plugin.CalculatorPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a></p>
+<p>The base class for creating a <a class="reference internal" href="#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a> which modifies any
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.plugins.plugin.CalculatorPlugin.modify">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calculator</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/plugins/plugin.html#CalculatorPlugin.modify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.plugin.CalculatorPlugin.modify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify the functionality of any <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>calculator</strong> (<a class="reference internal" href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.ModifiableCalculator" title="qmmm_pme.calculators.calculator.ModifiableCalculator"><em>ModifiableCalculator</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> object to modify with the
+<a class="reference internal" href="#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.plugins.plugin.IntegratorPlugin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.plugins.plugin.</span></span><span class="sig-name descname"><span class="pre">IntegratorPlugin</span></span><a class="reference internal" href="_modules/qmmm_pme/plugins/plugin.html#IntegratorPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.plugin.IntegratorPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a></p>
+<p>The base class for creating a <a class="reference internal" href="#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a> which modifies any
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code> class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.plugins.plugin.IntegratorPlugin.modify">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">integrator</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/plugins/plugin.html#IntegratorPlugin.modify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.plugin.IntegratorPlugin.modify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify the functionality of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>integrator</strong> (<a class="reference internal" href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.ModifiableIntegrator" title="qmmm_pme.integrators.integrator.ModifiableIntegrator"><em>ModifiableIntegrator</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code> object to modify with the
+<a class="reference internal" href="#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.plugins.plugin.Plugin">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.plugins.plugin.</span></span><span class="sig-name descname"><span class="pre">Plugin</span></span><a class="reference internal" href="_modules/qmmm_pme/plugins/plugin.html#Plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.plugin.Plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>The base class for creating QM/MM/PME plugins.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.plugins.plugin.QMMMCalculatorPlugin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.plugins.plugin.</span></span><span class="sig-name descname"><span class="pre">QMMMCalculatorPlugin</span></span><a class="reference internal" href="_modules/qmmm_pme/plugins/plugin.html#QMMMCalculatorPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.plugin.QMMMCalculatorPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a></p>
+<p>The base class for creating a <a class="reference internal" href="#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a> which modifies the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculator</span></code> class.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="qmmm_pme.plugins.plugin.Plugin.modify">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modifable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/plugins/plugin.html#Plugin.modify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.plugin.Plugin.modify" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform pluggable modifications on object inheriting from
-<code class="xref py py-class docutils literal notranslate"><span class="pre">Core</span></code> requested in the keys class attribute.</p>
+<dt class="sig sig-object py" id="qmmm_pme.plugins.plugin.QMMMCalculatorPlugin.modify">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calculator</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/plugins/plugin.html#QMMMCalculatorPlugin.modify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.plugin.QMMMCalculatorPlugin.modify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify the functionality of a <code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculator</span></code>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculator</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>modifiable</strong> – An instance of a class inheriting from
-<code class="xref py py-class docutils literal notranslate"><span class="pre">Core</span></code>.</p></li>
-<li><p><strong>modifable</strong> (<a class="reference internal" href="qmmm_pme.common.html#qmmm_pme.common.core.Core" title="qmmm_pme.common.core.Core"><em>Core</em></a>) – </p></li>
-</ul>
+<dd class="field-odd"><p><strong>calculator</strong> (<a class="reference internal" href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator" title="qmmm_pme.calculators.qmmm_calculator.QMMMCalculator"><em>QMMMCalculator</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculator</span></code> object to modify
+with the <a class="reference internal" href="#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>

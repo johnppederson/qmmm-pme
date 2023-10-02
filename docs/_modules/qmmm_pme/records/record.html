@@ -33,111 +33,38 @@
 
   <h1>Source code for qmmm_pme.records.record</h1><div class="highlight"><pre>
 <span></span><span class="ch">#! /usr/bin/env python3</span>
-<span class="sd">&quot;&quot;&quot;A module defining the class and metaclass for records.</span>
+<span class="sd">&quot;&quot;&quot;A module defining the :class:`Record` and :class:`Variable` classes.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 
 
-<div class="viewcode-block" id="recordclass"><a class="viewcode-back" href="../../../qmmm_pme.records.html#qmmm_pme.records.record.recordclass">[docs]</a><span class="k">def</span> <span class="nf">recordclass</span><span class="p">(</span>
-        <span class="n">cls_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">cls_parents</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
-        <span class="n">cls_attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metaclass for constructing record classes.</span>
-
-<span class="sd">    This works by creating properties for each specified &#39;hidden&#39; class</span>
-<span class="sd">    variable.  The setter for these properties edits the class variable,</span>
-<span class="sd">    so each instance of the record class will then have access to the</span>
-<span class="sd">    updated record.  Observers of the record class are barred from</span>
-<span class="sd">    updating the record, but they will be notified when the record is</span>
-<span class="sd">    changed.</span>
-
-<span class="sd">    :param cls_name: The name of the class to be constructed.</span>
-<span class="sd">    :param cls_parents: The base classes of the class to be constructed.</span>
-<span class="sd">    :param cls_attrs: The attributes of the class to be constructed</span>
-<span class="sd">    :return: The modified class, now a record class.</span>
+<div class="viewcode-block" id="Variable"><a class="viewcode-back" href="../../../qmmm_pme.records.html#qmmm_pme.records.record.Variable">[docs]</a><span class="k">class</span> <span class="nc">Variable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A base class for wrapping a variable belonging to a</span>
+<span class="sd">    :class:`Record`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">records</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">attr</span> <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cls_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-        <span class="ow">and</span> <span class="ow">not</span> <span class="n">attr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)</span>
-        <span class="ow">and</span> <span class="n">attr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
-    <span class="p">]</span>
-    <span class="n">prop_attrs</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
-        <span class="n">prop_attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_property_factory</span><span class="p">(</span><span class="n">prop</span><span class="p">))</span>
-    <span class="n">cls_attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">prop_attrs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="n">cls_parents</span><span class="p">,</span> <span class="n">cls_attrs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_notifiers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Variable.register_notifier"><a class="viewcode-back" href="../../../qmmm_pme.records.html#qmmm_pme.records.record.Variable.register_notifier">[docs]</a>    <span class="k">def</span> <span class="nf">register_notifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notifier</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a notifier to the :class:`Variable`, which will</span>
+<span class="sd">        be called whenever the :class:`Variable` is changed.</span>
+
+<span class="sd">        :param notifier: The method which will be called when the</span>
+<span class="sd">            :class:`Variable` is changed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_notifiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">notifier</span><span class="p">)</span></div></div>
 
 
-<span class="k">def</span> <span class="nf">_property_factory</span><span class="p">(</span><span class="n">_prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">:</span> <span class="nb">property</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A method to create a property from a hidden class variable.</span>
+<div class="viewcode-block" id="Record"><a class="viewcode-back" href="../../../qmmm_pme.records.html#qmmm_pme.records.record.Record">[docs]</a><span class="k">class</span> <span class="nc">Record</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A base class for defining records.</span>
 
-<span class="sd">    :param _prop: The hidden class variable name.</span>
-<span class="sd">    :return: The property name and object in dictionary format.</span>
+<span class="sd">    .. warning:: This class currently has no implementation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">prop</span> <span class="o">=</span> <span class="n">_prop</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-
-    <span class="k">def</span> <span class="nf">getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">_prop</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Object &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="si">}</span><span class="s2">&#39;, an observer of the &quot;</span>
-                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> record class, attempted &quot;</span>
-                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;to change the &#39;</span><span class="si">{</span><span class="n">prop</span><span class="si">}</span><span class="s2">&#39; record.  This behaviour &quot;</span>
-                    <span class="o">+</span> <span class="s2">&quot;is not permitted, so the record will remain &quot;</span>
-                    <span class="o">+</span> <span class="s2">&quot;unchanged.&quot;</span>
-                <span class="p">),</span>
-                <span class="ne">RuntimeWarning</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">_prop</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">prop</span><span class="p">:</span> <span class="nb">property</span><span class="p">(</span><span class="n">getter</span><span class="p">,</span> <span class="n">setter</span><span class="p">)}</span>
-
-
-<div class="viewcode-block" id="Record"><a class="viewcode-back" href="../../../qmmm_pme.records.html#qmmm_pme.records.record.Record">[docs]</a><span class="k">class</span> <span class="nc">Record</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">recordclass</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A base class for defining records, a borg-like class which stores</span>
-<span class="sd">    data for all classes to see.  It is also a subject of observer</span>
-<span class="sd">    objects, which are notified when a value is changed.</span>
-
-<span class="sd">    :param observer: A class observing and accessing the record.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_registry</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observer</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span> <span class="o">=</span> <span class="n">observer</span>
-        <span class="k">if</span> <span class="n">observer</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">observer</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="s2">&quot;observer&quot;</span><span class="p">:</span>
-            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Record &#39;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&#39; is not a valid record of the &quot;</span>
-                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> record class.&quot;</span>
-                <span class="p">),</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Attempted to set record &#39;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&#39; of the &quot;</span>
-                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> record class to type &quot;</span>
-                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;, but </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2"> can only be of type &quot;</span>
-                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">attr</span><span class="p">))</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-                <span class="p">),</span>
-            <span class="p">)</span>
-        <span class="k">for</span> <span class="n">observer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">registry</span><span class="p">:</span>
-            <span class="n">observer</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;record.&quot;</span> <span class="o">+</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+    <span class="o">...</span></div>
 </pre></div>
 
           </div>

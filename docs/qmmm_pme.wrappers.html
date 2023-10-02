@@ -49,38 +49,45 @@ data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_dir</strong> – The output file directory into which</p></li>
+<li><p><strong>output_dir</strong> – The directory where outputs are written.</p></li>
+<li><p><strong>system</strong> (<a class="reference internal" href="#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object which will be reported.</p></li>
+<li><p><strong>write_to_log</strong> (<em>bool</em>) – Whether or not to write energies to a tree-like
+log file.</p></li>
+<li><p><strong>decimal_places</strong> (<em>int</em>) – Number of decimal places to write energies in
+the log file before truncation.</p></li>
+<li><p><strong>log_write_interval</strong> (<em>int</em>) – The interval between successive log
+writes, in simulation steps.</p></li>
+<li><p><strong>write_to_csv</strong> (<em>bool</em>) – Whether or not to write energies to a CSV file.</p></li>
+<li><p><strong>csv_write_interval</strong> (<em>int</em>) – The interval between successive CSV
+writes, in simulation steps.</p></li>
+<li><p><strong>write_to_dcd</strong> (<em>bool</em>) – Whether or not to write atom positions to a
+DCD file.</p></li>
+<li><p><strong>dcd_write_interval</strong> (<em>int</em>) – The interval between successive DCD
+writes, in simulation steps.</p></li>
+<li><p><strong>write_to_pdb</strong> (<em>bool</em>) – Whether or not to write atom positions to a
+PDB file at the end of a simulation.</p></li>
 <li><p><strong>output_directory</strong> (<em>str</em>) – </p></li>
-<li><p><strong>system</strong> (<a class="reference internal" href="#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – </p></li>
-<li><p><strong>write_to_log</strong> (<em>bool</em><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>decimal_places</strong> (<em>int</em><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>log_write_interval</strong> (<em>int</em><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>write_to_csv</strong> (<em>bool</em><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>csv_write_interval</strong> (<em>int</em><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>write_to_dcd</strong> (<em>bool</em><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>dcd_write_interval</strong> (<em>int</em><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>write_to_pdb</strong> (<em>bool</em><em> | </em><em>None</em>) – </p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.logger.Logger.csv_write_interval">
-<span class="sig-name descname"><span class="pre">csv_write_interval</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.csv_write_interval" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">csv_write_interval</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.csv_write_interval" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.logger.Logger.dcd_write_interval">
-<span class="sig-name descname"><span class="pre">dcd_write_interval</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">50</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.dcd_write_interval" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dcd_write_interval</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">50</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.dcd_write_interval" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.logger.Logger.decimal_places">
-<span class="sig-name descname"><span class="pre">decimal_places</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.decimal_places" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">decimal_places</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.decimal_places" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.logger.Logger.log_write_interval">
-<span class="sig-name descname"><span class="pre">log_write_interval</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.log_write_interval" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">log_write_interval</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.log_write_interval" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -95,7 +102,7 @@ data.</p>
 relevant output files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>simulation</strong> (<a class="reference internal" href="#qmmm_pme.wrappers.simulation.Simulation" title="qmmm_pme.wrappers.simulation.Simulation"><em>Simulation</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code> to document.</p>
+<dd class="field-odd"><p><strong>simulation</strong> (<a class="reference internal" href="#qmmm_pme.wrappers.simulation.Simulation" title="qmmm_pme.wrappers.simulation.Simulation"><em>Simulation</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code> object to log/record.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -110,34 +117,44 @@ relevant output files.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.logger.Logger.write_to_csv">
-<span class="sig-name descname"><span class="pre">write_to_csv</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.write_to_csv" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_to_csv</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.write_to_csv" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.logger.Logger.write_to_dcd">
-<span class="sig-name descname"><span class="pre">write_to_dcd</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.write_to_dcd" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_to_dcd</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.write_to_dcd" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.logger.Logger.write_to_log">
-<span class="sig-name descname"><span class="pre">write_to_log</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.write_to_log" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_to_log</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.write_to_log" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.logger.Logger.write_to_pdb">
-<span class="sig-name descname"><span class="pre">write_to_pdb</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.write_to_pdb" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_to_pdb</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#qmmm_pme.wrappers.logger.Logger.write_to_pdb" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.logger.NullLogger">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.wrappers.logger.</span></span><span class="sig-name descname"><span class="pre">NullLogger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enter_result</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/wrappers/logger.html#NullLogger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.wrappers.logger.NullLogger" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nullcontext</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.wrappers.logger.</span></span><span class="sig-name descname"><span class="pre">NullLogger</span></span><a class="reference internal" href="_modules/qmmm_pme/wrappers/logger.html#NullLogger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.wrappers.logger.NullLogger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A default logger class which does not perform any logging.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.logger.NullLogger.record">
-<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/wrappers/logger.html#NullLogger.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.wrappers.logger.NullLogger.record" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/wrappers/logger.html#NullLogger.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.wrappers.logger.NullLogger.record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default record call, which does nothing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>simulation</strong> (<a class="reference internal" href="#qmmm_pme.wrappers.simulation.Simulation" title="qmmm_pme.wrappers.simulation.Simulation"><em>Simulation</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code> object to record/log.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -147,30 +164,44 @@ relevant output files.</p>
 <p>A module for defining the <a class="reference internal" href="#qmmm_pme.wrappers.simulation.Simulation" title="qmmm_pme.wrappers.simulation.Simulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code></a> class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.wrappers.simulation.</span></span><span class="sig-name descname"><span class="pre">Simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integrator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;class</span> <span class="pre">'qmmm_pme.wrappers.logger.NullLogger'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory='1</span> <span class="pre">GB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugins=[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/wrappers/simulation.html#Simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.wrappers.simulation.</span></span><span class="sig-name descname"><span class="pre">Simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;class</span> <span class="pre">'qmmm_pme.wrappers.logger.NullLogger'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory='1</span> <span class="pre">GB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugins=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/wrappers/simulation.html#Simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>An object which manages and performs simulations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>system</strong> (<a class="reference internal" href="#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> to perform calculations on.</p></li>
-<li><p><strong>hamiltonian</strong> (<a class="reference internal" href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><em>Hamiltonian</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code> to perform calculations
-with.</p></li>
-<li><p><strong>integrator</strong> (<a class="reference internal" href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><em>Integrator</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code> to perform calculations
-with.</p></li>
-<li><p><strong>logger</strong> (<em>Any</em>) – Not Implemented.</p></li>
-<li><p><strong>num_threads</strong> (<em>int</em><em> | </em><em>None</em>) – The number of threads to run calculations on.</p></li>
-<li><p><strong>memory</strong> (<em>str</em><em> | </em><em>None</em>) – The amount of memory to allocate to calculations.</p></li>
-<li><p><strong>plugins</strong> (<em>list</em><em>[</em><a class="reference internal" href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><em>Plugin</em></a><em>] </em><em>| </em><em>None</em>) – Any <code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code> objects to apply to the
+<li><p><strong>system</strong> (<a class="reference internal" href="#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object to perform calculations on.</p></li>
+<li><p><strong>hamiltonian</strong> (<a class="reference internal" href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><em>Hamiltonian</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code> object to perform calculations with.</p></li>
+<li><p><strong>integrator</strong> – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code> object to perform calculations with.</p></li>
+<li><p><strong>logger</strong> (<em>Any</em>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Logger</span></code> object to record data generated during the
+simulation</p></li>
+<li><p><strong>num_threads</strong> (<em>int</em>) – The number of threads to run calculations on.</p></li>
+<li><p><strong>memory</strong> (<em>str</em>) – The amount of memory to allocate to calculations.</p></li>
+<li><p><strong>plugins</strong> (<em>list</em><em>[</em><a class="reference internal" href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><em>Plugin</em></a><em>]</em>) – Any <code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code> objects to apply to the
 simulation.</p></li>
+<li><p><strong>dynamics</strong> (<a class="reference internal" href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Dynamics" title="qmmm_pme.dynamics.dynamics.Dynamics"><em>Dynamics</em></a>) – </p></li>
+<li><p><strong>frame</strong> (<em>int</em>) – </p></li>
+<li><p><strong>energy</strong> (<em>EnergyDict</em>) – </p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.calculate_energy_forces">
 <span class="sig-name descname"><span class="pre">calculate_energy_forces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/wrappers/simulation.html#Simulation.calculate_energy_forces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.calculate_energy_forces" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update the <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code> using calculations from the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p>
+<dd><p>Update the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> forces and <a class="reference internal" href="#qmmm_pme.wrappers.simulation.Simulation" title="qmmm_pme.wrappers.simulation.Simulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code></a>
+energy using calculations from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.calculate_forces">
+<span class="sig-name descname"><span class="pre">calculate_forces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/wrappers/simulation.html#Simulation.calculate_forces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.calculate_forces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code> forces using calculations from the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -179,21 +210,51 @@ simulation.</p></li>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.energy">
-<span class="sig-name descname"><span class="pre">energy</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.energy" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.dynamics">
+<span class="sig-name descname"><span class="pre">dynamics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Dynamics" title="qmmm_pme.dynamics.dynamics.Dynamics"><span class="pre">Dynamics</span></a></em><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.dynamics" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py property">
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.energy">
+<span class="sig-name descname"><span class="pre">energy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">EnergyDict</span></em><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.energy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.frame">
+<span class="sig-name descname"><span class="pre">frame</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.frame" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.hamiltonian">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hamiltonian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><span class="pre">Hamiltonian</span></a></em><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.hamiltonian" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code> belonging to the
-<a class="reference internal" href="#qmmm_pme.wrappers.simulation.Simulation" title="qmmm_pme.wrappers.simulation.Simulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code></a>.</p>
+<span class="sig-name descname"><span class="pre">hamiltonian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><span class="pre">Hamiltonian</span></a></em><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.hamiltonian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.logger">
+<span class="sig-name descname"><span class="pre">logger</span></span><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#qmmm_pme.wrappers.logger.NullLogger" title="qmmm_pme.wrappers.logger.NullLogger"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullLogger</span></code></a></p>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.memory">
+<span class="sig-name descname"><span class="pre">memory</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1</span> <span class="pre">GB'</span></em><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.memory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.num_threads">
+<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.num_threads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.plugins">
+<span class="sig-name descname"><span class="pre">plugins</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><span class="pre">Plugin</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.plugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.run_dynamics">
 <span class="sig-name descname"><span class="pre">run_dynamics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/wrappers/simulation.html#Simulation.run_dynamics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.run_dynamics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run simulation using the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p>
+<dd><p>Run simulation using the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>,
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>steps</strong> (<em>int</em>) – The number of steps to take.</p>
@@ -203,6 +264,11 @@ simulation.</p></li>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.system">
+<span class="sig-name descname"><span class="pre">system</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><span class="pre">System</span></a></em><a class="headerlink" href="#qmmm_pme.wrappers.simulation.Simulation.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.simulation.Simulation.wrap_positions">
@@ -229,14 +295,14 @@ This method currently assumes an isotropic box.</p>
 <dt class="sig sig-object py" id="qmmm_pme.wrappers.system.System">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.wrappers.system.</span></span><span class="sig-name descname"><span class="pre">System</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topology_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forcefield_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/wrappers/system.html#System"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.wrappers.system.System" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>An object designed to hold <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code>
-record objects.</p>
+<p>An wrapper class designed to generate and hold <code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code>
+and <code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code> record objects.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pdb_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the PDB files which define the system geometry.</p></li>
-<li><p><strong>topology_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the XML files which define the system topology.</p></li>
-<li><p><strong>forcefield_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the XML files which define the system interactions in the MM Hamiltonian.</p></li>
+<li><p><strong>pdb_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the PDB files which define the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> geometry.</p></li>
+<li><p><strong>topology_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the XML files which define the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> topology.</p></li>
+<li><p><strong>forcefield_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The directories containing the XML files which define the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> interactions.</p></li>
 </ul>
 </dd>
 </dl>

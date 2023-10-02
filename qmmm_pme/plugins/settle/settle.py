@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 """A module defining the pluggable implementation of the SETTLE
-algorithm for the QM/MM/PME repository.
+algorithm for the |package| repository.
 """
 from __future__ import annotations
 
@@ -44,12 +44,6 @@ class SETTLE(IntegratorPlugin):
             self,
             integrator: ModifiableIntegrator,
     ) -> None:
-        """Perform necessary modifications to the :class:`Integrator`
-        object.
-
-        :param integrator: The integrator to modify with the SETTLE
-            functionality.
-        """
         self._modifieds.append(type(integrator).__name__)
         self.system = integrator.system
         self.timestep = integrator.timestep
@@ -74,7 +68,12 @@ class SETTLE(IntegratorPlugin):
                 ],
             ],
     ) -> Callable[[], tuple[NDArray[np.float64], NDArray[np.float64]]]:
-        """
+        """Modify the integrate call in the :class:`Integrator` to
+        hold H-O and H-H distances constant for water residues.
+
+        :param integrate: The default integrate method of the
+            :class:`Integrator`.
+        :return: The modified integrate method.
         """
         def inner() -> tuple[NDArray[np.float64], NDArray[np.float64]]:
             positions, velocities = integrate()
@@ -99,7 +98,12 @@ class SETTLE(IntegratorPlugin):
             self,
             compute_velocities: Callable[[], NDArray[np.float64]],
     ) -> Callable[[], NDArray[np.float64]]:
-        """
+        """Modify the compute_velocities call in the :class:`Integrator`
+        to keep water residues rigid.
+
+        :param compute_velocities: The default compute_velocities method
+            of the :class:`Integrator`.
+        :return: The modified compute_velocities method.
         """
         def inner() -> NDArray[np.float64]:
             velocities = compute_velocities()
@@ -116,7 +120,13 @@ class SETTLE(IntegratorPlugin):
             self,
             compute_kinetic_energy: Callable[[], float],
     ) -> Callable[[], float]:
-        """
+        """Modify the compute_kinetic_energy call in the
+        :class:`Integrator` to keep water residues rigid when evaluating
+        velocities.
+
+        :param compute_kinetic_energy: The default
+            compute_kinetic_energy method of the :class:`Integrator`.
+        :return: The modified compute_kinetic_energy method.
         """
         def inner() -> float:
             masses = self.system.state.masses().reshape(-1, 1)

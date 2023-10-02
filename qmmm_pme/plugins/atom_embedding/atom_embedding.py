@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
-"""A module defining the pluggable implementation of the SETTLE
-algorithm for the QM/MM/PME repository.
+"""A module defining the pluggable implementation of the atom-wise
+embedding algorithm for the |package| repository.
 """
 from __future__ import annotations
 
@@ -32,12 +32,6 @@ class AtomEmbedding(QMMMCalculatorPlugin):
             self,
             calculator: QMMMCalculator,
     ) -> None:
-        """Perform necessary modifications to the :class:`QMMMCalculator`
-        object.
-
-        :param calculator: The calculator to modify with the atomwise
-            embedding functionality.
-        """
         self._modifieds.append(type(calculator).__name__)
         self.system = calculator.system
         self.residues = [
@@ -59,7 +53,13 @@ class AtomEmbedding(QMMMCalculatorPlugin):
             self,
             compute_embedding: Callable[[], tuple[Any, ...]],
     ) -> Callable[[], tuple[Any, ...]]:
-        """
+        """Modfify the compute_embedding call in the
+        :class:`QMMMCalculator` to consider a subset of atoms to be
+        complete residues.
+
+        :param compute_embedding: The default compute_embedding method
+            of the :class:`QMMMCalculator`.
+        :return: The modified compute_embedding method.
         """
         def inner() -> tuple[Any, ...]:
             temp = self.system.topology.atoms()

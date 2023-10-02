@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
-"""
-ASE Calculator to combine QM and MM forces and energies.
+"""A module defining the :class:`QMHamiltonian` class.
 """
 from __future__ import annotations
 
@@ -22,7 +21,17 @@ if TYPE_CHECKING:
 
 @dataclass
 class QMHamiltonian(QMHamiltonianInterface):
-    """A wrapper for the QM.
+    """A wrapper class to store settings for QM calculations.
+
+    :param basis_set: |basis_set|
+    :param functional: |functional|
+    :param charge: |charge|
+    :param spin: |spin|
+    :param quadrature_spherical: |quadrature_spherical|
+    :param quadrature_radial: |quadrature_radial|
+    :param scf_type: |scf_type|
+    :param read_guess: |read_guess|
+    :param reference_energy: |reference_energy|
     """
     basis_set: str
     functional: str

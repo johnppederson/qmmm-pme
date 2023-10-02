@@ -20,14 +20,6 @@ qmmm\_pme.hamiltonians.mm\_hamiltonian module
    :undoc-members:
    :show-inheritance:
 
-qmmm\_pme.hamiltonians.pbc\_hamiltonian module
-----------------------------------------------
-
-.. automodule:: qmmm_pme.hamiltonians.pbc_hamiltonian
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 qmmm\_pme.hamiltonians.qm\_hamiltonian module
 ---------------------------------------------
 
@@ -40,14 +32,6 @@ qmmm\_pme.hamiltonians.qmmm\_hamiltonian module
 -----------------------------------------------
 
 .. automodule:: qmmm_pme.hamiltonians.qmmm_hamiltonian
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-qmmm\_pme.hamiltonians.qmmm\_pme\_hamiltonian module
-----------------------------------------------------
-
-.. automodule:: qmmm_pme.hamiltonians.qmmm_pme_hamiltonian
    :members:
    :undoc-members:
    :show-inheritance:

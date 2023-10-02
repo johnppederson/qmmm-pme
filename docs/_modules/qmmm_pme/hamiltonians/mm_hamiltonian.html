@@ -33,40 +33,54 @@
 
   <h1>Source code for qmmm_pme.hamiltonians.mm_hamiltonian</h1><div class="highlight"><pre>
 <span></span><span class="ch">#! /usr/bin/env python3</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">ASE Calculator to combine QM and MM forces and energies.</span>
+<span class="sd">&quot;&quot;&quot;A module defining the :class:`MMHamiltonian` class.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">asdict</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span> <span class="nn">.hamiltonian</span> <span class="kn">import</span> <span class="n">MMHamiltonianInterface</span>
 <span class="kn">from</span> <span class="nn">.hamiltonian</span> <span class="kn">import</span> <span class="n">QMHamiltonianInterface</span>
 <span class="kn">from</span> <span class="nn">.qmmm_hamiltonian</span> <span class="kn">import</span> <span class="n">QMMMHamiltonian</span>
+<span class="kn">from</span> <span class="nn">qmmm_pme.calculators</span> <span class="kn">import</span> <span class="n">StandaloneCalculator</span>
+<span class="kn">from</span> <span class="nn">qmmm_pme.interfaces</span> <span class="kn">import</span> <span class="n">mm_factories</span>
+<span class="kn">from</span> <span class="nn">qmmm_pme.interfaces</span> <span class="kn">import</span> <span class="n">MMSettings</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">qmmm_pme</span> <span class="kn">import</span> <span class="n">System</span>
+    <span class="kn">from</span> <span class="nn">.qm_hamiltonian</span> <span class="kn">import</span> <span class="n">QMHamiltonian</span>
 
 
-<div class="viewcode-block" id="MMHamiltonian"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian">[docs]</a><span class="k">class</span> <span class="nc">MMHamiltonian</span><span class="p">(</span><span class="n">MMHamiltonianInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper for the MM.</span>
+<div class="viewcode-block" id="MMHamiltonian"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">MMHamiltonian</span><span class="p">(</span><span class="n">MMHamiltonianInterface</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper class to store settings for MM calculations.</span>
+
+<span class="sd">    :param nonbonded_method: |nonbonded_method|</span>
+<span class="sd">    :param nonbonded_cutoff: |nonbonded_cutoff|</span>
+<span class="sd">    :param pme_gridnumber: |pme_gridnumber|</span>
+<span class="sd">    :param pme_alpha: |pme_alpha|</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nonbonded_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;PME&quot;</span>
+    <span class="n">nonbonded_cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mf">14.</span>
+    <span class="n">pme_gridnumber</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span>
+    <span class="n">pme_alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mf">5.0</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">system</span><span class="p">,</span>
-            <span class="n">nonbonded_method</span><span class="o">=</span><span class="s2">&quot;PME&quot;</span><span class="p">,</span>
-            <span class="n">nonbonded_cutoff</span><span class="o">=</span><span class="mf">14.</span><span class="p">,</span>
-            <span class="n">pme_gridnumber</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
-            <span class="n">pme_alpha</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nonbonded_method</span> <span class="o">=</span> <span class="n">nonbonded_method</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nonbonded_cutoff</span> <span class="o">=</span> <span class="n">nonbonded_cutoff</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pme_gridnumber</span> <span class="o">=</span> <span class="n">pme_gridnumber</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pme_alpha</span> <span class="o">=</span> <span class="n">pme_alpha</span>
+<div class="viewcode-block" id="MMHamiltonian.build_calculator"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.build_calculator">[docs]</a>    <span class="k">def</span> <span class="nf">build_calculator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StandaloneCalculator</span><span class="p">:</span>
+        <span class="n">mm_atoms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_atoms</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">mm_atoms</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">mm_atoms</span><span class="p">)</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">MMSettings</span><span class="p">(</span><span class="n">system</span><span class="o">=</span><span class="n">system</span><span class="p">,</span> <span class="o">**</span><span class="n">asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="n">interface</span> <span class="o">=</span> <span class="n">mm_factories</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">system_type</span><span class="p">](</span><span class="n">settings</span><span class="p">)</span>
+        <span class="n">calculator</span> <span class="o">=</span> <span class="n">StandaloneCalculator</span><span class="p">(</span><span class="n">system</span><span class="o">=</span><span class="n">system</span><span class="p">,</span> <span class="n">interface</span><span class="o">=</span><span class="n">interface</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">calculator</span></div>
 
-    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">QMHamiltonian</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QMMMHamiltonian</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">QMHamiltonianInterface</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">QMMMHamiltonian</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;H^</span><span class="si">{MM}</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span></div>
 </pre></div>
 

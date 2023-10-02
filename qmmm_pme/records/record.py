@@ -27,5 +27,7 @@ class Variable:
 
 class Record:
     """A base class for defining records.
+
+    .. warning:: This class currently has no implementation.
     """
     ...

@@ -25,12 +25,11 @@ if TYPE_CHECKING:
 class Simulation:
     """An object which manages and performs simulations.
 
-    :param system: The :class:`System` to perform calculations on.
-    :param hamiltonian: The :class:`Hamiltonian` to perform calculations
-        with.
-    :param integrator: The :class:`Integrator` to perform calculations
-        with.
-    :param logger: Not Implemented.
+    :param system: |system| to perform calculations on.
+    :param hamiltonian: |hamiltonian| to perform calculations with.
+    :param integrator: |integrator| to perform calculations with.
+    :param logger: |logger| to record data generated during the
+        simulation
     :param num_threads: The number of threads to run calculations on.
     :param memory: The amount of memory to allocate to calculations.
     :param plugins: Any :class:`Plugin` objects to apply to the
@@ -57,7 +56,8 @@ class Simulation:
         self.calculate_energy_forces()
 
     def run_dynamics(self, steps: int) -> None:
-        """Run simulation using the :class:`System`.
+        """Run simulation using the :class:`System`,
+        :class:`Calculator`, and :class:`Integrator`.
 
         :param steps: The number of steps to take.
         """
@@ -72,8 +72,8 @@ class Simulation:
                 self.frame += 1
 
     def calculate_energy_forces(self) -> None:
-        """Update the :class:`State` using calculations from the
-        :class:`System`.
+        """Update the :class:`System` forces and :class:`Simulation`
+        energy using calculations from the :class:`Calculator`.
         """
         (
             potential_energy, forces, components,
@@ -91,8 +91,8 @@ class Simulation:
         self.energy = energy
 
     def calculate_forces(self) -> None:
-        """Update the :class:`State` using calculations from the
-        :class:`System`.
+        """Update the :class:`State` forces using calculations from the
+        :class:`Calculator`.
         """
         (
             potential_energy, forces, components,
@@ -121,7 +121,7 @@ class Simulation:
         self.system.state.positions.update(new_positions)
 
     def _register_plugins(self) -> None:
-        """Register dynamically loaded plugins.
+        """Dynamically load :class:`Plugin` objects.
         """
         for plugin in self.plugins:
             getattr(self, plugin._key).register_plugin(plugin)

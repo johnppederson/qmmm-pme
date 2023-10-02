@@ -9,8 +9,10 @@ Subpackages
 
    qmmm_pme.calculators
    qmmm_pme.common
+   qmmm_pme.dynamics
    qmmm_pme.hamiltonians
    qmmm_pme.integrators
+   qmmm_pme.interfaces
    qmmm_pme.plugins
    qmmm_pme.records
    qmmm_pme.wrappers

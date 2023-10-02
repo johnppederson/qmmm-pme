@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-"""A module defining the :class:`Langevin` class.
+"""A module defining the :class:`LangevinIntegrator` class.
 """
 from __future__ import annotations
 
@@ -14,10 +14,8 @@ from .integrator import KB
 
 @dataclass
 class LangevinIntegrator(Integrator):
-    """An integrator based on Langevin dynamics.
+    """An :class:`Integrator` based on Langevin dynamics.
 
-    :param timestep: |timestep|
-    :param temperature: |temperature|
     :param friction: |friction|
     """
     friction: int | float

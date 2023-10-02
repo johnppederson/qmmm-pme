@@ -18,13 +18,30 @@ if TYPE_CHECKING:
 
 
 class NullLogger:
+    """A default logger class which does not perform any logging.
+    """
+
     def __enter__(self) -> NullLogger:
+        """Begin managing the logging context.
+
+        :return: The NullLogger class for context management.
+        """
         return self
 
     def __exit__(self, type_: Any, value: Any, traceback: Any) -> None:
+        """Exit the managed context.
+
+        :param type_: The type of exception raised by the context.
+        :param value: The value of the exception raised by the context.
+        :param traceback: The traceback from the exception.
+        """
         pass
 
     def record(self, simulation: Simulation) -> None:
+        """Default record call, which does nothing.
+
+        :param simulation: |simulation| to record/log.
+        """
         pass
 
 
@@ -33,7 +50,23 @@ class Logger:
     """A logger for writing :class:`Simulation` and :class:`System`
     data.
 
-    :param output_dir: The output file directory into which
+    :param output_dir: The directory where outputs are written.
+    :param system: |system| which will be reported.
+    :param write_to_log: Whether or not to write energies to a tree-like
+        log file.
+    :param decimal_places: Number of decimal places to write energies in
+        the log file before truncation.
+    :param log_write_interval: The interval between successive log
+        writes, in simulation steps.
+    :param write_to_csv: Whether or not to write energies to a CSV file.
+    :param csv_write_interval: The interval between successive CSV
+        writes, in simulation steps.
+    :param write_to_dcd: Whether or not to write atom positions to a
+        DCD file.
+    :param dcd_write_interval: The interval between successive DCD
+        writes, in simulation steps.
+    :param write_to_pdb: Whether or not to write atom positions to a
+        PDB file at the end of a simulation.
     """
     output_directory: str
     system: System
@@ -49,6 +82,8 @@ class Logger:
     def __enter__(self) -> Logger:
         """Create output files which will house output data from the
         :class:`Simulation`.
+
+        :return: The Logger class with all desired logs initialized.
         """
         self.file_manager = FileManager(self.output_directory)
         if self.write_to_log:
@@ -67,6 +102,10 @@ class Logger:
     def __exit__(self, type_: Any, value: Any, traceback: Any) -> None:
         """Perform any termination steps required at the end of the
         :class:`Simulation`.
+
+        :param type_: The type of exception raised by the context.
+        :param value: The value of the exception raised by the context.
+        :param traceback: The traceback from the exception.
         """
         if self.write_to_log:
             self.file_manager.end_log(self.log)
@@ -85,7 +124,7 @@ class Logger:
         """Log the current state of the :class:`Simulation` to any
         relevant output files.
 
-        :param simulation: The :class:`Simulation` to document.
+        :param simulation: |simulation| to log/record.
         """
         if self.write_to_log:
             self.file_manager.write_to_log(
@@ -120,10 +159,11 @@ class Logger:
         """Generate the Log string given the :class:`Simulation` energy
         dictionary.
 
-        :param energy: The energy calculated by the :class:`Simulation`.
-        :param spaces: The number of spaces by which to indent.
+        :param energy: The energy calculated by the :class:`Simulation`
+            object.
+        :param spaces: The number of spaces to indent the line.
         :parma cont: A list to keep track of sub-component continuation.
-        :return: The string to write to the Log file.
+        :return: The string to write to the log file.
         """
         string = ""
         for i, (key, val) in enumerate(energy.items()):

@@ -12,25 +12,25 @@ from __future__ import annotations
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath("../.."))
+sys.path.insert(0, os.path.abspath('../..'))
 
 
 # -- Project information -----------------------------------------------------
 
-project: str = "QM/MM/PME"
-copyright: str = "2023, John P. Pederson, Jesse G. McDaniel"
-author: str = "John P. Pederson, Jesse G. McDaniel"
+project: str = 'QM/MM/PME'
+copyright: str = '2023, John P. Pederson, Jesse G. McDaniel'
+author: str = 'John P. Pederson, Jesse G. McDaniel'
 
 # The full version, including alpha/beta/rc tags
-release: str = "0.2.0"
+release: str = "0.1.1"
 
 
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named "sphinx.ext.*") or your custom
+# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions: list[str] = [
+extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
@@ -38,10 +38,12 @@ extensions: list[str] = [
 ]
 
 # Add support for function annotations.
-autodoc_typehints: str = "description"
+autodoc_typehints = "description"
 
 # Define substitutions for common parameters and returns.
-rst_epilog: str = """
+rst_epilog = """
+.. |package| replace:: QM/MM/PME
+
 .. |masses| replace:: The current masses of all atoms in the :class:`System`, in Daltons.
 .. |charges| replace:: The current charges of all atoms in the :class:`System`, in elementary charge units.
 .. |positions| replace:: The current positions of all atoms in the :class:`System`, in Angstroms.
@@ -49,34 +51,54 @@ rst_epilog: str = """
 .. |momenta| replace:: The current momenta of all atoms in the :class:`System`, in ???.
 .. |forces| replace:: The current forces of all atoms in the :class:`System`, in kJ/mol/Angstrom.
 .. |box| replace:: The current box vectors of the :class:`System`, in Angstroms.
-.. |frame| replace:: The current frame of the :class:`System`.
-.. |residues| replace:: The names of all residues in the :class:`System`.
-.. |elements| replace:: The element symbols of all atoms in the :class:`System`.
-.. |atoms| replace:: The names of all atoms in the :class:`System`.
-.. |pdb_list| replace:: The directories containing the PDB files which define the system geometry.
-.. |topology_list| replace:: The directories containing the XML files which define the system topology.
-.. |forcefield_list| replace:: The directories containing the XML files which define the system interactions in the MM Hamiltonian.
-.. |temperature| replace:: The temperature, in Kelvin.
-.. |nonbonded_method| replace:: The OpenMM nonbonded method.
-.. |nonbonded_cutoff| replace:: The OpenMM nonbonded cutoff.
+
+.. |atoms| replace:: ...
+.. |qm_atoms| replace:: ...
+.. |mm_atoms| replace:: ...
+.. |ae_atoms| replace:: ...
+
+.. |elements| replace:: The element symbols of all atoms in the :class:`Topology` of the :class:`System` object.
+.. |residue_names| replace:: The names of all residues in the :class:`Topology` of the :class:`System` object.
+.. |atom_names| replace:: The names of all atoms in the :class:`Topology` of the :class:`System` object.
+
+.. |pdb_list| replace:: The directories containing the PDB files which define the :class:`System` geometry.
+.. |topology_list| replace:: The directories containing the XML files which define the :class:`System` topology.
+.. |forcefield_list| replace:: The directories containing the XML files which define the :class:`System` interactions.
+
+.. |nonbonded_method| replace:: The MM nonbonded method.
+.. |nonbonded_cutoff| replace:: The MM nonbonded cutoff.
 .. |pme_gridnumber| replace:: The number of PME gridpoints to use along each box vector.
-.. |pme_alpha| replace:: The PME alpha parameter for Gaussian widths.
-.. |basis_set| replace:: The basis set to use for Psi4 calculations.
-.. |functional| replace:: The DFT functional to use for the Psi4 calculations.
-.. |charge| replace:: The net molecular charge of the QM atoms.
-.. |spin| replace:: The net molecular spin of the QM atoms.
-.. |quadrature_spherical| replace:: The number of spherical (angular and azimuthal) points to use in the Lebedev quadrature implemented in Psi4.
-.. |quadrature_radial| replace:: The number of radial points to use in the Lebedev quadrature implemented in Psi4.
-.. |scf_type| replace:: The type of SCF to perform in Psi4.
-.. |read_guess| replace:: Determine whether or not read in wavefunction from previous calculation.
-.. |reference_energy| replace:: The base potential energy for QM energies.
-.. |friction| replace:: The friction felt by particles as dynamics propagate.
-.. |timestep| replace:: The timestep with which to propagate the simulation.
-.. |package| replace:: QM/MM/PME
+.. |pme_alpha| replace:: The PME alpha parameter for Gaussian widths, in inverse nanometers.
+
+.. |basis_set| replace:: The basis set to use for QM calculations.
+.. |functional| replace:: The DFT functional to use for the QM calculations.
+.. |charge| replace:: The net charge of the QM atoms.
+.. |spin| replace:: The net spin of the QM atoms.
+.. |quadrature_spherical| replace:: The number of spherical (angular and azimuthal) points to use in the Lebedev quadrature.
+.. |quadrature_radial| replace:: The number of radial points to use in the Lebedev quadrature.
+.. |scf_type| replace:: The type of SCF procedure to perform for QM calculations.
+.. |read_guess| replace:: Whether or not read in wavefunction from previous a calculation.  This speeds up calculations.
+.. |reference_energy| replace:: The base potential energy for QM energies, in Hartree.  This is subtracted from all QM energies.
+
+.. |timestep| replace:: The timestep that the :class:`Simulation` propagates with, in femtoseconds.
+.. |temperature| replace:: The temperature, in Kelvin.
+.. |friction| replace:: The friction felt by particles as a result of a thermostat, in inverse femtoseconds.
+
+.. |embedding_cutoff| replace:: The electrostatic QM/MM embedding cutoff, in Angstroms.
+
+.. |frame| replace:: The current frame of the :class:`Simulation`.
+
+.. |system| replace:: The :class:`System` object
+.. |simulation| replace:: The :class:`Simulation` object
+.. |logger| replace:: The :Class:`Logger` object
+.. |hamiltonian| replace:: The :Class:`Hamiltonian` object
+.. |integrator| replace:: The :Class:`Integrator` object
+.. |calculator| replace:: The :Class:`Calculator` object
+.. |interface| replace:: The :class:`SoftwareInterface` object
 """
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path: list[str] = ["_templates"]
+templates_path: list[str] = ['_templates']
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -89,9 +111,9 @@ exclude_patterns: list[str] = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme: str = "alabaster"
+html_theme: str = 'alabaster'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path: list[str] = ["_static"]
+html_static_path: list[str] = ['_static']

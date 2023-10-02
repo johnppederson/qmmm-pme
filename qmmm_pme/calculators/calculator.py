@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
-"""A module defining the :class:`Calculator` base class.
+"""A module defining the :class:`Calculator` base class and derived
+non-multiscale classes.
 """
 from __future__ import annotations
 
@@ -22,6 +23,8 @@ if TYPE_CHECKING:
 
 
 class CalculatorType(Enum):
+    """Enumeration of types of non-multiscale calculators.
+    """
     QM = "A QM Calculator."
     MM = "An MM Calculator."
     ME = "An ME Calculator."
@@ -29,7 +32,11 @@ class CalculatorType(Enum):
 
 @dataclass
 class Results:
-    """
+    """A wrapper class for storing the results of a calculation.
+
+    :param energy: The energy calculated for the system.
+    :param forces: The forces calculated for the system.
+    :components: The components of the energy calculated for the system.
     """
     energy: float = 0
     forces: NDArray[np.float64] = np.empty(0)
@@ -37,7 +44,8 @@ class Results:
 
 
 class ModifiableCalculator(ABC):
-    """The base class for defining calculators.
+    """An abstract :class:`Calculator` base class for interfacing with
+    plugins.
     """
     system: System
     _plugins: list[str] = []
@@ -51,42 +59,55 @@ class ModifiableCalculator(ABC):
         """Calculate energies and forces for the :class:`System` with
         the :class:`Calculator`.
 
-        :param return_forces: Determine whether or not to return forces.
-        :param return_components: Determine whether or not to return
+        :param return_forces: Whether or not to return forces.
+        :param return_components: Whether or not to return
             the components of the energy.
+        :return: The energy, forces, and energy components of the
+            calculation.
         """
 
     def register_plugin(self, plugin: CalculatorPlugin) -> None:
-        """Register any plugins applied to an instance of a class
-        inheriting from :class:`Core`.
+        """Register a :class:`Plugin` modifying a :class:`Calculator`
+        routine.
 
-        :param plugin: An instance of a class inheriting from
-            :class:`Plugin`.
+        :param plugin: An :class:`CalculatorPlugin` object.
         """
         self._plugins.append(type(plugin).__name__)
         plugin.modify(self)
 
     def active_plugins(self) -> list[str]:
-        """Return the list of active plugins.
+        """Get the current list of active plugins.
 
         :return: A list of the active plugins being employed by the
-            class.
+            :class:`Calculator`.
         """
         return self._plugins
 
 
 @dataclass
 class StandaloneCalculator(ModifiableCalculator):
-    """The base class for defining standalone calculators.
+    """A :class:`Calculator` class, defining the procedure for
+    standalone QM or MM calculations.
+
+    :param system: |system| to perform calculations on.
+    :param interface: |interface| to perform calculations with.
+    :param options: Options to provide to the
+        :class:`SoftwareInterface`.
     """
     system: System
     interface: SoftwareInterface
     options: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
+        """Send notifier functions from the interface to the respective
+        state or topology variable for monitoring, immediately after
+        initialization.
+        """
         state_generator = self.interface.get_state_notifiers().items()
         for state_key, state_value in state_generator:
-            getattr(self.system.state, state_key).register_notifier(state_value)
+            getattr(self.system.state, state_key).register_notifier(
+                state_value,
+            )
         topology_generator = self.interface.get_topology_notifiers().items()
         for topology_key, topology_value in topology_generator:
             getattr(self.system.topology, topology_key).register_notifier(

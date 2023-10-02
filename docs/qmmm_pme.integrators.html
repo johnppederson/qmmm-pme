@@ -42,15 +42,17 @@
 <p>A module for defining the <a class="reference internal" href="#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code></a> base class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.Integrator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.integrators.integrator.</span></span><span class="sig-name descname"><span class="pre">Integrator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/integrator.html#Integrator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.integrator.Integrator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="qmmm_pme.common.html#qmmm_pme.common.core.Core" title="qmmm_pme.common.core.Core"><code class="xref py py-class docutils literal notranslate"><span class="pre">Core</span></code></a></p>
-<p>The absract <a class="reference internal" href="#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code></a> base class, which also contains
-tools for generating velocities and calculating kinetic energies.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.integrators.integrator.</span></span><span class="sig-name descname"><span class="pre">Integrator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/integrator.html#Integrator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.integrator.Integrator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.integrators.integrator.ModifiableIntegrator" title="qmmm_pme.integrators.integrator.ModifiableIntegrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModifiableIntegrator</span></code></a></p>
+<p>An abstract <a class="reference internal" href="#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code></a> base class, which also contains
+implementations for generating velocities and calculating kinetic
+energies.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>timestep</strong> (<em>int</em><em> | </em><em>float</em>) – The timestep with which to propagate the simulation.</p></li>
-<li><p><strong>temperature</strong> (<em>int</em><em> | </em><em>float</em>) – The temperature, in Kelvin.</p></li>
+<li><p><strong>timestep</strong> (<em>float</em><em> | </em><em>int</em>) – The timestep that the <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code> propagates with, in femtoseconds.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em><em> | </em><em>int</em>) – The temperature, in Kelvin.</p></li>
+<li><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object to integrate.</p></li>
 </ul>
 </dd>
 </dl>
@@ -66,16 +68,20 @@ tools for generating velocities and calculating kinetic energies.</p>
 <dd class="field-even"><p>float</p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Based on the implementation in OpenMM</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.Integrator.compute_velocities">
 <span class="sig-name descname"><span class="pre">compute_velocities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/integrator.html#Integrator.compute_velocities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.integrator.Integrator.compute_velocities" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate velocities based on the Maxwell-Boltzmann
+<dd><p>Calculate initial velocities based on the Maxwell-Boltzmann
 distribution at a given temperature.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The sampled velocities, in ???.</p>
+<dd class="field-odd"><p>The sampled velocities, in Angstroms per femtosecond.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><em>ndarray</em>[<em>Any</em>, <em>dtype</em>[<em>float64</em>]]</p>
@@ -83,63 +89,173 @@ distribution at a given temperature.</p>
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Based on ase.md.velocitydistribution.py</p>
+<p>Based on the implementation in ASE.</p>
 </div>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.Integrator.system">
+<span class="sig-name descname"><span class="pre">system</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><span class="pre">System</span></a></em><a class="headerlink" href="#qmmm_pme.integrators.integrator.Integrator.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.Integrator.temperature">
+<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.integrators.integrator.Integrator.temperature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.Integrator.timestep">
+<span class="sig-name descname"><span class="pre">timestep</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.integrators.integrator.Integrator.timestep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.ModifiableIntegrator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.integrators.integrator.</span></span><span class="sig-name descname"><span class="pre">ModifiableIntegrator</span></span><a class="reference internal" href="_modules/qmmm_pme/integrators/integrator.html#ModifiableIntegrator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.integrator.ModifiableIntegrator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>An abstract <a class="reference internal" href="#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code></a> base class for interfacing with
+plugins.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.Integrator.integrate">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/integrator.html#Integrator.integrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.integrator.Integrator.integrate" title="Permalink to this definition">¶</a></dt>
-<dd><p>A placeholder method to integrate forces into new positions
-and velocities, which is implemented by the integrators that
-inherit from <a class="reference internal" href="#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code></a>.</p>
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.ModifiableIntegrator.active_plugins">
+<span class="sig-name descname"><span class="pre">active_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/integrator.html#ModifiableIntegrator.active_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.integrator.ModifiableIntegrator.active_plugins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current list of active plugins.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The new positions and velocities of the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms and ???, respectively.</p>
+<dd class="field-odd"><p>A list of the active plugins being employed by the
+<a class="reference internal" href="#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.ModifiableIntegrator.compute_kinetic_energy">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_kinetic_energy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/integrator.html#ModifiableIntegrator.compute_kinetic_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.integrator.ModifiableIntegrator.compute_kinetic_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kinetic energy of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The kinetic energy, in kJ/mol.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Based on the integrator kernels from OpenMM.</p>
+<p>Based on the implementation in OpenMM</p>
 </div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.Integrator.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/integrator.html#Integrator.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.integrator.Integrator.update" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.ModifiableIntegrator.compute_velocities">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_velocities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/integrator.html#ModifiableIntegrator.compute_velocities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.integrator.ModifiableIntegrator.compute_velocities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate initial velocities based on the Maxwell-Boltzmann
+distribution at a given temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The sampled velocities, in Angstroms per femtosecond.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em>[<em>Any</em>, <em>dtype</em>[<em>float64</em>]]</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Based on the implementation in ASE.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.ModifiableIntegrator.integrate">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/integrator.html#ModifiableIntegrator.integrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.integrator.ModifiableIntegrator.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integrate forces from the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> into new positions
+and velocities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The new positions and velocities of the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms and Angstroms per
+femtosecond, respectively.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[NDArray[np.float64], NDArray[np.float64]]</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Based on the implementation of the integrator
+kernels from OpenMM.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.ModifiableIntegrator.register_plugin">
+<span class="sig-name descname"><span class="pre">register_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/integrator.html#ModifiableIntegrator.register_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.integrator.ModifiableIntegrator.register_plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a <code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code> modifying an <a class="reference internal" href="#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code></a>
+routine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>plugin</strong> (<a class="reference internal" href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.IntegratorPlugin" title="qmmm_pme.plugins.plugin.IntegratorPlugin"><em>IntegratorPlugin</em></a>) – An <code class="xref py py-class docutils literal notranslate"><span class="pre">IntegratorPlugin</span></code> object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.ModifiableIntegrator.system">
+<span class="sig-name descname"><span class="pre">system</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><span class="pre">System</span></a></em><a class="headerlink" href="#qmmm_pme.integrators.integrator.ModifiableIntegrator.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.ModifiableIntegrator.temperature">
+<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.integrators.integrator.ModifiableIntegrator.temperature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.integrator.ModifiableIntegrator.timestep">
+<span class="sig-name descname"><span class="pre">timestep</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.integrators.integrator.ModifiableIntegrator.timestep" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-qmmm_pme.integrators.langevin">
-<span id="qmmm-pme-integrators-langevin-module"></span><h2>qmmm_pme.integrators.langevin module<a class="headerlink" href="#module-qmmm_pme.integrators.langevin" title="Permalink to this heading">¶</a></h2>
-<p>A module defining the <a class="reference internal" href="#qmmm_pme.integrators.langevin.Langevin" title="qmmm_pme.integrators.langevin.Langevin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Langevin</span></code></a> class.</p>
+<section id="module-qmmm_pme.integrators.langevin_integrator">
+<span id="qmmm-pme-integrators-langevin-integrator-module"></span><h2>qmmm_pme.integrators.langevin_integrator module<a class="headerlink" href="#module-qmmm_pme.integrators.langevin_integrator" title="Permalink to this heading">¶</a></h2>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.integrators.langevin_integrator.LangevinIntegrator" title="qmmm_pme.integrators.langevin_integrator.LangevinIntegrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LangevinIntegrator</span></code></a> class.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="qmmm_pme.integrators.langevin.Langevin">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.integrators.langevin.</span></span><span class="sig-name descname"><span class="pre">Langevin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">friction</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/langevin.html#Langevin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.langevin.Langevin" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qmmm_pme.integrators.langevin_integrator.LangevinIntegrator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.integrators.langevin_integrator.</span></span><span class="sig-name descname"><span class="pre">LangevinIntegrator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">friction</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/langevin_integrator.html#LangevinIntegrator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.langevin_integrator.LangevinIntegrator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code></a></p>
-<p>An integrator based on Langevin dynamics.</p>
+<p>An <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code> based on Langevin dynamics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>timestep</strong> (<em>int</em><em> | </em><em>float</em>) – The timestep with which to propagate the simulation.</p></li>
-<li><p><strong>temperature</strong> (<em>int</em><em> | </em><em>float</em>) – The temperature, in Kelvin.</p></li>
-<li><p><strong>friction</strong> (<em>int</em><em> | </em><em>float</em>) – The friction felt by particles as dynamics propagate.</p></li>
+<li><p><strong>friction</strong> (<em>int</em><em> | </em><em>float</em>) – The friction felt by particles as a result of a thermostat, in inverse femtoseconds.</p></li>
+<li><p><strong>timestep</strong> (<em>float</em><em> | </em><em>int</em>) – </p></li>
+<li><p><strong>temperature</strong> (<em>float</em><em> | </em><em>int</em>) – </p></li>
+<li><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – </p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.langevin_integrator.LangevinIntegrator.friction">
+<span class="sig-name descname"><span class="pre">friction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#qmmm_pme.integrators.langevin_integrator.LangevinIntegrator.friction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="qmmm_pme.integrators.langevin.Langevin.integrate">
-<span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/langevin.html#Langevin.integrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.langevin.Langevin.integrate" title="Permalink to this definition">¶</a></dt>
-<dd><p>A placeholder method to integrate forces into new positions
-and velocities, which is implemented by the integrators that
-inherit from <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code>.</p>
+<dt class="sig sig-object py" id="qmmm_pme.integrators.langevin_integrator.LangevinIntegrator.integrate">
+<span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/langevin_integrator.html#LangevinIntegrator.integrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.langevin_integrator.LangevinIntegrator.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integrate forces from the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> into new positions
+and velocities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The new positions and velocities of the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms and ???, respectively.</p>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms and Angstroms per
+femtosecond, respectively.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>tuple[NDArray[np.float64], NDArray[np.float64]]</p>
@@ -147,39 +263,45 @@ inherit from <code class="xref py py-class docutils literal notranslate"><span c
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Based on the integrator kernels from OpenMM.</p>
+<p>Based on the implementation of the integrator
+kernels from OpenMM.</p>
 </div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-qmmm_pme.integrators.velocity_verlet">
-<span id="qmmm-pme-integrators-velocity-verlet-module"></span><h2>qmmm_pme.integrators.velocity_verlet module<a class="headerlink" href="#module-qmmm_pme.integrators.velocity_verlet" title="Permalink to this heading">¶</a></h2>
-<p>A module defining the <a class="reference internal" href="#qmmm_pme.integrators.velocity_verlet.VelocityVerlet" title="qmmm_pme.integrators.velocity_verlet.VelocityVerlet"><code class="xref py py-class docutils literal notranslate"><span class="pre">VelocityVerlet</span></code></a> class.</p>
+<section id="module-qmmm_pme.integrators.velocity_verlet_integrator">
+<span id="qmmm-pme-integrators-velocity-verlet-integrator-module"></span><h2>qmmm_pme.integrators.velocity_verlet_integrator module<a class="headerlink" href="#module-qmmm_pme.integrators.velocity_verlet_integrator" title="Permalink to this heading">¶</a></h2>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator" title="qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">VelocityVerletIntegrator</span></code></a> class.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="qmmm_pme.integrators.velocity_verlet.VelocityVerlet">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.integrators.velocity_verlet.</span></span><span class="sig-name descname"><span class="pre">VelocityVerlet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/velocity_verlet.html#VelocityVerlet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.velocity_verlet.VelocityVerlet" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.integrators.velocity_verlet_integrator.</span></span><span class="sig-name descname"><span class="pre">VelocityVerletIntegrator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/velocity_verlet_integrator.html#VelocityVerletIntegrator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code></a></p>
-<p>An integrator based on the Velocity Verlet algorithm.</p>
+<p>An <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code> based on the Velocity Verlet algorithm.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This class is not currently implemented</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>timestep</strong> (<em>int</em><em> | </em><em>float</em>) – </p></li>
-<li><p><strong>temperature</strong> (<em>int</em><em> | </em><em>float</em>) – </p></li>
+<li><p><strong>timestep</strong> (<em>float</em><em> | </em><em>int</em>) – </p></li>
+<li><p><strong>temperature</strong> (<em>float</em><em> | </em><em>int</em>) – </p></li>
+<li><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – </p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="qmmm_pme.integrators.velocity_verlet.VelocityVerlet.integrate">
-<span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/velocity_verlet.html#VelocityVerlet.integrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.velocity_verlet.VelocityVerlet.integrate" title="Permalink to this definition">¶</a></dt>
-<dd><p>A placeholder method to integrate forces into new positions
-and velocities, which is implemented by the integrators that
-inherit from <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code>.</p>
+<dt class="sig sig-object py" id="qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.integrate">
+<span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/velocity_verlet_integrator.html#VelocityVerletIntegrator.integrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integrate forces from the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> into new positions
+and velocities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The new positions and velocities of the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms and ???, respectively.</p>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms and Angstroms per
+femtosecond, respectively.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>tuple[NDArray[np.float64], NDArray[np.float64]]</p>
@@ -187,9 +309,82 @@ inherit from <code class="xref py py-class docutils literal notranslate"><span c
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Based on the integrator kernels from OpenMM.</p>
+<p>Based on the implementation of the integrator
+kernels from OpenMM.</p>
 </div>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.system">
+<span class="sig-name descname"><span class="pre">system</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><span class="pre">System</span></a></em><a class="headerlink" href="#qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.temperature">
+<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.temperature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.timestep">
+<span class="sig-name descname"><span class="pre">timestep</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.timestep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.integrators.verlet_integrator">
+<span id="qmmm-pme-integrators-verlet-integrator-module"></span><h2>qmmm_pme.integrators.verlet_integrator module<a class="headerlink" href="#module-qmmm_pme.integrators.verlet_integrator" title="Permalink to this heading">¶</a></h2>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.integrators.verlet_integrator.VerletIntegrator" title="qmmm_pme.integrators.verlet_integrator.VerletIntegrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">VerletIntegrator</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.verlet_integrator.VerletIntegrator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.integrators.verlet_integrator.</span></span><span class="sig-name descname"><span class="pre">VerletIntegrator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/verlet_integrator.html#VerletIntegrator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.verlet_integrator.VerletIntegrator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code></a></p>
+<p>An <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code> based on the Verlet algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timestep</strong> (<em>float</em><em> | </em><em>int</em>) – </p></li>
+<li><p><strong>temperature</strong> (<em>float</em><em> | </em><em>int</em>) – </p></li>
+<li><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.verlet_integrator.VerletIntegrator.integrate">
+<span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/integrators/verlet_integrator.html#VerletIntegrator.integrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.integrators.verlet_integrator.VerletIntegrator.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integrate forces from the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> into new positions
+and velocities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The new positions and velocities of the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms and Angstroms per
+femtosecond, respectively.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[NDArray[np.float64], NDArray[np.float64]]</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Based on the implementation of the integrator
+kernels from OpenMM.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.verlet_integrator.VerletIntegrator.system">
+<span class="sig-name descname"><span class="pre">system</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><span class="pre">System</span></a></em><a class="headerlink" href="#qmmm_pme.integrators.verlet_integrator.VerletIntegrator.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.verlet_integrator.VerletIntegrator.temperature">
+<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.integrators.verlet_integrator.VerletIntegrator.temperature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.integrators.verlet_integrator.VerletIntegrator.timestep">
+<span class="sig-name descname"><span class="pre">timestep</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.integrators.verlet_integrator.VerletIntegrator.timestep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

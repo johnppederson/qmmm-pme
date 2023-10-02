@@ -10,8 +10,8 @@ from qmmm_pme.records import Topology
 
 
 class System:
-    """An object designed to hold :class:`State` and :class:`Topology`
-    record objects.
+    """An wrapper class designed to generate and hold :class:`State`
+    and :class:`Topology` record objects.
 
     :param pdb_list: |pdb_list|
     :param topology_list: |topology_list|
@@ -44,4 +44,8 @@ class System:
         self.files.forcefield_list.update(forcefield_list)
 
     def __len__(self) -> int:
+        """Get the number of atoms in the :class:`System`.
+
+        :return: The number atoms in the :class:`System`.
+        """
         return len(self.topology.atom_names())

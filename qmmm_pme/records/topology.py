@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-"""A module defining the :class:`Topology` record container.
+"""A module defining the :class:`Topology` data container.
 """
 from __future__ import annotations
 
@@ -10,56 +10,58 @@ from .record import Variable
 
 
 class NameVariable(Variable):
-    """A class wrapping a variable belonging to the :class:`Topology`.
+    """A wrapper class for name variables belonging to the
+    :class:`Topology` record.
     """
     _value: list[str] = []
 
     def update(self, value: list[str]) -> None:
-        """Update the value of the :class:`TopologyVariable`.
+        """Update the value of the :class:`NameVariable`.
 
         :param value: The updated value to set the
-            :class:`TopologyVariable` to.
+            :class:`NameVariable` value to.
         """
         self._value = value
         for notify in self._notifiers:
             notify(value)
 
     def __call__(self) -> list[str]:
-        """Return the value of the :class:`TopologyVariable`.
+        """Get the value of the :class:`NameVariable`.
 
-        :return: The value of the :class:`TopologyVariable`.
+        :return: The value of the :class:`NameVariable`.
         """
         return self._value
 
 
 class ResidueVariable(Variable):
-    """A class wrapping a variable belonging to the :class:`Topology`.
+    """A wrapper class for residue group variables belonging to the
+    :class:`Topology` record.
     """
     _value: list[list[int]] = []
 
     def update(self, value: list[list[int]]) -> None:
-        """Update the value of the :class:`TopologyVariable`.
+        """Update the value of the :class:`ResidueVariable`.
 
         :param value: The updated value to set the
-            :class:`TopologyVariable` to.
+            :class:`ResidueVariable` value to.
         """
         self._value = value
         for notify in self._notifiers:
             notify(value)
 
     def __call__(self) -> list[list[int]]:
-        """Return the value of the :class:`TopologyVariable`.
+        """Get the value of the :class:`ResidueVariable`.
 
-        :return: The value of the :class:`TopologyVariable`.
+        :return: The value of the :class:`ResidueVariable`.
         """
         return self._value
 
 
 @dataclass(frozen=True)
 class Topology(Record):
-    """A :class:`Record` class for maintaining data about the topology
-    of the :class:`System`, comprising atom groups, residue names,
-    element symbols, and atom names.
+    """A data container for information about the topology of the
+    :class:`System`, comprising atom groups, residue names, element
+    symbols, and atom names.
     """
     atoms: ResidueVariable = ResidueVariable()
     qm_atoms: ResidueVariable = ResidueVariable()

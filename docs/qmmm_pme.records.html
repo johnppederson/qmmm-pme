@@ -39,225 +39,404 @@
 </section>
 <section id="module-qmmm_pme.records.files">
 <span id="qmmm-pme-records-files-module"></span><h2>qmmm_pme.records.files module<a class="headerlink" href="#module-qmmm_pme.records.files" title="Permalink to this heading">¶</a></h2>
-<p>Files data container.</p>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.records.files.Files" title="qmmm_pme.records.files.Files"><code class="xref py py-class docutils literal notranslate"><span class="pre">Files</span></code></a> data container.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.records.files.Files">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.files.</span></span><span class="sig-name descname"><span class="pre">Files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/files.html#Files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.files.Files" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.files.</span></span><span class="sig-name descname"><span class="pre">Files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb_list=&lt;qmmm_pme.records.files.FilesVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topology_list=&lt;qmmm_pme.records.files.FilesVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forcefield_list=&lt;qmmm_pme.records.files.FilesVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_json=&lt;qmmm_pme.records.files.FilesVariable</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/files.html#Files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.files.Files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qmmm_pme.records.record.Record" title="qmmm_pme.records.record.Record"><code class="xref py py-class docutils literal notranslate"><span class="pre">Record</span></code></a></p>
-<p>Class for maintaining records about input and output files.</p>
+<p>A data container for records about input file paths.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>observer</strong> (<em>Any</em><em> | </em><em>None</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pdb_list</strong> (<a class="reference internal" href="#qmmm_pme.records.files.FilesVariable" title="qmmm_pme.records.files.FilesVariable"><em>FilesVariable</em></a>) – </p></li>
+<li><p><strong>topology_list</strong> (<a class="reference internal" href="#qmmm_pme.records.files.FilesVariable" title="qmmm_pme.records.files.FilesVariable"><em>FilesVariable</em></a>) – </p></li>
+<li><p><strong>forcefield_list</strong> (<a class="reference internal" href="#qmmm_pme.records.files.FilesVariable" title="qmmm_pme.records.files.FilesVariable"><em>FilesVariable</em></a>) – </p></li>
+<li><p><strong>input_json</strong> (<a class="reference internal" href="#qmmm_pme.records.files.FilesVariable" title="qmmm_pme.records.files.FilesVariable"><em>FilesVariable</em></a>) – </p></li>
+</ul>
 </dd>
 </dl>
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.files.Files.forcefield_list">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">forcefield_list</span></span><a class="headerlink" href="#qmmm_pme.records.files.Files.forcefield_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">forcefield_list</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.files.FilesVariable" title="qmmm_pme.records.files.FilesVariable"><span class="pre">FilesVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.files.FilesVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.files.Files.forcefield_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.files.Files.input_json">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input_json</span></span><a class="headerlink" href="#qmmm_pme.records.files.Files.input_json" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">input_json</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.files.FilesVariable" title="qmmm_pme.records.files.FilesVariable"><span class="pre">FilesVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.files.FilesVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.files.Files.input_json" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="qmmm_pme.records.files.Files.output_csv">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_csv</span></span><a class="headerlink" href="#qmmm_pme.records.files.Files.output_csv" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="qmmm_pme.records.files.Files.output_dcd">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_dcd</span></span><a class="headerlink" href="#qmmm_pme.records.files.Files.output_dcd" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="qmmm_pme.records.files.Files.output_log">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_log</span></span><a class="headerlink" href="#qmmm_pme.records.files.Files.output_log" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="qmmm_pme.records.files.Files.output_pdb">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_pdb</span></span><a class="headerlink" href="#qmmm_pme.records.files.Files.output_pdb" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.files.Files.pdb_list">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pdb_list</span></span><a class="headerlink" href="#qmmm_pme.records.files.Files.pdb_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">pdb_list</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.files.FilesVariable" title="qmmm_pme.records.files.FilesVariable"><span class="pre">FilesVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.files.FilesVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.files.Files.pdb_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.files.Files.topology_list">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">topology_list</span></span><a class="headerlink" href="#qmmm_pme.records.files.Files.topology_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">topology_list</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.files.FilesVariable" title="qmmm_pme.records.files.FilesVariable"><span class="pre">FilesVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.files.FilesVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.files.Files.topology_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
-</section>
-<section id="module-qmmm_pme.records.namespace">
-<span id="qmmm-pme-records-namespace-module"></span><h2>qmmm_pme.records.namespace module<a class="headerlink" href="#module-qmmm_pme.records.namespace" title="Permalink to this heading">¶</a></h2>
-<p>A module to define the <a class="reference internal" href="#qmmm_pme.records.namespace.Namespace" title="qmmm_pme.records.namespace.Namespace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Namespace</span></code></a>, a dictionary with elements
-accessible as attributes.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="qmmm_pme.records.namespace.Namespace">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.namespace.</span></span><span class="sig-name descname"><span class="pre">Namespace</span></span><a class="reference internal" href="_modules/qmmm_pme/records/namespace.html#Namespace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.namespace.Namespace" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
-<p>A class where elements are accesible as attributes, and observers
-are notified when an attribute is changed.</p>
+<dt class="sig sig-object py" id="qmmm_pme.records.files.FilesVariable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.files.</span></span><span class="sig-name descname"><span class="pre">FilesVariable</span></span><a class="reference internal" href="_modules/qmmm_pme/records/files.html#FilesVariable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.files.FilesVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.records.record.Variable" title="qmmm_pme.records.record.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a></p>
+<p>A wrapper class for variables belonging to the <a class="reference internal" href="#qmmm_pme.records.files.Files" title="qmmm_pme.records.files.Files"><code class="xref py py-class docutils literal notranslate"><span class="pre">Files</span></code></a>
+record.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.records.files.FilesVariable.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/files.html#FilesVariable.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.files.FilesVariable.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the value of the <a class="reference internal" href="#qmmm_pme.records.files.FilesVariable" title="qmmm_pme.records.files.FilesVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilesVariable</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The updated value to set the
+<a class="reference internal" href="#qmmm_pme.records.files.FilesVariable" title="qmmm_pme.records.files.FilesVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilesVariable</span></code></a> value to.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
 <section id="module-qmmm_pme.records.record">
 <span id="qmmm-pme-records-record-module"></span><h2>qmmm_pme.records.record module<a class="headerlink" href="#module-qmmm_pme.records.record" title="Permalink to this heading">¶</a></h2>
-<p>A module defining the class and metaclass for records.</p>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.records.record.Record" title="qmmm_pme.records.record.Record"><code class="xref py py-class docutils literal notranslate"><span class="pre">Record</span></code></a> and <a class="reference internal" href="#qmmm_pme.records.record.Variable" title="qmmm_pme.records.record.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a> classes.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.records.record.Record">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.record.</span></span><span class="sig-name descname"><span class="pre">Record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/record.html#Record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.record.Record" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.record.</span></span><span class="sig-name descname"><span class="pre">Record</span></span><a class="reference internal" href="_modules/qmmm_pme/records/record.html#Record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.record.Record" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A base class for defining records, a borg-like class which stores
-data for all classes to see.  It is also a subject of observer
-objects, which are notified when a value is changed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>observer</strong> (<em>Any</em><em> | </em><em>None</em>) – A class observing and accessing the record.</p>
-</dd>
-</dl>
-<dl class="py property">
-<dt class="sig sig-object py" id="qmmm_pme.records.record.Record.registry">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">registry</span></span><a class="headerlink" href="#qmmm_pme.records.record.Record.registry" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<p>A base class for defining records.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This class currently has no implementation.</p>
+</div>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="qmmm_pme.records.record.recordclass">
-<span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.record.</span></span><span class="sig-name descname"><span class="pre">recordclass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_parents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_attrs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/record.html#recordclass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.record.recordclass" title="Permalink to this definition">¶</a></dt>
-<dd><p>Metaclass for constructing record classes.</p>
-<p>This works by creating properties for each specified ‘hidden’ class
-variable.  The setter for these properties edits the class variable,
-so each instance of the record class will then have access to the
-updated record.  Observers of the record class are barred from
-updating the record, but they will be notified when the record is
-changed.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.records.record.Variable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.record.</span></span><span class="sig-name descname"><span class="pre">Variable</span></span><a class="reference internal" href="_modules/qmmm_pme/records/record.html#Variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.record.Variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A base class for wrapping a variable belonging to a
+<a class="reference internal" href="#qmmm_pme.records.record.Record" title="qmmm_pme.records.record.Record"><code class="xref py py-class docutils literal notranslate"><span class="pre">Record</span></code></a>.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.records.record.Variable.register_notifier">
+<span class="sig-name descname"><span class="pre">register_notifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notifier</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/record.html#Variable.register_notifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.record.Variable.register_notifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a notifier to the <a class="reference internal" href="#qmmm_pme.records.record.Variable" title="qmmm_pme.records.record.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a>, which will
+be called whenever the <a class="reference internal" href="#qmmm_pme.records.record.Variable" title="qmmm_pme.records.record.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a> is changed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cls_name</strong> (<em>str</em>) – The name of the class to be constructed.</p></li>
-<li><p><strong>cls_parents</strong> (<em>tuple</em><em>[</em><em>Any</em><em>, </em><em>...</em><em>]</em>) – The base classes of the class to be constructed.</p></li>
-<li><p><strong>cls_attrs</strong> (<em>dict</em>) – The attributes of the class to be constructed</p></li>
-</ul>
+<dd class="field-odd"><p><strong>notifier</strong> (<em>Callable</em><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><em>None</em><em>]</em>) – The method which will be called when the
+<a class="reference internal" href="#qmmm_pme.records.record.Variable" title="qmmm_pme.records.record.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a> is changed.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The modified class, now a record class.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>type</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
 <section id="module-qmmm_pme.records.state">
 <span id="qmmm-pme-records-state-module"></span><h2>qmmm_pme.records.state module<a class="headerlink" href="#module-qmmm_pme.records.state" title="Permalink to this heading">¶</a></h2>
-<p>A module defining the <a class="reference internal" href="#qmmm_pme.records.state.State" title="qmmm_pme.records.state.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></a> record container.</p>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.records.state.State" title="qmmm_pme.records.state.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></a> data container.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.records.state.State">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.state.</span></span><span class="sig-name descname"><span class="pre">State</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/state.html#State"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.state.State" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.state.</span></span><span class="sig-name descname"><span class="pre">State</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">masses=&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charges=&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions=&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocities=&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">momenta=&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forces=&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">box=&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/state.html#State"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.state.State" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qmmm_pme.records.record.Record" title="qmmm_pme.records.record.Record"><code class="xref py py-class docutils literal notranslate"><span class="pre">Record</span></code></a></p>
-<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Record</span></code> class for maintaining data about the state
-of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, comprising atomic masses, charges,
-positions, velocities, momenta, and forces; the box vectors defining
-the periodic boundary condition; and the frame number.</p>
+<p>A data container for state information about the the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, comprising atomic masses, charges, positions,
+velocities, momenta, and forces; and the box vectors defining the
+periodic boundary condition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>observer</strong> (<em>Any</em><em> | </em><em>None</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>masses</strong> (<a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><em>StateVariable</em></a>) – </p></li>
+<li><p><strong>charges</strong> (<a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><em>StateVariable</em></a>) – </p></li>
+<li><p><strong>positions</strong> (<a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><em>StateVariable</em></a>) – </p></li>
+<li><p><strong>velocities</strong> (<a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><em>StateVariable</em></a>) – </p></li>
+<li><p><strong>momenta</strong> (<a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><em>StateVariable</em></a>) – </p></li>
+<li><p><strong>forces</strong> (<a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><em>StateVariable</em></a>) – </p></li>
+<li><p><strong>box</strong> (<a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><em>StateVariable</em></a>) – </p></li>
+</ul>
 </dd>
 </dl>
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.state.State.box">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">box</span></span><a class="headerlink" href="#qmmm_pme.records.state.State.box" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">box</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><span class="pre">StateVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.state.State.box" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[np.float64]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.state.State.charges">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charges</span></span><a class="headerlink" href="#qmmm_pme.records.state.State.charges" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">charges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><span class="pre">StateVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.state.State.charges" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[np.float64]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.state.State.forces">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">forces</span></span><a class="headerlink" href="#qmmm_pme.records.state.State.forces" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">forces</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><span class="pre">StateVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.state.State.forces" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[np.float64]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="qmmm_pme.records.state.State.frame">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frame</span></span><a class="headerlink" href="#qmmm_pme.records.state.State.frame" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.state.State.masses">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">masses</span></span><a class="headerlink" href="#qmmm_pme.records.state.State.masses" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">masses</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><span class="pre">StateVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.state.State.masses" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[np.float64]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.state.State.momenta">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">momenta</span></span><a class="headerlink" href="#qmmm_pme.records.state.State.momenta" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">momenta</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><span class="pre">StateVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.state.State.momenta" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[np.float64]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.state.State.positions">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">positions</span></span><a class="headerlink" href="#qmmm_pme.records.state.State.positions" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">positions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><span class="pre">StateVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.state.State.positions" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[np.float64]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.state.State.velocities">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">velocities</span></span><a class="headerlink" href="#qmmm_pme.records.state.State.velocities" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">velocities</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><span class="pre">StateVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.state.StateVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.state.State.velocities" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[np.float64]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.records.state.StateVariable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.state.</span></span><span class="sig-name descname"><span class="pre">StateVariable</span></span><a class="reference internal" href="_modules/qmmm_pme/records/state.html#StateVariable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.state.StateVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.records.record.Variable" title="qmmm_pme.records.record.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a></p>
+<p>A wrapper class for variables belonging to the <a class="reference internal" href="#qmmm_pme.records.state.State" title="qmmm_pme.records.state.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></a>
+record.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.records.state.StateVariable.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/state.html#StateVariable.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.state.StateVariable.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the value of the <a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateVariable</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>dtype</em><em>[</em><em>float64</em><em>]</em><em>]</em>) – The updated value to set the
+<a class="reference internal" href="#qmmm_pme.records.state.StateVariable" title="qmmm_pme.records.state.StateVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateVariable</span></code></a> value to.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-qmmm_pme.records.topology">
 <span id="qmmm-pme-records-topology-module"></span><h2>qmmm_pme.records.topology module<a class="headerlink" href="#module-qmmm_pme.records.topology" title="Permalink to this heading">¶</a></h2>
-<p>A module defining the <a class="reference internal" href="#qmmm_pme.records.topology.Topology" title="qmmm_pme.records.topology.Topology"><code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code></a> record container.</p>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.records.topology.Topology" title="qmmm_pme.records.topology.Topology"><code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code></a> data container.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="qmmm_pme.records.topology.Topology">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.topology.</span></span><span class="sig-name descname"><span class="pre">Topology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/topology.html#Topology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.topology.Topology" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.records.record.Record" title="qmmm_pme.records.record.Record"><code class="xref py py-class docutils literal notranslate"><span class="pre">Record</span></code></a></p>
-<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Record</span></code> class for maintaining data about the topology
-of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, comprising atom groups, residue names,
-element symbols, and atom names.</p>
+<dt class="sig sig-object py" id="qmmm_pme.records.topology.NameVariable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.topology.</span></span><span class="sig-name descname"><span class="pre">NameVariable</span></span><a class="reference internal" href="_modules/qmmm_pme/records/topology.html#NameVariable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.topology.NameVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.records.record.Variable" title="qmmm_pme.records.record.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a></p>
+<p>A wrapper class for name variables belonging to the
+<a class="reference internal" href="#qmmm_pme.records.topology.Topology" title="qmmm_pme.records.topology.Topology"><code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code></a> record.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.records.topology.NameVariable.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/topology.html#NameVariable.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.topology.NameVariable.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the value of the <a class="reference internal" href="#qmmm_pme.records.topology.NameVariable" title="qmmm_pme.records.topology.NameVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">NameVariable</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>observer</strong> (<em>Any</em><em> | </em><em>None</em>) – </p>
+<dd class="field-odd"><p><strong>value</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The updated value to set the
+<a class="reference internal" href="#qmmm_pme.records.topology.NameVariable" title="qmmm_pme.records.topology.NameVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">NameVariable</span></code></a> value to.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
-<dl class="py property">
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.records.topology.ResidueVariable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.topology.</span></span><span class="sig-name descname"><span class="pre">ResidueVariable</span></span><a class="reference internal" href="_modules/qmmm_pme/records/topology.html#ResidueVariable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.topology.ResidueVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.records.record.Variable" title="qmmm_pme.records.record.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a></p>
+<p>A wrapper class for residue group variables belonging to the
+<a class="reference internal" href="#qmmm_pme.records.topology.Topology" title="qmmm_pme.records.topology.Topology"><code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code></a> record.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.records.topology.ResidueVariable.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/topology.html#ResidueVariable.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.topology.ResidueVariable.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the value of the <a class="reference internal" href="#qmmm_pme.records.topology.ResidueVariable" title="qmmm_pme.records.topology.ResidueVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResidueVariable</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – The updated value to set the
+<a class="reference internal" href="#qmmm_pme.records.topology.ResidueVariable" title="qmmm_pme.records.topology.ResidueVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResidueVariable</span></code></a> value to.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.records.topology.Topology">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.records.topology.</span></span><span class="sig-name descname"><span class="pre">Topology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms=&lt;qmmm_pme.records.topology.ResidueVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qm_atoms=&lt;qmmm_pme.records.topology.ResidueVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mm_atoms=&lt;qmmm_pme.records.topology.ResidueVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ae_atoms=&lt;qmmm_pme.records.topology.ResidueVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements=&lt;qmmm_pme.records.topology.NameVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residue_names=&lt;qmmm_pme.records.topology.NameVariable</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom_names=&lt;qmmm_pme.records.topology.NameVariable</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/records/topology.html#Topology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.records.topology.Topology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.records.record.Record" title="qmmm_pme.records.record.Record"><code class="xref py py-class docutils literal notranslate"><span class="pre">Record</span></code></a></p>
+<p>A data container for information about the topology of the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, comprising atom groups, residue names, element
+symbols, and atom names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<a class="reference internal" href="#qmmm_pme.records.topology.ResidueVariable" title="qmmm_pme.records.topology.ResidueVariable"><em>ResidueVariable</em></a>) – </p></li>
+<li><p><strong>qm_atoms</strong> (<a class="reference internal" href="#qmmm_pme.records.topology.ResidueVariable" title="qmmm_pme.records.topology.ResidueVariable"><em>ResidueVariable</em></a>) – </p></li>
+<li><p><strong>mm_atoms</strong> (<a class="reference internal" href="#qmmm_pme.records.topology.ResidueVariable" title="qmmm_pme.records.topology.ResidueVariable"><em>ResidueVariable</em></a>) – </p></li>
+<li><p><strong>ae_atoms</strong> (<a class="reference internal" href="#qmmm_pme.records.topology.ResidueVariable" title="qmmm_pme.records.topology.ResidueVariable"><em>ResidueVariable</em></a>) – </p></li>
+<li><p><strong>elements</strong> (<a class="reference internal" href="#qmmm_pme.records.topology.NameVariable" title="qmmm_pme.records.topology.NameVariable"><em>NameVariable</em></a>) – </p></li>
+<li><p><strong>residue_names</strong> (<a class="reference internal" href="#qmmm_pme.records.topology.NameVariable" title="qmmm_pme.records.topology.NameVariable"><em>NameVariable</em></a>) – </p></li>
+<li><p><strong>atom_names</strong> (<a class="reference internal" href="#qmmm_pme.records.topology.NameVariable" title="qmmm_pme.records.topology.NameVariable"><em>NameVariable</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.records.topology.Topology.ae_atoms">
+<span class="sig-name descname"><span class="pre">ae_atoms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.topology.ResidueVariable" title="qmmm_pme.records.topology.ResidueVariable"><span class="pre">ResidueVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.topology.ResidueVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.topology.Topology.ae_atoms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.records.topology.Topology.atom_names">
+<span class="sig-name descname"><span class="pre">atom_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.topology.NameVariable" title="qmmm_pme.records.topology.NameVariable"><span class="pre">NameVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.topology.NameVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.topology.Topology.atom_names" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.topology.Topology.atoms">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atoms</span></span><a class="headerlink" href="#qmmm_pme.records.topology.Topology.atoms" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">atoms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.topology.ResidueVariable" title="qmmm_pme.records.topology.ResidueVariable"><span class="pre">ResidueVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.topology.ResidueVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.topology.Topology.atoms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[int]]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.records.topology.Topology.elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#qmmm_pme.records.topology.Topology.elements" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">elements</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.topology.NameVariable" title="qmmm_pme.records.topology.NameVariable"><span class="pre">NameVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.topology.NameVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.topology.Topology.elements" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="qmmm_pme.records.topology.Topology.groups">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">groups</span></span><a class="headerlink" href="#qmmm_pme.records.topology.Topology.groups" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.records.topology.Topology.mm_atoms">
+<span class="sig-name descname"><span class="pre">mm_atoms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.topology.ResidueVariable" title="qmmm_pme.records.topology.ResidueVariable"><span class="pre">ResidueVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.topology.ResidueVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.topology.Topology.mm_atoms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[int]]</p>
+</dd>
+</dl>
+</dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="qmmm_pme.records.topology.Topology.residues">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">residues</span></span><a class="headerlink" href="#qmmm_pme.records.topology.Topology.residues" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.records.topology.Topology.qm_atoms">
+<span class="sig-name descname"><span class="pre">qm_atoms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.topology.ResidueVariable" title="qmmm_pme.records.topology.ResidueVariable"><span class="pre">ResidueVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.topology.ResidueVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.topology.Topology.qm_atoms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.records.topology.Topology.residue_names">
+<span class="sig-name descname"><span class="pre">residue_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.records.topology.NameVariable" title="qmmm_pme.records.topology.NameVariable"><span class="pre">NameVariable</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;qmmm_pme.records.topology.NameVariable</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#qmmm_pme.records.topology.Topology.residue_names" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-qmmm_pme.records">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qmmm_pme.records" title="Permalink to this heading">¶</a></h2>
-<p>A sub-package to define records kept by the simulation, which include
-data pertaining to input files and the state and topology of atoms and
-residues.</p>
+<p>A sub-package to define records kept by the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, which
+include data pertaining to input files and the state and topology of
+atoms and residues.</p>
 </section>
 </section>
 

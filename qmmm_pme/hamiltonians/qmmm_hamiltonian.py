@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
-"""
-ASE Calculator to combine QM and MM forces and energies.
+"""A module defining the :class:`QMMMHamiltonian` class.
 """
 from __future__ import annotations
 
@@ -23,13 +22,22 @@ if TYPE_CHECKING:
 
 @dataclass
 class QMMMHamiltonian(QMMMHamiltonianInterface):
-    """A wrapper for the QMMM.
+    """A wrapper class storing settings for QMMM calculations.
+
+    :param qm_hamiltonian: |hamiltonian| for calculations on the QM
+        subsystem.
+    :param mm_hamiltonian: |hamiltonian| for calculations on the MM
+        subsystem.
+    :param embedding_cutoff: |embedding_cutoff|
     """
     qm_hamiltonian: QMHamiltonian
     mm_hamiltonian: MMHamiltonian
     embedding_cutoff: float | int = 14.
 
     def __post_init__(self) -> None:
+        """Perform modifications to QM and MM :class:`Hamiltonian`
+        objects immediately after initialization.
+        """
         self.qm_hamiltonian.system_type = SystemTypes.SUBSYSTEM
         self.mm_hamiltonian.system_type = SystemTypes.SUBSYSTEM
         self.me_hamiltonian = deepcopy(self.mm_hamiltonian)

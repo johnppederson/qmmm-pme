@@ -7,6 +7,10 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   qmmm_pme.plugins.atom_embedding
+   qmmm_pme.plugins.plumed
+   qmmm_pme.plugins.pme
+   qmmm_pme.plugins.rigid
    qmmm_pme.plugins.settle
 
 Submodules

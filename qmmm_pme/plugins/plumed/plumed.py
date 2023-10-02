@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
-"""A module defining the pluggable implementation of the Plumed
-for enhanced sampling in the QM/MM/PME repository.
+"""A module defining the pluggable implementation of the Plumed enhanced
+sampling suite in the |package| repository.
 """
 from __future__ import annotations
 
@@ -46,12 +46,6 @@ class Plumed(CalculatorPlugin):
             self,
             calculator: ModifiableCalculator,
     ) -> None:
-        """Perform necessary modifications to the :class:`Calculator`
-        object.
-
-        :param calculator: The calculator to modify with enhanced sampling
-            biases.
-        """
         self._modifieds.append(type(calculator).__name__)
         self.system = calculator.system
         self.plumed.cmd("setNatoms", len(self.system))
@@ -70,7 +64,12 @@ class Plumed(CalculatorPlugin):
             self,
             calculate: Callable[..., tuple[Any, ...]],
     ) -> Callable[..., tuple[Any, ...]]:
-        """
+        """Modfify the calculate call in the :class:`Calculator` to
+        apply a biasing energy and force.
+
+        :param calculate: The default calculate method of the
+            :class:`Calculator`.
+        :return: The modified calculate method.
         """
         def inner(**kwargs: bool) -> tuple[Any, ...]:
             energy, forces, components = calculate(**kwargs)

@@ -33,108 +33,140 @@
 
   <h1>Source code for qmmm_pme.hamiltonians.hamiltonian</h1><div class="highlight"><pre>
 <span></span><span class="ch">#! /usr/bin/env python3</span>
-<span class="sd">&quot;&quot;&quot;Base class for constructing a Hamiltonian.</span>
+<span class="sd">&quot;&quot;&quot;A module defining the base :class:`Hamiltonian` class and derived</span>
+<span class="sd">interface classes.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span> <span class="nn">qmmm_pme.interfaces</span> <span class="kn">import</span> <span class="n">SystemTypes</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">qmmm_pme</span> <span class="kn">import</span> <span class="n">System</span>
+    <span class="kn">from</span> <span class="nn">qmmm_pme.calculators.calculator</span> <span class="kn">import</span> <span class="n">ModifiableCalculator</span>
 
 
 <div class="viewcode-block" id="Hamiltonian"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian">[docs]</a><span class="k">class</span> <span class="nc">Hamiltonian</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Hamiltonian base class.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An abstract :class:`Hamiltonian` base class for creating the </span>
+<span class="sd">    Hamiltonian API.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">atoms</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">system_type</span><span class="p">:</span> <span class="n">SystemTypes</span> <span class="o">=</span> <span class="n">SystemTypes</span><span class="o">.</span><span class="n">SYSTEM</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">system</span> <span class="o">=</span> <span class="n">system</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_atoms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="p">)))</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">indices</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">slice</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">slice</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hamiltonian</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the indices for atoms that are treated with this</span>
+<span class="sd">        :class:`Hamiltonian`.</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">):</span>
+<span class="sd">        :return: |Hamiltonian|.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">indices</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">indices</span><span class="p">,)</span>
         <span class="n">atoms</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">)):</span>
                 <span class="n">atoms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
-                <span class="n">atoms</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span> <span class="o">=</span> <span class="n">atoms</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<div class="viewcode-block" id="Hamiltonian.build_calculator"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.build_calculator">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">build_calculator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModifiableCalculator</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the :class:`Calculator` corresponding to the</span>
+<span class="sd">        :class:`Hamiltonian` object.</span>
+
+<span class="sd">        :param system: |system| to calculate energy and forces for.</span>
+<span class="sd">        :return: |calculator|.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="Hamiltonian.parse_atoms"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.parse_atoms">[docs]</a>    <span class="k">def</span> <span class="nf">parse_atoms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse the indices provided to the :class:`Hamiltonian` object</span>
+<span class="sd">        to create the list of residue-grouped atom indices.</span>
+
+<span class="sd">        :param system: |system| to calculate energy and forces for.</span>
+<span class="sd">        :return: |atoms|</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">indices</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
                     <span class="nb">list</span><span class="p">(</span>
                         <span class="nb">range</span><span class="p">(</span>
                             <span class="n">i</span><span class="o">.</span><span class="n">start</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">start</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
-                            <span class="n">i</span><span class="o">.</span><span class="n">stop</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">stop</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="p">),</span>
+                            <span class="n">i</span><span class="o">.</span><span class="n">stop</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">stop</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">system</span><span class="p">),</span>
                             <span class="n">i</span><span class="o">.</span><span class="n">step</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">step</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span>
                         <span class="p">),</span>
                     <span class="p">),</span>
                 <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span> <span class="o">=</span> <span class="n">atoms</span>
-        <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">system</span><span class="p">))]</span>
+        <span class="n">residues</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">x</span> <span class="k">for</span> <span class="n">residue</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">atoms</span><span class="p">()</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">:=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">residue</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">])</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">residues</span></div>
 
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hamiltonian</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add :class:`Hamiltonian` objects together.</span>
+
+<span class="sd">        :param other: The object being added to the</span>
+<span class="sd">            :class:`Hamiltonian`.</span>
+<span class="sd">        :return: A new :class:`Hamiltonian` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hamiltonian</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the embedding distance for a :class:`QMMMHamiltonian`.</span>
+
+<span class="sd">        :param other: The embedding distance, in Angstroms.</span>
+<span class="sd">        :return: |hamiltonian|.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add :class:`Hamiltonian` objects together.</span>
+
+<span class="sd">        :param other: The object being added to the</span>
+<span class="sd">            :class:`Hamiltonian`.</span>
+<span class="sd">        :return: A new :class:`Hamiltonian` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;_{&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">current</span><span class="si">}</span><span class="s2">:&quot;</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a LATEX string representation of the</span>
+<span class="sd">        :class:`Hamiltonian` object.</span>
+
+<span class="sd">        :return: The string representation of the :class:`Hamiltonian`</span>
+<span class="sd">            object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;_{&quot;</span>
         <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">atom</span> <span class="o">-</span> <span class="n">current</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">current</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">atom</span><span class="si">}</span><span class="s2">:&quot;</span>
-            <span class="n">current</span> <span class="o">=</span> <span class="n">atom</span>
-        <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">current</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;}&quot;</span>
-        <span class="k">return</span> <span class="n">string</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">atoms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_atoms</span>
-
-    <span class="nd">@atoms</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">atoms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atoms</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">atoms</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">atom</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">IndexError</span>
-            <span class="k">if</span> <span class="n">atom</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">IndexError</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_atoms</span> <span class="o">=</span> <span class="n">atoms</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_atoms</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="QMMMHamiltonianBase"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianBase">[docs]</a><span class="k">class</span> <span class="nc">QMMMHamiltonianBase</span><span class="p">(</span><span class="n">Hamiltonian</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A base class for QM/MM Hamiltonian functionality</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">embedding_cutoff</span> <span class="o">=</span> <span class="n">other</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+            <span class="n">string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">atom</span><span class="si">}</span><span class="s2">, &quot;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;}&quot;</span>
+        <span class="k">return</span> <span class="n">string</span></div>
 
 
 <div class="viewcode-block" id="MMHamiltonianInterface"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.MMHamiltonianInterface">[docs]</a><span class="k">class</span> <span class="nc">MMHamiltonianInterface</span><span class="p">(</span><span class="n">Hamiltonian</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An interface for the MM Hamiltonian</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An interface for the :class:`MMHamiltonian`.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="QMHamiltonianInterface"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.QMHamiltonianInterface">[docs]</a><span class="k">class</span> <span class="nc">QMHamiltonianInterface</span><span class="p">(</span><span class="n">Hamiltonian</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An interface for the MM Hamiltonian</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-
-
-<div class="viewcode-block" id="PBCHamiltonianInterface"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.PBCHamiltonianInterface">[docs]</a><span class="k">class</span> <span class="nc">PBCHamiltonianInterface</span><span class="p">(</span><span class="n">Hamiltonian</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An interface for the MM Hamiltonian</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An interface for the :class:`QMHamiltonian`.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="QMMMHamiltonianInterface"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianInterface">[docs]</a><span class="k">class</span> <span class="nc">QMMMHamiltonianInterface</span><span class="p">(</span><span class="n">Hamiltonian</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An interface for the MM Hamiltonian</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-
-
-<div class="viewcode-block" id="QMMMPMEHamiltonianInterface"><a class="viewcode-back" href="../../../qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.QMMMPMEHamiltonianInterface">[docs]</a><span class="k">class</span> <span class="nc">QMMMPMEHamiltonianInterface</span><span class="p">(</span><span class="n">Hamiltonian</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An interface for the MM Hamiltonian</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An interface for the :class:`QMMMHamiltonian`.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 </pre></div>
 

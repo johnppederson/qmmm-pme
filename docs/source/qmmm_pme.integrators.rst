@@ -12,18 +12,26 @@ qmmm\_pme.integrators.integrator module
    :undoc-members:
    :show-inheritance:
 
-qmmm\_pme.integrators.langevin module
--------------------------------------
+qmmm\_pme.integrators.langevin\_integrator module
+-------------------------------------------------
 
-.. automodule:: qmmm_pme.integrators.langevin
+.. automodule:: qmmm_pme.integrators.langevin_integrator
    :members:
    :undoc-members:
    :show-inheritance:
 
-qmmm\_pme.integrators.velocity\_verlet module
----------------------------------------------
+qmmm\_pme.integrators.velocity\_verlet\_integrator module
+---------------------------------------------------------
 
-.. automodule:: qmmm_pme.integrators.velocity_verlet
+.. automodule:: qmmm_pme.integrators.velocity_verlet_integrator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qmmm\_pme.integrators.verlet\_integrator module
+-----------------------------------------------
+
+.. automodule:: qmmm_pme.integrators.verlet_integrator
    :members:
    :undoc-members:
    :show-inheritance:

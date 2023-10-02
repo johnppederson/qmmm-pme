@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-"""A module for defining the :class:`Integrator` base class.
+"""A module for defining the :class:`Dynamics` base and derived classes.
 """
 from __future__ import annotations
 
@@ -20,8 +20,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class Dynamics(ABC):
-    """A dynamics object storing parameters necessary for creating
-    the Velocity Verlet integrator.
+    """A base class for defining dynamics.
 
     :param timestep: |timestep|
     """
@@ -29,14 +28,18 @@ class Dynamics(ABC):
 
     @abstractmethod
     def build_integrator(self, system: System) -> Integrator:
-        """
+        """Build the :class:`Integrator` corresponding to the
+        :class:`Dynamics` object.
+
+        :param system: |system| to integrate forces for.
+        :return: |Integrator|.
         """
 
 
 @dataclass
 class VelocityVerlet(Dynamics):
-    """A dynamics object storing parameters necessary for creating
-    the Velocity Verlet integrator.
+    """A :class:`Dynamics` object storing parameters necessary for
+    creating the Velocity Verlet integrator.
 
     :param temperature: |temperature|
     """
@@ -49,8 +52,8 @@ class VelocityVerlet(Dynamics):
 
 @dataclass
 class Verlet(Dynamics):
-    """A dynamics object storing parameters necessary for creating
-    the Verlet integrator.
+    """A :class:`Dynamics` object storing parameters necessary for
+    creating the Verlet integrator.
 
     :param temperature: |temperature|
     """
@@ -63,8 +66,8 @@ class Verlet(Dynamics):
 
 @dataclass
 class Langevin(Dynamics):
-    """A dynamics object storing parameters necessary for creating
-    the Langevin integrator.
+    """A :class:`Dynamics` object storing parameters necessary for
+    creating the Langevin integrator.
 
     :param temperature: |temperature|
     :param friction: |friction|

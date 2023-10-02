@@ -28,8 +28,12 @@ class QMMMCalculator(ModifiableCalculator):
     """A :class:`Calculator` class for performing QM/MM calculations for
     an entire system.
 
-    :param embedding_cutoff: The QM/MM analytic embedding cutoff, in
-        Angstroms.
+    :param system: |system| to perform calculations on.
+    :param calculators: The subsystem :class:`Calculators` to perform
+        calculations with.
+    :param embedding_cutoff: |embedding_cutoff|
+    :param options: Options to provide to either of the
+        :class:`SoftwareInterface` objects.
     """
     system: System
     calculators: dict[CalculatorType, StandaloneCalculator]
@@ -84,12 +88,15 @@ class QMMMCalculator(ModifiableCalculator):
         return astuple(results)
 
     def compute_embedding(self) -> tuple[Any, ...]:
-        """Create the embedding list for the current :class:`System`.
+        """Create the embedding list for the current :class:`System`,
+        as well as the corrective Coulomb potential and forces.
 
         The distances from the QM atoms are computed using the centroid
-        of the non-QM molecule from the centroid of the QM atoms.  The
-        legacy method involves computing distances using the first atom
-        position from the non-QM molecule instead.
+        of the non-QM molecule from the centroid of the QM atoms.
+
+        :return: The corrective Coulomb energy and forces for the
+            embedded point charges, and the charge field for the QM
+            calculation.
         """
         # Collect QM atom information.
         qm_atoms = [

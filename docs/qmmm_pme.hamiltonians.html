@@ -39,130 +39,284 @@
 </section>
 <section id="module-qmmm_pme.hamiltonians.hamiltonian">
 <span id="qmmm-pme-hamiltonians-hamiltonian-module"></span><h2>qmmm_pme.hamiltonians.hamiltonian module<a class="headerlink" href="#module-qmmm_pme.hamiltonians.hamiltonian" title="Permalink to this heading">¶</a></h2>
-<p>Base class for constructing a Hamiltonian.</p>
+<p>A module defining the base <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code></a> class and derived
+interface classes.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.hamiltonian.</span></span><span class="sig-name descname"><span class="pre">Hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#Hamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.hamiltonian.</span></span><span class="sig-name descname"><span class="pre">Hamiltonian</span></span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#Hamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<p>The Hamiltonian base class.</p>
-<dl class="field-list simple">
-</dl>
-<dl class="py property">
+<p>An abstract <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code></a> base class for creating the
+Hamiltonian API.</p>
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.atoms">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atoms</span></span><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.atoms" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">atoms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">slice</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.atoms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.build_calculator">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_calculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#Hamiltonian.build_calculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.build_calculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> corresponding to the
+<a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object to calculate energy and forces for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.ModifiableCalculator" title="qmmm_pme.calculators.calculator.ModifiableCalculator">ModifiableCalculator</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.parse_atoms">
+<span class="sig-name descname"><span class="pre">parse_atoms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#Hamiltonian.parse_atoms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.parse_atoms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the indices provided to the <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code></a> object
+to create the list of residue-grouped atom indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object to calculate energy and forces for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>…</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.system_type">
+<span class="sig-name descname"><span class="pre">system_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SystemTypes" title="qmmm_pme.interfaces.interface.SystemTypes"><span class="pre">SystemTypes</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">System.'</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.system_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.hamiltonians.hamiltonian.MMHamiltonianInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.hamiltonian.</span></span><span class="sig-name descname"><span class="pre">MMHamiltonianInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#MMHamiltonianInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.MMHamiltonianInterface" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.hamiltonian.</span></span><span class="sig-name descname"><span class="pre">MMHamiltonianInterface</span></span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#MMHamiltonianInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.MMHamiltonianInterface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code></a></p>
-<p>An interface for the MM Hamiltonian</p>
-<dl class="field-list simple">
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.hamiltonian.PBCHamiltonianInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.hamiltonian.</span></span><span class="sig-name descname"><span class="pre">PBCHamiltonianInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#PBCHamiltonianInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.PBCHamiltonianInterface" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code></a></p>
-<p>An interface for the MM Hamiltonian</p>
-<dl class="field-list simple">
-</dl>
+<p>An interface for the <code class="xref py py-class docutils literal notranslate"><span class="pre">MMHamiltonian</span></code>.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.hamiltonians.hamiltonian.QMHamiltonianInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.hamiltonian.</span></span><span class="sig-name descname"><span class="pre">QMHamiltonianInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#QMHamiltonianInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.QMHamiltonianInterface" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.hamiltonian.</span></span><span class="sig-name descname"><span class="pre">QMHamiltonianInterface</span></span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#QMHamiltonianInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.QMHamiltonianInterface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code></a></p>
-<p>An interface for the MM Hamiltonian</p>
-<dl class="field-list simple">
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianBase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.hamiltonian.</span></span><span class="sig-name descname"><span class="pre">QMMMHamiltonianBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#QMMMHamiltonianBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code></a></p>
-<p>A base class for QM/MM Hamiltonian functionality</p>
-<dl class="field-list simple">
-</dl>
+<p>An interface for the <code class="xref py py-class docutils literal notranslate"><span class="pre">QMHamiltonian</span></code>.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.hamiltonian.</span></span><span class="sig-name descname"><span class="pre">QMMMHamiltonianInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#QMMMHamiltonianInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianInterface" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.hamiltonian.</span></span><span class="sig-name descname"><span class="pre">QMMMHamiltonianInterface</span></span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#QMMMHamiltonianInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianInterface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code></a></p>
-<p>An interface for the MM Hamiltonian</p>
-<dl class="field-list simple">
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.hamiltonian.QMMMPMEHamiltonianInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.hamiltonian.</span></span><span class="sig-name descname"><span class="pre">QMMMPMEHamiltonianInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/hamiltonian.html#QMMMPMEHamiltonianInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.hamiltonian.QMMMPMEHamiltonianInterface" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian" title="qmmm_pme.hamiltonians.hamiltonian.Hamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code></a></p>
-<p>An interface for the MM Hamiltonian</p>
-<dl class="field-list simple">
-</dl>
+<p>An interface for the <code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMHamiltonian</span></code>.</p>
 </dd></dl>
 
 </section>
 <section id="module-qmmm_pme.hamiltonians.mm_hamiltonian">
 <span id="qmmm-pme-hamiltonians-mm-hamiltonian-module"></span><h2>qmmm_pme.hamiltonians.mm_hamiltonian module<a class="headerlink" href="#module-qmmm_pme.hamiltonians.mm_hamiltonian" title="Permalink to this heading">¶</a></h2>
-<p>ASE Calculator to combine QM and MM forces and energies.</p>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian" title="qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMHamiltonian</span></code></a> class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.mm_hamiltonian.</span></span><span class="sig-name descname"><span class="pre">MMHamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonbonded_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PME'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonbonded_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_gridnumber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/mm_hamiltonian.html#MMHamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.mm_hamiltonian.</span></span><span class="sig-name descname"><span class="pre">MMHamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nonbonded_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PME'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonbonded_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_gridnumber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/mm_hamiltonian.html#MMHamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.MMHamiltonianInterface" title="qmmm_pme.hamiltonians.hamiltonian.MMHamiltonianInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMHamiltonianInterface</span></code></a></p>
-<p>A wrapper for the MM.</p>
+<p>A wrapper class to store settings for MM calculations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nonbonded_method</strong> (<em>str</em>) – The MM nonbonded method.</p></li>
+<li><p><strong>nonbonded_cutoff</strong> (<em>float</em><em> | </em><em>int</em>) – The MM nonbonded cutoff.</p></li>
+<li><p><strong>pme_gridnumber</strong> (<em>int</em>) – The number of PME gridpoints to use along each box vector.</p></li>
+<li><p><strong>pme_alpha</strong> (<em>float</em><em> | </em><em>int</em>) – The PME alpha parameter for Gaussian widths, in inverse nanometers.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.build_calculator">
+<span class="sig-name descname"><span class="pre">build_calculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/mm_hamiltonian.html#MMHamiltonian.build_calculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.build_calculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> corresponding to the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object to calculate energy and forces for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.StandaloneCalculator" title="qmmm_pme.calculators.calculator.StandaloneCalculator">StandaloneCalculator</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-</section>
-<section id="module-qmmm_pme.hamiltonians.pbc_hamiltonian">
-<span id="qmmm-pme-hamiltonians-pbc-hamiltonian-module"></span><h2>qmmm_pme.hamiltonians.pbc_hamiltonian module<a class="headerlink" href="#module-qmmm_pme.hamiltonians.pbc_hamiltonian" title="Permalink to this heading">¶</a></h2>
-<p>ASE Calculator to combine QM and MM forces and energies.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.pbc_hamiltonian.PBCHamiltonian">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.pbc_hamiltonian.</span></span><span class="sig-name descname"><span class="pre">PBCHamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/pbc_hamiltonian.html#PBCHamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.pbc_hamiltonian.PBCHamiltonian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.PBCHamiltonianInterface" title="qmmm_pme.hamiltonians.hamiltonian.PBCHamiltonianInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">PBCHamiltonianInterface</span></code></a></p>
-<p>A wrapper for the QM.</p>
-<dl class="field-list simple">
-</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.nonbonded_cutoff">
+<span class="sig-name descname"><span class="pre">nonbonded_cutoff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">14.0</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.nonbonded_cutoff" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.nonbonded_method">
+<span class="sig-name descname"><span class="pre">nonbonded_method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PME'</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.nonbonded_method" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.pme_alpha">
+<span class="sig-name descname"><span class="pre">pme_alpha</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5.0</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.pme_alpha" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.pme_gridnumber">
+<span class="sig-name descname"><span class="pre">pme_gridnumber</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">60</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.pme_gridnumber" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
 <section id="module-qmmm_pme.hamiltonians.qm_hamiltonian">
 <span id="qmmm-pme-hamiltonians-qm-hamiltonian-module"></span><h2>qmmm_pme.hamiltonians.qm_hamiltonian module<a class="headerlink" href="#module-qmmm_pme.hamiltonians.qm_hamiltonian" title="Permalink to this heading">¶</a></h2>
-<p>ASE Calculator to combine QM and MM forces and energies.</p>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian" title="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMHamiltonian</span></code></a> class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.qm_hamiltonian.</span></span><span class="sig-name descname"><span class="pre">QMHamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_spherical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">302</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_radial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scf_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'df'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_energy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/qm_hamiltonian.html#QMHamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.qm_hamiltonian.</span></span><span class="sig-name descname"><span class="pre">QMHamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basis_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_spherical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">302</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_radial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scf_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'df'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_energy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/qm_hamiltonian.html#QMHamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.QMHamiltonianInterface" title="qmmm_pme.hamiltonians.hamiltonian.QMHamiltonianInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMHamiltonianInterface</span></code></a></p>
-<p>A wrapper for the QM.</p>
+<p>A wrapper class to store settings for QM calculations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basis_set</strong> (<em>str</em>) – The basis set to use for QM calculations.</p></li>
+<li><p><strong>functional</strong> (<em>str</em>) – The DFT functional to use for the QM calculations.</p></li>
+<li><p><strong>charge</strong> (<em>int</em>) – The net charge of the QM atoms.</p></li>
+<li><p><strong>spin</strong> (<em>int</em>) – The net spin of the QM atoms.</p></li>
+<li><p><strong>quadrature_spherical</strong> (<em>int</em>) – The number of spherical (angular and azimuthal) points to use in the Lebedev quadrature.</p></li>
+<li><p><strong>quadrature_radial</strong> (<em>int</em>) – The number of radial points to use in the Lebedev quadrature.</p></li>
+<li><p><strong>scf_type</strong> (<em>str</em>) – The type of SCF procedure to perform for QM calculations.</p></li>
+<li><p><strong>read_guess</strong> (<em>bool</em>) – Whether or not read in wavefunction from previous a calculation.  This speeds up calculations.</p></li>
+<li><p><strong>reference_energy</strong> (<em>float</em><em> | </em><em>int</em><em> | </em><em>None</em>) – The base potential energy for QM energies, in Hartree.  This is subtracted from all QM energies.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.basis_set">
+<span class="sig-name descname"><span class="pre">basis_set</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.basis_set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.build_calculator">
+<span class="sig-name descname"><span class="pre">build_calculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/qm_hamiltonian.html#QMHamiltonian.build_calculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.build_calculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> corresponding to the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object to calculate energy and forces for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.StandaloneCalculator" title="qmmm_pme.calculators.calculator.StandaloneCalculator">StandaloneCalculator</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.charge">
+<span class="sig-name descname"><span class="pre">charge</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.charge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.functional">
+<span class="sig-name descname"><span class="pre">functional</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.functional" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.quadrature_radial">
+<span class="sig-name descname"><span class="pre">quadrature_radial</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">75</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.quadrature_radial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.quadrature_spherical">
+<span class="sig-name descname"><span class="pre">quadrature_spherical</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">302</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.quadrature_spherical" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.read_guess">
+<span class="sig-name descname"><span class="pre">read_guess</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.read_guess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.reference_energy">
+<span class="sig-name descname"><span class="pre">reference_energy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.reference_energy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.scf_type">
+<span class="sig-name descname"><span class="pre">scf_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'df'</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.scf_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.spin">
+<span class="sig-name descname"><span class="pre">spin</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.spin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
 <section id="module-qmmm_pme.hamiltonians.qmmm_hamiltonian">
 <span id="qmmm-pme-hamiltonians-qmmm-hamiltonian-module"></span><h2>qmmm_pme.hamiltonians.qmmm_hamiltonian module<a class="headerlink" href="#module-qmmm_pme.hamiltonians.qmmm_hamiltonian" title="Permalink to this heading">¶</a></h2>
-<p>ASE Calculator to combine QM and MM forces and energies.</p>
+<p>A module defining the <a class="reference internal" href="#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian" title="qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMHamiltonian</span></code></a> class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.qmmm_hamiltonian.</span></span><span class="sig-name descname"><span class="pre">QMMMHamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qm_hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mm_hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/qmmm_hamiltonian.html#QMMMHamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianBase" title="qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMHamiltonianBase</span></code></a>, <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianInterface" title="qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMHamiltonianInterface</span></code></a></p>
-<p>A wrapper for the QMMM.</p>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianInterface" title="qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMHamiltonianInterface</span></code></a></p>
+<p>A wrapper class storing settings for QMMM calculations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qm_hamiltonian</strong> (<a class="reference internal" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian" title="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian"><em>QMHamiltonian</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code> object for calculations on the QM
+subsystem.</p></li>
+<li><p><strong>mm_hamiltonian</strong> (<a class="reference internal" href="#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian" title="qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian"><em>MMHamiltonian</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code> object for calculations on the MM
+subsystem.</p></li>
+<li><p><strong>embedding_cutoff</strong> (<em>float</em><em> | </em><em>int</em>) – The electrostatic QM/MM embedding cutoff, in Angstroms.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.build_calculator">
+<span class="sig-name descname"><span class="pre">build_calculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/qmmm_hamiltonian.html#QMMMHamiltonian.build_calculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.build_calculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> corresponding to the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Hamiltonian</span></code> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object to calculate energy and forces for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Calculator</span></code> object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator" title="qmmm_pme.calculators.qmmm_calculator.QMMMCalculator">QMMMCalculator</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-</section>
-<section id="module-qmmm_pme.hamiltonians.qmmm_pme_hamiltonian">
-<span id="qmmm-pme-hamiltonians-qmmm-pme-hamiltonian-module"></span><h2>qmmm_pme.hamiltonians.qmmm_pme_hamiltonian module<a class="headerlink" href="#module-qmmm_pme.hamiltonians.qmmm_pme_hamiltonian" title="Permalink to this heading">¶</a></h2>
-<p>ASE Calculator to combine QM and MM forces and energies.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qmmm_pme_hamiltonian.QMMMPMEHamiltonian">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.hamiltonians.qmmm_pme_hamiltonian.</span></span><span class="sig-name descname"><span class="pre">QMMMPMEHamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qmmm_hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pbc_hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/hamiltonians/qmmm_pme_hamiltonian.html#QMMMPMEHamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.hamiltonians.qmmm_pme_hamiltonian.QMMMPMEHamiltonian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianBase" title="qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMHamiltonianBase</span></code></a>, <a class="reference internal" href="#qmmm_pme.hamiltonians.hamiltonian.QMMMPMEHamiltonianInterface" title="qmmm_pme.hamiltonians.hamiltonian.QMMMPMEHamiltonianInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMPMEHamiltonianInterface</span></code></a></p>
-<p>A wrapper for the QMMM.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.embedding_cutoff">
+<span class="sig-name descname"><span class="pre">embedding_cutoff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">14.0</span></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.embedding_cutoff" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.mm_hamiltonian">
+<span class="sig-name descname"><span class="pre">mm_hamiltonian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian" title="qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian"><span class="pre">MMHamiltonian</span></a></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.mm_hamiltonian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.qm_hamiltonian">
+<span class="sig-name descname"><span class="pre">qm_hamiltonian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian" title="qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian"><span class="pre">QMHamiltonian</span></a></em><a class="headerlink" href="#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.qm_hamiltonian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>

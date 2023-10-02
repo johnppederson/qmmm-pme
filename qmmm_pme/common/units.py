@@ -1,5 +1,7 @@
 #! /usr/bin/env python3
 """A module containing unit conversions and constants.
+
+.. warning:: This module may be deprecated in the near future.
 """
 from __future__ import annotations
 

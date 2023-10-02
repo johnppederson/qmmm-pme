@@ -45,7 +45,14 @@ SOFTWARE_TYPE = SoftwareTypes.MM
 
 @dataclass(frozen=True)
 class OpenMMInterface(SoftwareInterface):
-    """A class which wraps the functional components of OpenMM.
+    """A :class:`SoftwareInterface` class which wraps the functional
+    components of OpenMM.
+
+    :param pdb: The OpenMM PDBFile object for the interface.
+    :param modeller: The OpenMM Modeller object for the interface.
+    :param forcefield: The OpenMM ForceField object for the interface.
+    :param system: The OpenMM System object for the interface.
+    :param context: The OpenMM Context object for the interface.
     """
     pdb: PDBFile
     modeller: Modeller
@@ -54,8 +61,10 @@ class OpenMMInterface(SoftwareInterface):
     context: Context
 
     def _generate_state(self, **kwargs: bool | set[int]) -> State:
-        """Create the OpenMM State which is used to compute energies
-        and forces.
+        """Create the OpenMM State object which is used to compute
+        energies and forces.
+
+        :return: The current OpenMM State object.
         """
         state = self.context.getState(
             **kwargs,
@@ -80,10 +89,6 @@ class OpenMMInterface(SoftwareInterface):
             self,
             **kwargs: bool,
     ) -> dict[str, float]:
-        """Calculate the components of the energy.
-
-        :return: The individual contributions to the energy.
-        """
         components = {}
         for force in self.system.getForces():
             key = type(force).__name__.replace("Force", "Energy")
@@ -97,18 +102,12 @@ class OpenMMInterface(SoftwareInterface):
         return components
 
     def compute_pme_potential(self, **kwargs: bool) -> Any:
-        """Creates the PME potential grid.
-
-        :return: The PME potential grid calculated by OpenMM.
-
-        .. warning:: Requires investigation of return type.
-        """
         state = self._generate_state(getVext_grids=True, **kwargs)
         pme_potential = np.array(state.getVext_grid())
         return pme_potential
 
     def update_charges(self, charges: NDArray[np.float64]) -> None:
-        """Update the particle charges for OpenMM.
+        """Update the atom charges for OpenMM.
 
         :param charges: |charges|
         """
@@ -123,7 +122,7 @@ class OpenMMInterface(SoftwareInterface):
             force.updateParametersInContext(self.context)
 
     def update_positions(self, positions: NDArray[np.float64]) -> None:
-        """Update the particle positions for OpenMM.
+        """Update the atom positions for OpenMM.
 
         :param positions: |positions|
         """
@@ -149,8 +148,6 @@ class OpenMMInterface(SoftwareInterface):
     def get_state_notifiers(
             self,
     ) -> dict[str, Callable[[NDArray[np.float64]], None]]:
-        """
-        """
         notifiers = {
             "charges": self.update_charges,
             "positions": self.update_positions,
@@ -161,14 +158,17 @@ class OpenMMInterface(SoftwareInterface):
     def get_topology_notifiers(
             self,
     ) -> dict[str, Callable[..., None]]:
-        """
-        """
         notifiers: dict[str, Callable[..., None]] = {}
         return notifiers
 
 
 def openmm_system_factory(settings: MMSettings) -> OpenMMInterface:
-    """A function which constructs the :class:`OpenMMInterface`.
+    """A function which constructs the :class:`OpenMMInterface` for a
+    standalone MM system.
+
+    :param settings: The :class:`MMSettings` object to build the
+        standalone MM system interface from.
+    :return: The :class:`OpenMMInterface` for the standalone MM system.
     """
     pdb, modeller, forcefield, system = _build_base(settings)
     context = _build_context(settings, system, modeller)
@@ -177,7 +177,12 @@ def openmm_system_factory(settings: MMSettings) -> OpenMMInterface:
 
 
 def openmm_subsystem_factory(settings: MMSettings) -> OpenMMInterface:
-    """A function which constructs the :class:`OpenMMInterface`.
+    """A function which constructs the :class:`OpenMMInterface` for an
+    MM subsystem of a QM/MM supersystem.
+
+    :param settings: The :class:`MMSettings` object to build the
+        MM subsystem interface from.
+    :return: The :class:`OpenMMInterface` for the MM subsystem.
     """
     pdb, modeller, forcefield, system = _build_base(settings)
     _exclude_qm_atoms(settings, system)
@@ -187,7 +192,13 @@ def openmm_subsystem_factory(settings: MMSettings) -> OpenMMInterface:
 
 
 def openmm_embedding_factory(settings: MMSettings) -> OpenMMInterface:
-    """A function which constructs the :class:`OpenMMInterface`.
+    """A function which constructs the :class:`OpenMMInterface` for a
+    mechanical embedding subsystem of a QM/MM supersystem.
+
+    :param settings: The :class:`MMSettings` object to build the
+        mechanical embedding subsystem interface from.
+    :return: The :class:`OpenMMInterface` for the mechanical embedding
+        subsystem.
     """
     pdb, modeller, forcefield, system = _build_base(settings)
     _exclude_non_embedding(settings, pdb, system)
@@ -199,6 +210,13 @@ def openmm_embedding_factory(settings: MMSettings) -> OpenMMInterface:
 def _build_base(
         settings: MMSettings,
 ) -> tuple[PDBFile, Modeller, ForceField, System]:
+    """Build the common OpenMM PDBFile, Modeller, ForceField, and System
+    objects.
+
+    :param settings: The :class:`MMSettings` object to build from.
+    :return: The OpenMM PDBFile, Modeller, ForceField, and System
+        objects built from the given settings.
+    """
     pdb = _build_pdb(settings)
     modeller = _build_modeller(pdb)
     forcefield = _build_forcefield(settings, modeller)
@@ -208,7 +226,10 @@ def _build_base(
 
 
 def _build_pdb(settings: MMSettings) -> PDBFile:
-    """
+    """Build the OpenMM PDBFile object.
+
+    :param settings: The :class:`MMSettings` object to build from.
+    :return: The OpenMM PDBFile object built from the given settings.
     """
     # for xml in files.topology_list:
     #    Topology().loadBondDefinitions(xml)
@@ -220,14 +241,22 @@ def _build_pdb(settings: MMSettings) -> PDBFile:
 
 
 def _build_modeller(pdb: PDBFile) -> Modeller:
-    """
+    """Build the OpenMM Modeller object.
+
+    :param pdb: The OpenMM PDBFile object to build from.
+    :return: The OpenMM Modeller object built from the given pdb.
     """
     modeller = Modeller(pdb.topology, pdb.positions)
     return modeller
 
 
-def _build_forcefield(settings: MMSettings, modeller: Modeller) -> Modeller:
-    """
+def _build_forcefield(settings: MMSettings, modeller: Modeller) -> ForceField:
+    """Build the OpenMM ForceField object.
+
+    :param settings: The :class:`MMSettings` object to build from.
+    :param modeller: The OpenMM Modeller object to build from.
+    :return: The OpenMM ForceField object built from the given settings
+        and modeller.
     """
     forcefield = ForceField(*settings.system.files.forcefield_list())
     modeller.addExtraParticles(forcefield)
@@ -237,7 +266,13 @@ def _build_forcefield(settings: MMSettings, modeller: Modeller) -> Modeller:
 def _build_system(
         settings: MMSettings, forcefield: ForceField, modeller: Modeller,
 ) -> System:
-    """
+    """Build the OpenMM System object.
+
+    :param settings: The :class:`MMSettings` object to build from.
+    :param forcefield: The OpenMM ForceField object to build from.
+    :param modeller: The OpenMM Modeller object to build from.
+    :return: The OpenMM System object built from the given settings,
+        forcefield, and modeller.
     """
     system = forcefield.createSystem(
         modeller.topology,
@@ -248,7 +283,10 @@ def _build_system(
 
 
 def _adjust_forces(settings: MMSettings, system: System) -> None:
-    """Generate OpenMM non-bonded forces.
+    """Adjust the OpenMM Nonbonded forces.
+
+    :param settings: The :class:`MMSettings` object to adjust with.
+    :param system: The OpenMM System object to adjust.
     """
     for i, force in enumerate(system.getForces()):
         force.setForceGroup(i)
@@ -272,7 +310,13 @@ def _adjust_forces(settings: MMSettings, system: System) -> None:
 def _build_context(
         settings: MMSettings, system: System, modeller: Modeller,
 ) -> Context:
-    """
+    """Build the OpenMM Context object.
+
+    :param settings: The :class:`MMSettings` object to build from.
+    :param system: The OpenMM System object to build from.
+    :param modeller: The OpenMM Modeller object to build from.
+    :return: The OpenMM System object built from the given settings,
+        system, and modeller.
     """
     integrator = LangevinIntegrator(
         settings.temperature * kelvin,
@@ -287,6 +331,10 @@ def _build_context(
 
 def _exclude_qm_atoms(settings: MMSettings, system: System) -> None:
     """Generate OpenMM Force exclusions for the QM atoms.
+
+    :param settings: The :class:`MMSettings` object to make exclusions
+        with.
+    :param system: The OpenMM System object to make exclusions on.
     """
     # Remove double-counted intramolecular interactions for QM atoms.
     qm_atoms = {
@@ -300,7 +348,12 @@ def _exclude_qm_atoms(settings: MMSettings, system: System) -> None:
 
 
 def _exclude_harmonic_bond(system: System, atoms: set[int]) -> None:
-    """
+    """Generate OpenMM HarmonicBondForce exclusions for a given set of
+    atoms.
+
+    :param system: The OpenMM System object to make exclusions on.
+    :param atoms: The atoms to exlcude from HarmonicBondForce
+        calculations.
     """
     harmonic_bond_forces = [
         force for force in system.getForces()
@@ -315,7 +368,12 @@ def _exclude_harmonic_bond(system: System, atoms: set[int]) -> None:
 
 
 def _exclude_harmonic_angle(system: System, atoms: set[int]) -> None:
-    """
+    """Generate OpenMM HarmonicAngleForce exclusions for a given set of
+    atoms.
+
+    :param system: The OpenMM System object to make exclusions on.
+    :param atoms: The atoms to exlcude from HarmonicAngleForce
+        calculations.
     """
     harmonic_angle_forces = [
         force for force in system.getForces()
@@ -330,7 +388,12 @@ def _exclude_harmonic_angle(system: System, atoms: set[int]) -> None:
 
 
 def _exclude_periodic_torsion(system: System, atoms: set[int]) -> None:
-    """
+    """Generate OpenMM PeriodicTorsionForce exclusions for a given set
+    of atoms.
+
+    :param system: The OpenMM System object to make exclusions on.
+    :param atoms: The atoms to exlcude from PeriodicTorsionForce
+        calculations.
     """
     periodic_torsion_forces = [
         force for force in system.getForces()
@@ -345,7 +408,12 @@ def _exclude_periodic_torsion(system: System, atoms: set[int]) -> None:
 
 
 def _exclude_rb_torsion(system: System, atoms: set[int]) -> None:
-    """
+    """Generate OpenMM RBTorsionForce exclusions for a given set of
+    atoms.
+
+    :param system: The OpenMM System object to make exclusions on.
+    :param atoms: The atoms to exlcude from RBTorsionForce
+        calculations.
     """
     rb_torsion_forces = [
         force for force in system.getForces()
@@ -367,8 +435,12 @@ def _exclude_rb_torsion(system: System, atoms: set[int]) -> None:
 def _exclude_non_embedding(
         settings: MMSettings, pdb: PDBFile, system: System,
 ) -> None:
-    """Create additional OpenMM System with mechanical embedding
-    forces.
+    """Generate OpenMM exclusions for mechanical embedding.
+
+    :param settings: The :class:`MMSettings` object to make exclusions
+        with.
+    :param pdb: The OpenMM PDBFile object to make exclusions with.
+    :param system: The OpenMM System object to make exclusions on.
     """
     nonbonded_forces = [
         force for force in system.getForces()

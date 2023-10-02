@@ -34,25 +34,25 @@
   <h1>Source code for qmmm_pme.plugins.settle.settle</h1><div class="highlight"><pre>
 <span></span><span class="ch">#! /usr/bin/env python3</span>
 <span class="sd">&quot;&quot;&quot;A module defining the pluggable implementation of the SETTLE</span>
-<span class="sd">algorithm for the QM/MM/PME repository.</span>
+<span class="sd">algorithm for the |package| repository.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
-<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Jesse McDaniel, John Pederson&quot;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
-<span class="kn">from</span> <span class="nn">qmmm_pme.plugins.plugin</span> <span class="kn">import</span> <span class="n">Plugin</span>
 
-<span class="kn">from</span> <span class="nn">.settle_utils</span> <span class="kn">import</span> <span class="n">settle_positions</span><span class="p">,</span> <span class="n">settle_velocities</span>
+<span class="kn">from</span> <span class="nn">.settle_utils</span> <span class="kn">import</span> <span class="n">settle_positions</span>
+<span class="kn">from</span> <span class="nn">.settle_utils</span> <span class="kn">import</span> <span class="n">settle_velocities</span>
+<span class="kn">from</span> <span class="nn">qmmm_pme.plugins.plugin</span> <span class="kn">import</span> <span class="n">IntegratorPlugin</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">qmmm_pme.integrators.integrator</span> <span class="kn">import</span> <span class="n">Integrator</span>
+    <span class="kn">from</span> <span class="nn">qmmm_pme.integrators.integrator</span> <span class="kn">import</span> <span class="n">ModifiableIntegrator</span>
 
 
-<div class="viewcode-block" id="SETTLE"><a class="viewcode-back" href="../../../../qmmm_pme.plugins.settle.html#qmmm_pme.plugins.settle.settle.SETTLE">[docs]</a><span class="k">class</span> <span class="nc">SETTLE</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="viewcode-block" id="SETTLE"><a class="viewcode-back" href="../../../../qmmm_pme.plugins.settle.html#qmmm_pme.plugins.settle.settle.SETTLE">[docs]</a><span class="k">class</span> <span class="nc">SETTLE</span><span class="p">(</span><span class="n">IntegratorPlugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A :class:`Plugin` which implements the SETTLE algorithm for</span>
 <span class="sd">    positions and velocities.</span>
 
@@ -66,33 +66,25 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">oh_distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span>
-            <span class="n">hh_distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mf">1.632981</span><span class="p">,</span>
-            <span class="n">hoh_residue</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;HOH&quot;</span><span class="p">,</span>
+            <span class="n">oh_distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span>
+            <span class="n">hh_distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mf">1.632981</span><span class="p">,</span>
+            <span class="n">hoh_residue</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;HOH&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">oh_distance</span> <span class="o">=</span> <span class="n">oh_distance</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hh_distance</span> <span class="o">=</span> <span class="n">hh_distance</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hoh_residue</span> <span class="o">=</span> <span class="n">hoh_residue</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;integrator&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="SETTLE.modify"><a class="viewcode-back" href="../../../../qmmm_pme.plugins.settle.html#qmmm_pme.plugins.settle.settle.SETTLE.modify">[docs]</a>    <span class="k">def</span> <span class="nf">modify</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">integrator</span><span class="p">:</span> <span class="n">Integrator</span><span class="p">,</span>
+            <span class="n">integrator</span><span class="p">:</span> <span class="n">ModifiableIntegrator</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform necessary modifications to the :class:`Integrator`</span>
-<span class="sd">        object.</span>
-
-<span class="sd">        :param integrator: The integrator to modify with the SETTLE</span>
-<span class="sd">            functionality.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_modifieds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">integrator</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">integrator</span><span class="o">.</span><span class="n">_state</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_topology</span> <span class="o">=</span> <span class="n">integrator</span><span class="o">.</span><span class="n">_topology</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_modifieds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">integrator</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">system</span> <span class="o">=</span> <span class="n">integrator</span><span class="o">.</span><span class="n">system</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="n">integrator</span><span class="o">.</span><span class="n">timestep</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">residues</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">res</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res</span>
-            <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_topology</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s2">&quot;mm_atom&quot;</span><span class="p">])</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_topology</span><span class="o">.</span><span class="n">residues</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">hoh_residue</span>
+            <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">mm_atoms</span><span class="p">())</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">residue_names</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">hoh_residue</span>
         <span class="p">]</span>
         <span class="n">integrator</span><span class="o">.</span><span class="n">integrate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modify_integrate</span><span class="p">(</span><span class="n">integrator</span><span class="o">.</span><span class="n">integrate</span><span class="p">)</span>
         <span class="n">integrator</span><span class="o">.</span><span class="n">compute_velocities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modify_compute_velocities</span><span class="p">(</span>
@@ -104,25 +96,33 @@
 
     <span class="k">def</span> <span class="nf">_modify_integrate</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">integrate</span><span class="p">:</span>
-                <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]],</span>
+            <span class="n">integrate</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span>
+                <span class="p">[],</span> <span class="nb">tuple</span><span class="p">[</span>
+                    <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+                <span class="p">],</span>
+            <span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Modify the integrate call in the :class:`Integrator` to</span>
+<span class="sd">        hold H-O and H-H distances constant for water residues.</span>
+
+<span class="sd">        :param integrate: The default integrate method of the</span>
+<span class="sd">            :class:`Integrator`.</span>
+<span class="sd">        :return: The modified integrate method.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+        <span class="k">def</span> <span class="nf">inner</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]:</span>
             <span class="n">positions</span><span class="p">,</span> <span class="n">velocities</span> <span class="o">=</span> <span class="n">integrate</span><span class="p">()</span>
             <span class="n">positions</span> <span class="o">=</span> <span class="n">settle_positions</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">residues</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">positions</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">positions</span><span class="p">(),</span>
                 <span class="n">positions</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">masses</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">masses</span><span class="p">(),</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">oh_distance</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">hh_distance</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">velocities</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">residues</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="p">(</span>
                     <span class="n">positions</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">residues</span><span class="p">,</span> <span class="p">:]</span>
-                    <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">residues</span><span class="p">,</span> <span class="p">:]</span>
+                    <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">positions</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">residues</span><span class="p">,</span> <span class="p">:]</span>
                 <span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">positions</span><span class="p">,</span> <span class="n">velocities</span>
@@ -132,15 +132,20 @@
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">compute_velocities</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Modify the compute_velocities call in the :class:`Integrator`</span>
+<span class="sd">        to keep water residues rigid.</span>
+
+<span class="sd">        :param compute_velocities: The default compute_velocities method</span>
+<span class="sd">            of the :class:`Integrator`.</span>
+<span class="sd">        :return: The modified compute_velocities method.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+        <span class="k">def</span> <span class="nf">inner</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
             <span class="n">velocities</span> <span class="o">=</span> <span class="n">compute_velocities</span><span class="p">()</span>
             <span class="n">velocities</span> <span class="o">=</span> <span class="n">settle_velocities</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">residues</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">positions</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">positions</span><span class="p">(),</span>
                 <span class="n">velocities</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">masses</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">masses</span><span class="p">(),</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">velocities</span>
         <span class="k">return</span> <span class="n">inner</span>
@@ -149,22 +154,28 @@
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">compute_kinetic_energy</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">float</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Modify the compute_kinetic_energy call in the</span>
+<span class="sd">        :class:`Integrator` to keep water residues rigid when evaluating</span>
+<span class="sd">        velocities.</span>
+
+<span class="sd">        :param compute_kinetic_energy: The default</span>
+<span class="sd">            compute_kinetic_energy method of the :class:`Integrator`.</span>
+<span class="sd">        :return: The modified compute_kinetic_energy method.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
-            <span class="n">masses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">masses</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">inner</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="n">masses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">masses</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">velocities</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">velocities</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">velocities</span><span class="p">()</span>
                 <span class="o">+</span> <span class="p">(</span>
                     <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">timestep</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">forces</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">4</span><span class="p">)</span><span class="o">/</span><span class="n">masses</span>
+                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">forces</span><span class="p">()</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">4</span><span class="p">)</span><span class="o">/</span><span class="n">masses</span>
                 <span class="p">)</span>
             <span class="p">)</span>
             <span class="n">velocities</span> <span class="o">=</span> <span class="n">settle_velocities</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">residues</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">positions</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">positions</span><span class="p">(),</span>
                 <span class="n">velocities</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">masses</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">masses</span><span class="p">(),</span>
             <span class="p">)</span>
             <span class="n">kinetic_energy</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">masses</span><span class="o">*</span><span class="p">(</span><span class="n">velocities</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>

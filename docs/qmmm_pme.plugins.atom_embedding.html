@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>qmmm_pme.plugins.atom_embedding package &#8212; QM/MM/PME 0.1.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+          <div class="body" role="main">
+
+  <section id="qmmm-pme-plugins-atom-embedding-package">
+<h1>qmmm_pme.plugins.atom_embedding package<a class="headerlink" href="#qmmm-pme-plugins-atom-embedding-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-qmmm_pme.plugins.atom_embedding.atom_embedding">
+<span id="qmmm-pme-plugins-atom-embedding-atom-embedding-module"></span><h2>qmmm_pme.plugins.atom_embedding.atom_embedding module<a class="headerlink" href="#module-qmmm_pme.plugins.atom_embedding.atom_embedding" title="Permalink to this heading">¶</a></h2>
+<p>A module defining the pluggable implementation of the atom-wise
+embedding algorithm for the QM/MM/PME repository.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.plugins.atom_embedding.atom_embedding.AtomEmbedding">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.plugins.atom_embedding.atom_embedding.</span></span><span class="sig-name descname"><span class="pre">AtomEmbedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom_embedding_residues</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/plugins/atom_embedding/atom_embedding.html#AtomEmbedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.atom_embedding.atom_embedding.AtomEmbedding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.QMMMCalculatorPlugin" title="qmmm_pme.plugins.plugin.QMMMCalculatorPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculatorPlugin</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code> which implements atom-by-atom embedding for
+a given set of molecules in a <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>atom_embedding_residues</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The names of residues on which to
+apply atom-by-atom electrostatic embedding.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.plugins.atom_embedding.atom_embedding.AtomEmbedding.modify">
+<span class="sig-name descname"><span class="pre">modify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calculator</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/plugins/atom_embedding/atom_embedding.html#AtomEmbedding.modify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.atom_embedding.atom_embedding.AtomEmbedding.modify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify the functionality of a <code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculator</span></code>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>calculator</strong> (<a class="reference internal" href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator" title="qmmm_pme.calculators.qmmm_calculator.QMMMCalculator"><em>QMMMCalculator</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculator</span></code> object to modify
+with the <code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.plugins.atom_embedding">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qmmm_pme.plugins.atom_embedding" title="Permalink to this heading">¶</a></h2>
+<p>A sub-package for performing atom-by-atom embedding during a QM/MM
+calculations</p>
+</section>
+</section>
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">QM/MM/PME</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, John P. Pederson, Jesse G. McDaniel.
+
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+      |
+      <a href="_sources/qmmm_pme.plugins.atom_embedding.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+
+
+
+  </body>
+</html>

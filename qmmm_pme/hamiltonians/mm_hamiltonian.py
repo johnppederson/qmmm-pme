@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
-"""
-ASE Calculator to combine QM and MM forces and energies.
+"""A module defining the :class:`MMHamiltonian` class.
 """
 from __future__ import annotations
 
@@ -22,9 +21,12 @@ if TYPE_CHECKING:
 
 @dataclass
 class MMHamiltonian(MMHamiltonianInterface):
-    """A wrapper for the MM.
+    """A wrapper class to store settings for MM calculations.
 
-    :param nonbonded_method:
+    :param nonbonded_method: |nonbonded_method|
+    :param nonbonded_cutoff: |nonbonded_cutoff|
+    :param pme_gridnumber: |pme_gridnumber|
+    :param pme_alpha: |pme_alpha|
     """
     nonbonded_method: str = "PME"
     nonbonded_cutoff: float | int = 14.

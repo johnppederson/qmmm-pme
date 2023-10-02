@@ -4,14 +4,6 @@ qmmm\_pme.common package
 Submodules
 ----------
 
-qmmm\_pme.common.core module
-----------------------------
-
-.. automodule:: qmmm_pme.common.core
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 qmmm\_pme.common.file\_manager module
 -------------------------------------
 

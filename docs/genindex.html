@@ -44,6 +44,7 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -61,16 +62,26 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.common.html#qmmm_pme.common.core.Core.active_plugins">active_plugins() (qmmm_pme.common.core.Core method)</a>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.ModifiableCalculator.active_plugins">active_plugins() (qmmm_pme.calculators.calculator.ModifiableCalculator method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.ModifiableIntegrator.active_plugins">(qmmm_pme.integrators.integrator.ModifiableIntegrator method)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology.ae_atoms">ae_atoms (qmmm_pme.records.topology.Topology attribute)</a>
 </li>
       <li><a href="qmmm_pme.common.html#qmmm_pme.common.utils.align_dict">align_dict() (in module qmmm_pme.common.utils)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.atoms">atoms (qmmm_pme.hamiltonians.hamiltonian.Hamiltonian property)</a>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology.atom_names">atom_names (qmmm_pme.records.topology.Topology attribute)</a>
+</li>
+      <li><a href="qmmm_pme.plugins.atom_embedding.html#qmmm_pme.plugins.atom_embedding.atom_embedding.AtomEmbedding">AtomEmbedding (class in qmmm_pme.plugins.atom_embedding.atom_embedding)</a>
+</li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.atoms">atoms (qmmm_pme.hamiltonians.hamiltonian.Hamiltonian attribute)</a>
 
       <ul>
-        <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology.atoms">(qmmm_pme.records.topology.Topology property)</a>
+        <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology.atoms">(qmmm_pme.records.topology.Topology attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -79,60 +90,128 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.box">box (qmmm_pme.records.state.State property)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Options.basis">basis (qmmm_pme.interfaces.psi4_interface.Psi4Options attribute)</a>
 </li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.basis_set">basis_set (qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.QMSettings.basis_set">(qmmm_pme.interfaces.interface.QMSettings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.box">box (qmmm_pme.records.state.State attribute)</a>
+</li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.build_calculator">build_calculator() (qmmm_pme.hamiltonians.hamiltonian.Hamiltonian method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.build_calculator">(qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian method)</a>
+</li>
+        <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.build_calculator">(qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian method)</a>
+</li>
+        <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.build_calculator">(qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Dynamics.build_integrator">build_integrator() (qmmm_pme.dynamics.dynamics.Dynamics method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Langevin.build_integrator">(qmmm_pme.dynamics.dynamics.Langevin method)</a>
+</li>
+        <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.VelocityVerlet.build_integrator">(qmmm_pme.dynamics.dynamics.VelocityVerlet method)</a>
+</li>
+        <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Verlet.build_integrator">(qmmm_pme.dynamics.dynamics.Verlet method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.Calculator.calculate">calculate() (qmmm_pme.calculators.calculator.Calculator method)</a>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.ModifiableCalculator.calculate">calculate() (qmmm_pme.calculators.calculator.ModifiableCalculator method)</a>
 
       <ul>
-        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.mm_calculator.MMCalculator.calculate">(qmmm_pme.calculators.mm_calculator.MMCalculator method)</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator.calculate">(qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator method)</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.pbc_calculator.PBCCalculator.calculate">(qmmm_pme.calculators.pbc_calculator.PBCCalculator method)</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qm_calculator.QMCalculator.calculate">(qmmm_pme.calculators.qm_calculator.QMCalculator method)</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator.calculate">(qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator method)</a>
+        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.StandaloneCalculator.calculate">(qmmm_pme.calculators.calculator.StandaloneCalculator method)</a>
 </li>
         <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.calculate">(qmmm_pme.calculators.qmmm_calculator.QMMMCalculator method)</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_pme_calculator.QMMMPMECalculator.calculate">(qmmm_pme.calculators.qmmm_pme_calculator.QMMMPMECalculator method)</a>
 </li>
       </ul></li>
       <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.calculate_energy_forces">calculate_energy_forces() (qmmm_pme.wrappers.simulation.Simulation method)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.Calculator">Calculator (class in qmmm_pme.calculators.calculator)</a>
+      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.calculate_forces">calculate_forces() (qmmm_pme.wrappers.simulation.Simulation method)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator_factory.calculator_factory">calculator_factory() (in module qmmm_pme.calculators.calculator_factory)</a>
+      <li><a href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.CalculatorPlugin">CalculatorPlugin (class in qmmm_pme.plugins.plugin)</a>
 </li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.calculators">calculators (qmmm_pme.calculators.qmmm_calculator.QMMMCalculator attribute)</a>
+</li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.CalculatorType">CalculatorType (class in qmmm_pme.calculators.calculator)</a>
+</li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.charge">charge (qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.QMSettings.charge">(qmmm_pme.interfaces.interface.QMSettings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.charges">charges (qmmm_pme.records.state.State attribute)</a>
+</li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.Results.components">components (qmmm_pme.calculators.calculator.Results attribute)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SoftwareInterface.compute_components">compute_components() (qmmm_pme.interfaces.interface.SoftwareInterface method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_components">(qmmm_pme.interfaces.openmm_interface.OpenMMInterface method)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_components">(qmmm_pme.interfaces.psi4_interface.Psi4Interface method)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.compute_embedding">compute_embedding() (qmmm_pme.calculators.qmmm_calculator.QMMMCalculator method)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SoftwareInterface.compute_energy">compute_energy() (qmmm_pme.interfaces.interface.SoftwareInterface method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_energy">(qmmm_pme.interfaces.openmm_interface.OpenMMInterface method)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_energy">(qmmm_pme.interfaces.psi4_interface.Psi4Interface method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator.charge_field">charge_field (qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator attribute)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SoftwareInterface.compute_forces">compute_forces() (qmmm_pme.interfaces.interface.SoftwareInterface method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_forces">(qmmm_pme.interfaces.openmm_interface.OpenMMInterface method)</a>
 </li>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.charges">charges (qmmm_pme.records.state.State property)</a>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_forces">(qmmm_pme.interfaces.psi4_interface.Psi4Interface method)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.compute_correction_energy">compute_correction_energy() (qmmm_pme.calculators.qmmm_calculator.QMMMCalculator method)</a>
-</li>
+      </ul></li>
       <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.Integrator.compute_kinetic_energy">compute_kinetic_energy() (qmmm_pme.integrators.integrator.Integrator method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.ModifiableIntegrator.compute_kinetic_energy">(qmmm_pme.integrators.integrator.ModifiableIntegrator method)</a>
 </li>
+      </ul></li>
       <li><a href="qmmm_pme.common.html#qmmm_pme.common.utils.compute_lattice_constants">compute_lattice_constants() (in module qmmm_pme.common.utils)</a>
 </li>
       <li><a href="qmmm_pme.common.html#qmmm_pme.common.utils.compute_least_mirror">compute_least_mirror() (in module qmmm_pme.common.utils)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.mm_pme_calculator.MMPMECalculator.compute_pme_potential">compute_pme_potential() (qmmm_pme.calculators.mm_pme_calculator.MMPMECalculator method)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_pme_potential">compute_pme_potential() (qmmm_pme.interfaces.openmm_interface.OpenMMInterface method)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qm_pme_calculator.QMPMECalculator.compute_quadrature">compute_quadrature() (qmmm_pme.calculators.qm_pme_calculator.QMPMECalculator method)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_quadrature">compute_quadrature() (qmmm_pme.interfaces.psi4_interface.Psi4Interface method)</a>
 </li>
       <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.Integrator.compute_velocities">compute_velocities() (qmmm_pme.integrators.integrator.Integrator method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.ModifiableIntegrator.compute_velocities">(qmmm_pme.integrators.integrator.ModifiableIntegrator method)</a>
 </li>
-      <li><a href="qmmm_pme.common.html#qmmm_pme.common.core.Core">Core (class in qmmm_pme.common.core)</a>
+      </ul></li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.context">context (qmmm_pme.interfaces.openmm_interface.OpenMMInterface attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.context">(qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface attribute)</a>
 </li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.context">(qmmm_pme.interfaces.psi4_interface.Psi4Interface attribute)</a>
+</li>
+      </ul></li>
       <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.logger.Logger.csv_write_interval">csv_write_interval (qmmm_pme.wrappers.logger.Logger attribute)</a>
 </li>
   </ul></td>
@@ -143,9 +222,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.logger.Logger.dcd_write_interval">dcd_write_interval (qmmm_pme.wrappers.logger.Logger attribute)</a>
 </li>
+      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.logger.Logger.decimal_places">decimal_places (qmmm_pme.wrappers.logger.Logger attribute)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Options.dft_radial_points">dft_radial_points (qmmm_pme.interfaces.psi4_interface.Psi4Options attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.logger.Logger.decimal_places">decimal_places (qmmm_pme.wrappers.logger.Logger attribute)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Options.dft_spherical_points">dft_spherical_points (qmmm_pme.interfaces.psi4_interface.Psi4Options attribute)</a>
+</li>
+      <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Dynamics">Dynamics (class in qmmm_pme.dynamics.dynamics)</a>
+</li>
+      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.dynamics">dynamics (qmmm_pme.wrappers.simulation.Simulation attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -153,13 +240,27 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology.elements">elements (qmmm_pme.records.topology.Topology property)</a>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology.elements">elements (qmmm_pme.records.topology.Topology attribute)</a>
 </li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SystemTypes.EMBEDDING">EMBEDDING (qmmm_pme.interfaces.interface.SystemTypes attribute)</a>
+</li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.embedding_cutoff">embedding_cutoff (qmmm_pme.calculators.qmmm_calculator.QMMMCalculator attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.embedding_cutoff">(qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qmmm_pme.common.html#qmmm_pme.common.file_manager.FileManager.end_log">end_log() (qmmm_pme.common.file_manager.FileManager method)</a>
 </li>
-      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.energy">energy (qmmm_pme.wrappers.simulation.Simulation attribute)</a>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.Results.energy">energy (qmmm_pme.calculators.calculator.Results attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.energy">(qmmm_pme.wrappers.simulation.Simulation attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Reference.exchange_correlation">exchange_correlation (qmmm_pme.interfaces.psi4_interface.Psi4Reference attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -171,22 +272,70 @@
 </li>
       <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files">Files (class in qmmm_pme.records.files)</a>
 </li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.FilesVariable">FilesVariable (class in qmmm_pme.records.files)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.forcefield">forcefield (qmmm_pme.interfaces.openmm_interface.OpenMMInterface attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.forcefield">(qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.forcefield_list">forcefield_list (qmmm_pme.records.files.Files attribute)</a>
+</li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.Results.forces">forces (qmmm_pme.calculators.calculator.Results attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.forces">(qmmm_pme.records.state.State attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.forcefield_list">forcefield_list (qmmm_pme.records.files.Files property)</a>
+      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.frame">frame (qmmm_pme.wrappers.simulation.Simulation attribute)</a>
 </li>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.forces">forces (qmmm_pme.records.state.State property)</a>
+      <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Langevin.friction">friction (qmmm_pme.dynamics.dynamics.Langevin attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.langevin_integrator.LangevinIntegrator.friction">(qmmm_pme.integrators.langevin_integrator.LangevinIntegrator attribute)</a>
 </li>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.frame">frame (qmmm_pme.records.state.State property)</a>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.MMSettings.friction">(qmmm_pme.interfaces.interface.MMSettings attribute)</a>
 </li>
+      </ul></li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.functional">functional (qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.QMSettings.functional">(qmmm_pme.interfaces.interface.QMSettings attribute)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.functional">(qmmm_pme.interfaces.psi4_interface.Psi4Interface attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology.groups">groups (qmmm_pme.records.topology.Topology property)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Context.generate_molecule">generate_molecule() (qmmm_pme.interfaces.psi4_interface.Psi4Context method)</a>
 </li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface_manager.get_software_factories">get_software_factories() (in module qmmm_pme.interfaces.interface_manager)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SoftwareInterface.get_state_notifiers">get_state_notifiers() (qmmm_pme.interfaces.interface.SoftwareInterface method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.get_state_notifiers">(qmmm_pme.interfaces.openmm_interface.OpenMMInterface method)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.get_state_notifiers">(qmmm_pme.interfaces.psi4_interface.Psi4Interface method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SoftwareInterface.get_topology_notifiers">get_topology_notifiers() (qmmm_pme.interfaces.interface.SoftwareInterface method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.get_topology_notifiers">(qmmm_pme.interfaces.openmm_interface.OpenMMInterface method)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.get_topology_notifiers">(qmmm_pme.interfaces.psi4_interface.Psi4Interface method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -197,7 +346,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.hamiltonian">hamiltonian (qmmm_pme.wrappers.simulation.Simulation property)</a>
+      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.hamiltonian">hamiltonian (qmmm_pme.wrappers.simulation.Simulation attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -205,19 +354,33 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.input_json">input_json (qmmm_pme.records.files.Files property)</a>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.input_json">input_json (qmmm_pme.records.files.Files attribute)</a>
 </li>
-      <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.Integrator.integrate">integrate() (qmmm_pme.integrators.integrator.Integrator method)</a>
+      <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.ModifiableIntegrator.integrate">integrate() (qmmm_pme.integrators.integrator.ModifiableIntegrator method)</a>
 
       <ul>
-        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.langevin.Langevin.integrate">(qmmm_pme.integrators.langevin.Langevin method)</a>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.langevin_integrator.LangevinIntegrator.integrate">(qmmm_pme.integrators.langevin_integrator.LangevinIntegrator method)</a>
 </li>
-        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.velocity_verlet.VelocityVerlet.integrate">(qmmm_pme.integrators.velocity_verlet.VelocityVerlet method)</a>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.integrate">(qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator method)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.verlet_integrator.VerletIntegrator.integrate">(qmmm_pme.integrators.verlet_integrator.VerletIntegrator method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.Integrator">Integrator (class in qmmm_pme.integrators.integrator)</a>
+</li>
+      <li><a href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.IntegratorPlugin">IntegratorPlugin (class in qmmm_pme.plugins.plugin)</a>
+</li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.StandaloneCalculator.interface">interface (qmmm_pme.calculators.calculator.StandaloneCalculator attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Reference.kinetic">kinetic (qmmm_pme.interfaces.psi4_interface.Psi4Reference attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -225,7 +388,9 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.langevin.Langevin">Langevin (class in qmmm_pme.integrators.langevin)</a>
+      <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Langevin">Langevin (class in qmmm_pme.dynamics.dynamics)</a>
+</li>
+      <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.langevin_integrator.LangevinIntegrator">LangevinIntegrator (class in qmmm_pme.integrators.langevin_integrator)</a>
 </li>
       <li><a href="qmmm_pme.common.html#qmmm_pme.common.file_manager.FileManager.load">load() (qmmm_pme.common.file_manager.FileManager method)</a>
 </li>
@@ -235,27 +400,61 @@
 </li>
       <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.logger.Logger">Logger (class in qmmm_pme.wrappers.logger)</a>
 </li>
+      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.logger">logger (qmmm_pme.wrappers.simulation.Simulation attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.masses">masses (qmmm_pme.records.state.State property)</a>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.masses">masses (qmmm_pme.records.state.State attribute)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.mm_calculator.MMCalculator">MMCalculator (class in qmmm_pme.calculators.mm_calculator)</a>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.CalculatorType.ME">ME (qmmm_pme.calculators.calculator.CalculatorType attribute)</a>
+</li>
+      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.memory">memory (qmmm_pme.wrappers.simulation.Simulation attribute)</a>
+</li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.CalculatorType.MM">MM (qmmm_pme.calculators.calculator.CalculatorType attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SoftwareTypes.MM">(qmmm_pme.interfaces.interface.SoftwareTypes attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology.mm_atoms">mm_atoms (qmmm_pme.records.topology.Topology attribute)</a>
+</li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.mm_hamiltonian">mm_hamiltonian (qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian attribute)</a>
 </li>
       <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian">MMHamiltonian (class in qmmm_pme.hamiltonians.mm_hamiltonian)</a>
 </li>
       <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.MMHamiltonianInterface">MMHamiltonianInterface (class in qmmm_pme.hamiltonians.hamiltonian)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.mm_pme_calculator.MMPMECalculator">MMPMECalculator (class in qmmm_pme.calculators.mm_pme_calculator)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.MMSettings">MMSettings (class in qmmm_pme.interfaces.interface)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.mm_qmmm_calculator.MMQMMMCalculator">MMQMMMCalculator (class in qmmm_pme.calculators.mm_qmmm_calculator)</a>
-</li>
-      <li><a href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.Plugin.modify">modify() (qmmm_pme.plugins.plugin.Plugin method)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.modeller">modeller (qmmm_pme.interfaces.openmm_interface.OpenMMInterface attribute)</a>
 
       <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.modeller">(qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.ModifiableCalculator">ModifiableCalculator (class in qmmm_pme.calculators.calculator)</a>
+</li>
+      <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.ModifiableIntegrator">ModifiableIntegrator (class in qmmm_pme.integrators.integrator)</a>
+</li>
+      <li><a href="qmmm_pme.plugins.atom_embedding.html#qmmm_pme.plugins.atom_embedding.atom_embedding.AtomEmbedding.modify">modify() (qmmm_pme.plugins.atom_embedding.atom_embedding.AtomEmbedding method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.CalculatorPlugin.modify">(qmmm_pme.plugins.plugin.CalculatorPlugin method)</a>
+</li>
+        <li><a href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.IntegratorPlugin.modify">(qmmm_pme.plugins.plugin.IntegratorPlugin method)</a>
+</li>
+        <li><a href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.QMMMCalculatorPlugin.modify">(qmmm_pme.plugins.plugin.QMMMCalculatorPlugin method)</a>
+</li>
+        <li><a href="qmmm_pme.plugins.pme.html#qmmm_pme.plugins.pme.pme.PME.modify">(qmmm_pme.plugins.pme.pme.PME method)</a>
+</li>
+        <li><a href="qmmm_pme.plugins.rigid.html#qmmm_pme.plugins.rigid.rigid.RigidBody.modify">(qmmm_pme.plugins.rigid.rigid.RigidBody method)</a>
+</li>
+        <li><a href="qmmm_pme.plugins.rigid.html#qmmm_pme.plugins.rigid.rigid.Stationary.modify">(qmmm_pme.plugins.rigid.rigid.Stationary method)</a>
+</li>
         <li><a href="qmmm_pme.plugins.settle.html#qmmm_pme.plugins.settle.settle.SETTLE.modify">(qmmm_pme.plugins.settle.settle.SETTLE method)</a>
 </li>
       </ul></li>
@@ -269,29 +468,9 @@
 </li>
         <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.calculator">qmmm_pme.calculators.calculator</a>
 </li>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.calculator_factory">qmmm_pme.calculators.calculator_factory</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.mm_calculator">qmmm_pme.calculators.mm_calculator</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.mm_pme_calculator">qmmm_pme.calculators.mm_pme_calculator</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.mm_qmmm_calculator">qmmm_pme.calculators.mm_qmmm_calculator</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.pbc_calculator">qmmm_pme.calculators.pbc_calculator</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.qm_calculator">qmmm_pme.calculators.qm_calculator</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.qm_pme_calculator">qmmm_pme.calculators.qm_pme_calculator</a>
-</li>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.qm_qmmm_calculator">qmmm_pme.calculators.qm_qmmm_calculator</a>
-</li>
         <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.qmmm_calculator">qmmm_pme.calculators.qmmm_calculator</a>
 </li>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.qmmm_pme_calculator">qmmm_pme.calculators.qmmm_pme_calculator</a>
-</li>
         <li><a href="qmmm_pme.common.html#module-qmmm_pme.common">qmmm_pme.common</a>
-</li>
-        <li><a href="qmmm_pme.common.html#module-qmmm_pme.common.core">qmmm_pme.common.core</a>
 </li>
         <li><a href="qmmm_pme.common.html#module-qmmm_pme.common.file_manager">qmmm_pme.common.file_manager</a>
 </li>
@@ -299,31 +478,61 @@
 </li>
         <li><a href="qmmm_pme.common.html#module-qmmm_pme.common.utils">qmmm_pme.common.utils</a>
 </li>
+        <li><a href="qmmm_pme.dynamics.html#module-qmmm_pme.dynamics">qmmm_pme.dynamics</a>
+</li>
+        <li><a href="qmmm_pme.dynamics.html#module-qmmm_pme.dynamics.dynamics">qmmm_pme.dynamics.dynamics</a>
+</li>
         <li><a href="qmmm_pme.hamiltonians.html#module-qmmm_pme.hamiltonians">qmmm_pme.hamiltonians</a>
 </li>
         <li><a href="qmmm_pme.hamiltonians.html#module-qmmm_pme.hamiltonians.hamiltonian">qmmm_pme.hamiltonians.hamiltonian</a>
 </li>
         <li><a href="qmmm_pme.hamiltonians.html#module-qmmm_pme.hamiltonians.mm_hamiltonian">qmmm_pme.hamiltonians.mm_hamiltonian</a>
 </li>
-        <li><a href="qmmm_pme.hamiltonians.html#module-qmmm_pme.hamiltonians.pbc_hamiltonian">qmmm_pme.hamiltonians.pbc_hamiltonian</a>
-</li>
         <li><a href="qmmm_pme.hamiltonians.html#module-qmmm_pme.hamiltonians.qm_hamiltonian">qmmm_pme.hamiltonians.qm_hamiltonian</a>
 </li>
         <li><a href="qmmm_pme.hamiltonians.html#module-qmmm_pme.hamiltonians.qmmm_hamiltonian">qmmm_pme.hamiltonians.qmmm_hamiltonian</a>
-</li>
-        <li><a href="qmmm_pme.hamiltonians.html#module-qmmm_pme.hamiltonians.qmmm_pme_hamiltonian">qmmm_pme.hamiltonians.qmmm_pme_hamiltonian</a>
 </li>
         <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators">qmmm_pme.integrators</a>
 </li>
         <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators.integrator">qmmm_pme.integrators.integrator</a>
 </li>
-        <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators.langevin">qmmm_pme.integrators.langevin</a>
+        <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators.langevin_integrator">qmmm_pme.integrators.langevin_integrator</a>
 </li>
-        <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators.velocity_verlet">qmmm_pme.integrators.velocity_verlet</a>
+        <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators.velocity_verlet_integrator">qmmm_pme.integrators.velocity_verlet_integrator</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators.verlet_integrator">qmmm_pme.integrators.verlet_integrator</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces">qmmm_pme.interfaces</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces.interface">qmmm_pme.interfaces.interface</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces.interface_manager">qmmm_pme.interfaces.interface_manager</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces.openmm_interface">qmmm_pme.interfaces.openmm_interface</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces.pme_openmm_interface">qmmm_pme.interfaces.pme_openmm_interface</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces.psi4_interface">qmmm_pme.interfaces.psi4_interface</a>
 </li>
         <li><a href="qmmm_pme.plugins.html#module-qmmm_pme.plugins">qmmm_pme.plugins</a>
 </li>
+        <li><a href="qmmm_pme.plugins.atom_embedding.html#module-qmmm_pme.plugins.atom_embedding">qmmm_pme.plugins.atom_embedding</a>
+</li>
+        <li><a href="qmmm_pme.plugins.atom_embedding.html#module-qmmm_pme.plugins.atom_embedding.atom_embedding">qmmm_pme.plugins.atom_embedding.atom_embedding</a>
+</li>
         <li><a href="qmmm_pme.plugins.html#module-qmmm_pme.plugins.plugin">qmmm_pme.plugins.plugin</a>
+</li>
+        <li><a href="qmmm_pme.plugins.pme.html#module-qmmm_pme.plugins.pme">qmmm_pme.plugins.pme</a>
+</li>
+        <li><a href="qmmm_pme.plugins.pme.html#module-qmmm_pme.plugins.pme.pme">qmmm_pme.plugins.pme.pme</a>
+</li>
+        <li><a href="qmmm_pme.plugins.pme.html#module-qmmm_pme.plugins.pme.pme_utils">qmmm_pme.plugins.pme.pme_utils</a>
+</li>
+        <li><a href="qmmm_pme.plugins.rigid.html#module-qmmm_pme.plugins.rigid">qmmm_pme.plugins.rigid</a>
+</li>
+        <li><a href="qmmm_pme.plugins.rigid.html#module-qmmm_pme.plugins.rigid.rigid">qmmm_pme.plugins.rigid.rigid</a>
+</li>
+        <li><a href="qmmm_pme.plugins.rigid.html#module-qmmm_pme.plugins.rigid.rigid_utils">qmmm_pme.plugins.rigid.rigid_utils</a>
 </li>
         <li><a href="qmmm_pme.plugins.settle.html#module-qmmm_pme.plugins.settle">qmmm_pme.plugins.settle</a>
 </li>
@@ -334,8 +543,6 @@
         <li><a href="qmmm_pme.records.html#module-qmmm_pme.records">qmmm_pme.records</a>
 </li>
         <li><a href="qmmm_pme.records.html#module-qmmm_pme.records.files">qmmm_pme.records.files</a>
-</li>
-        <li><a href="qmmm_pme.records.html#module-qmmm_pme.records.namespace">qmmm_pme.records.namespace</a>
 </li>
         <li><a href="qmmm_pme.records.html#module-qmmm_pme.records.record">qmmm_pme.records.record</a>
 </li>
@@ -354,7 +561,7 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.momenta">momenta (qmmm_pme.records.state.State property)</a>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.momenta">momenta (qmmm_pme.records.state.State attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -362,11 +569,27 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.namespace.Namespace">Namespace (class in qmmm_pme.records.namespace)</a>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.NameVariable">NameVariable (class in qmmm_pme.records.topology)</a>
 </li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.nonbonded_cutoff">nonbonded_cutoff (qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.MMSettings.nonbonded_cutoff">(qmmm_pme.interfaces.interface.MMSettings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.nonbonded_method">nonbonded_method (qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.MMSettings.nonbonded_method">(qmmm_pme.interfaces.interface.MMSettings attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Reference.nuclear_repulsion">nuclear_repulsion (qmmm_pme.interfaces.psi4_interface.Psi4Reference attribute)</a>
+</li>
       <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.logger.NullLogger">NullLogger (class in qmmm_pme.wrappers.logger)</a>
+</li>
+      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.num_threads">num_threads (qmmm_pme.wrappers.simulation.Simulation attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -374,17 +597,27 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.output_csv">output_csv (qmmm_pme.records.files.Files property)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Reference.one_electron">one_electron (qmmm_pme.interfaces.psi4_interface.Psi4Reference attribute)</a>
 </li>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.output_dcd">output_dcd (qmmm_pme.records.files.Files property)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.openmm_embedding_factory">openmm_embedding_factory() (in module qmmm_pme.interfaces.openmm_interface)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.openmm_subsystem_factory">openmm_subsystem_factory() (in module qmmm_pme.interfaces.openmm_interface)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.openmm_system_factory">openmm_system_factory() (in module qmmm_pme.interfaces.openmm_interface)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface">OpenMMInterface (class in qmmm_pme.interfaces.openmm_interface)</a>
+</li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.StandaloneCalculator.options">options (qmmm_pme.calculators.calculator.StandaloneCalculator attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.options">(qmmm_pme.calculators.qmmm_calculator.QMMMCalculator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.options">(qmmm_pme.interfaces.psi4_interface.Psi4Interface attribute)</a>
+</li>
+      </ul></li>
       <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.logger.Logger.output_directory">output_directory (qmmm_pme.wrappers.logger.Logger attribute)</a>
-</li>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.output_log">output_log (qmmm_pme.records.files.Files property)</a>
-</li>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.output_pdb">output_pdb (qmmm_pme.records.files.Files property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -392,23 +625,61 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.pbc_calculator.PBCCalculator">PBCCalculator (class in qmmm_pme.calculators.pbc_calculator)</a>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.parse_atoms">parse_atoms() (qmmm_pme.hamiltonians.hamiltonian.Hamiltonian method)</a>
 </li>
-      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.pbc_hamiltonian.PBCHamiltonian">PBCHamiltonian (class in qmmm_pme.hamiltonians.pbc_hamiltonian)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.pdb">pdb (qmmm_pme.interfaces.openmm_interface.OpenMMInterface attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.pdb">(qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface attribute)</a>
 </li>
-      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.PBCHamiltonianInterface">PBCHamiltonianInterface (class in qmmm_pme.hamiltonians.hamiltonian)</a>
+      </ul></li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.pdb_list">pdb_list (qmmm_pme.records.files.Files attribute)</a>
 </li>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.pdb_list">pdb_list (qmmm_pme.records.files.Files property)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.Plugin">Plugin (class in qmmm_pme.plugins.plugin)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.pbc_calculator.PBCCalculator.pme_potential">pme_potential (qmmm_pme.calculators.pbc_calculator.PBCCalculator attribute)</a>
+      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.plugins">plugins (qmmm_pme.wrappers.simulation.Simulation attribute)</a>
 </li>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.positions">positions (qmmm_pme.records.state.State property)</a>
+      <li><a href="qmmm_pme.plugins.pme.html#qmmm_pme.plugins.pme.pme.PME">PME (class in qmmm_pme.plugins.pme.pme)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.pbc_calculator.PBCCalculator.project_to_grid">project_to_grid() (qmmm_pme.calculators.pbc_calculator.PBCCalculator method)</a>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.pme_alpha">pme_alpha (qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.MMSettings.pme_alpha">(qmmm_pme.interfaces.interface.MMSettings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.plugins.pme.html#qmmm_pme.plugins.pme.pme_utils.pme_components">pme_components() (in module qmmm_pme.plugins.pme.pme_utils)</a>
+</li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian.pme_gridnumber">pme_gridnumber (qmmm_pme.hamiltonians.mm_hamiltonian.MMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.MMSettings.pme_gridnumber">(qmmm_pme.interfaces.interface.MMSettings attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.pme_openmm_interface.pme_openmm_embedding_factory">pme_openmm_embedding_factory() (in module qmmm_pme.interfaces.pme_openmm_interface)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.pme_openmm_interface.pme_openmm_subsystem_factory">pme_openmm_subsystem_factory() (in module qmmm_pme.interfaces.pme_openmm_interface)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.pme_openmm_interface.pme_openmm_system_factory">pme_openmm_system_factory() (in module qmmm_pme.interfaces.pme_openmm_interface)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface">PMEOpenMMInterface (class in qmmm_pme.interfaces.pme_openmm_interface)</a>
+</li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.positions">positions (qmmm_pme.records.state.State attribute)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Reference.potential">potential (qmmm_pme.interfaces.psi4_interface.Psi4Reference attribute)</a>
+</li>
+      <li><a href="qmmm_pme.plugins.pme.html#qmmm_pme.plugins.pme.pme_utils.project_to_grid">project_to_grid() (in module qmmm_pme.plugins.pme.pme_utils)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.psi4_system_factory">psi4_system_factory() (in module qmmm_pme.interfaces.psi4_interface)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Context">Psi4Context (class in qmmm_pme.interfaces.psi4_interface)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface">Psi4Interface (class in qmmm_pme.interfaces.psi4_interface)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Options">Psi4Options (class in qmmm_pme.interfaces.psi4_interface)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Reference">Psi4Reference (class in qmmm_pme.interfaces.psi4_interface)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -416,7 +687,15 @@
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qm_calculator.QMCalculator">QMCalculator (class in qmmm_pme.calculators.qm_calculator)</a>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.CalculatorType.QM">QM (qmmm_pme.calculators.calculator.CalculatorType attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SoftwareTypes.QM">(qmmm_pme.interfaces.interface.SoftwareTypes attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology.qm_atoms">qm_atoms (qmmm_pme.records.topology.Topology attribute)</a>
+</li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian.qm_hamiltonian">qm_hamiltonian (qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian attribute)</a>
 </li>
       <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian">QMHamiltonian (class in qmmm_pme.hamiltonians.qm_hamiltonian)</a>
 </li>
@@ -444,62 +723,6 @@
 </li>
       </ul></li>
       <li>
-    qmmm_pme.calculators.calculator_factory
-
-      <ul>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.calculator_factory">module</a>
-</li>
-      </ul></li>
-      <li>
-    qmmm_pme.calculators.mm_calculator
-
-      <ul>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.mm_calculator">module</a>
-</li>
-      </ul></li>
-      <li>
-    qmmm_pme.calculators.mm_pme_calculator
-
-      <ul>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.mm_pme_calculator">module</a>
-</li>
-      </ul></li>
-      <li>
-    qmmm_pme.calculators.mm_qmmm_calculator
-
-      <ul>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.mm_qmmm_calculator">module</a>
-</li>
-      </ul></li>
-      <li>
-    qmmm_pme.calculators.pbc_calculator
-
-      <ul>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.pbc_calculator">module</a>
-</li>
-      </ul></li>
-      <li>
-    qmmm_pme.calculators.qm_calculator
-
-      <ul>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.qm_calculator">module</a>
-</li>
-      </ul></li>
-      <li>
-    qmmm_pme.calculators.qm_pme_calculator
-
-      <ul>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.qm_pme_calculator">module</a>
-</li>
-      </ul></li>
-      <li>
-    qmmm_pme.calculators.qm_qmmm_calculator
-
-      <ul>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.qm_qmmm_calculator">module</a>
-</li>
-      </ul></li>
-      <li>
     qmmm_pme.calculators.qmmm_calculator
 
       <ul>
@@ -507,24 +730,10 @@
 </li>
       </ul></li>
       <li>
-    qmmm_pme.calculators.qmmm_pme_calculator
-
-      <ul>
-        <li><a href="qmmm_pme.calculators.html#module-qmmm_pme.calculators.qmmm_pme_calculator">module</a>
-</li>
-      </ul></li>
-      <li>
     qmmm_pme.common
 
       <ul>
         <li><a href="qmmm_pme.common.html#module-qmmm_pme.common">module</a>
-</li>
-      </ul></li>
-      <li>
-    qmmm_pme.common.core
-
-      <ul>
-        <li><a href="qmmm_pme.common.html#module-qmmm_pme.common.core">module</a>
 </li>
       </ul></li>
       <li>
@@ -549,6 +758,20 @@
 </li>
       </ul></li>
       <li>
+    qmmm_pme.dynamics
+
+      <ul>
+        <li><a href="qmmm_pme.dynamics.html#module-qmmm_pme.dynamics">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.dynamics.dynamics
+
+      <ul>
+        <li><a href="qmmm_pme.dynamics.html#module-qmmm_pme.dynamics.dynamics">module</a>
+</li>
+      </ul></li>
+      <li>
     qmmm_pme.hamiltonians
 
       <ul>
@@ -570,13 +793,6 @@
 </li>
       </ul></li>
       <li>
-    qmmm_pme.hamiltonians.pbc_hamiltonian
-
-      <ul>
-        <li><a href="qmmm_pme.hamiltonians.html#module-qmmm_pme.hamiltonians.pbc_hamiltonian">module</a>
-</li>
-      </ul></li>
-      <li>
     qmmm_pme.hamiltonians.qm_hamiltonian
 
       <ul>
@@ -588,15 +804,6 @@
 
       <ul>
         <li><a href="qmmm_pme.hamiltonians.html#module-qmmm_pme.hamiltonians.qmmm_hamiltonian">module</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    qmmm_pme.hamiltonians.qmmm_pme_hamiltonian
-
-      <ul>
-        <li><a href="qmmm_pme.hamiltonians.html#module-qmmm_pme.hamiltonians.qmmm_pme_hamiltonian">module</a>
 </li>
       </ul></li>
       <li>
@@ -614,17 +821,68 @@
 </li>
       </ul></li>
       <li>
-    qmmm_pme.integrators.langevin
+    qmmm_pme.integrators.langevin_integrator
 
       <ul>
-        <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators.langevin">module</a>
+        <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators.langevin_integrator">module</a>
 </li>
       </ul></li>
       <li>
-    qmmm_pme.integrators.velocity_verlet
+    qmmm_pme.integrators.velocity_verlet_integrator
 
       <ul>
-        <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators.velocity_verlet">module</a>
+        <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators.velocity_verlet_integrator">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.integrators.verlet_integrator
+
+      <ul>
+        <li><a href="qmmm_pme.integrators.html#module-qmmm_pme.integrators.verlet_integrator">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.interfaces
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.interfaces.interface
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces.interface">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.interfaces.interface_manager
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces.interface_manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.interfaces.openmm_interface
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces.openmm_interface">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.interfaces.pme_openmm_interface
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces.pme_openmm_interface">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    qmmm_pme.interfaces.psi4_interface
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#module-qmmm_pme.interfaces.psi4_interface">module</a>
 </li>
       </ul></li>
       <li>
@@ -635,10 +893,66 @@
 </li>
       </ul></li>
       <li>
+    qmmm_pme.plugins.atom_embedding
+
+      <ul>
+        <li><a href="qmmm_pme.plugins.atom_embedding.html#module-qmmm_pme.plugins.atom_embedding">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.plugins.atom_embedding.atom_embedding
+
+      <ul>
+        <li><a href="qmmm_pme.plugins.atom_embedding.html#module-qmmm_pme.plugins.atom_embedding.atom_embedding">module</a>
+</li>
+      </ul></li>
+      <li>
     qmmm_pme.plugins.plugin
 
       <ul>
         <li><a href="qmmm_pme.plugins.html#module-qmmm_pme.plugins.plugin">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.plugins.pme
+
+      <ul>
+        <li><a href="qmmm_pme.plugins.pme.html#module-qmmm_pme.plugins.pme">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.plugins.pme.pme
+
+      <ul>
+        <li><a href="qmmm_pme.plugins.pme.html#module-qmmm_pme.plugins.pme.pme">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.plugins.pme.pme_utils
+
+      <ul>
+        <li><a href="qmmm_pme.plugins.pme.html#module-qmmm_pme.plugins.pme.pme_utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.plugins.rigid
+
+      <ul>
+        <li><a href="qmmm_pme.plugins.rigid.html#module-qmmm_pme.plugins.rigid">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.plugins.rigid.rigid
+
+      <ul>
+        <li><a href="qmmm_pme.plugins.rigid.html#module-qmmm_pme.plugins.rigid.rigid">module</a>
+</li>
+      </ul></li>
+      <li>
+    qmmm_pme.plugins.rigid.rigid_utils
+
+      <ul>
+        <li><a href="qmmm_pme.plugins.rigid.html#module-qmmm_pme.plugins.rigid.rigid_utils">module</a>
 </li>
       </ul></li>
       <li>
@@ -674,13 +988,6 @@
 
       <ul>
         <li><a href="qmmm_pme.records.html#module-qmmm_pme.records.files">module</a>
-</li>
-      </ul></li>
-      <li>
-    qmmm_pme.records.namespace
-
-      <ul>
-        <li><a href="qmmm_pme.records.html#module-qmmm_pme.records.namespace">module</a>
 </li>
       </ul></li>
       <li>
@@ -734,30 +1041,38 @@
       </ul></li>
       <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator">QMMMCalculator (class in qmmm_pme.calculators.qmmm_calculator)</a>
 </li>
-      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian">QMMMHamiltonian (class in qmmm_pme.hamiltonians.qmmm_hamiltonian)</a>
+      <li><a href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.QMMMCalculatorPlugin">QMMMCalculatorPlugin (class in qmmm_pme.plugins.plugin)</a>
 </li>
-      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianBase">QMMMHamiltonianBase (class in qmmm_pme.hamiltonians.hamiltonian)</a>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qmmm_hamiltonian.QMMMHamiltonian">QMMMHamiltonian (class in qmmm_pme.hamiltonians.qmmm_hamiltonian)</a>
 </li>
       <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.QMMMHamiltonianInterface">QMMMHamiltonianInterface (class in qmmm_pme.hamiltonians.hamiltonian)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_pme_calculator.QMMMPMECalculator">QMMMPMECalculator (class in qmmm_pme.calculators.qmmm_pme_calculator)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.QMSettings">QMSettings (class in qmmm_pme.interfaces.interface)</a>
 </li>
-      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qmmm_pme_hamiltonian.QMMMPMEHamiltonian">QMMMPMEHamiltonian (class in qmmm_pme.hamiltonians.qmmm_pme_hamiltonian)</a>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.quadrature_radial">quadrature_radial (qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.QMSettings.quadrature_radial">(qmmm_pme.interfaces.interface.QMSettings attribute)</a>
 </li>
-      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.QMMMPMEHamiltonianInterface">QMMMPMEHamiltonianInterface (class in qmmm_pme.hamiltonians.hamiltonian)</a>
+      </ul></li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.quadrature_spherical">quadrature_spherical (qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.QMSettings.quadrature_spherical">(qmmm_pme.interfaces.interface.QMSettings attribute)</a>
 </li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qm_pme_calculator.QMPMECalculator">QMPMECalculator (class in qmmm_pme.calculators.qm_pme_calculator)</a>
-</li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qm_qmmm_calculator.QMQMMMCalculator">QMQMMMCalculator (class in qmmm_pme.calculators.qm_qmmm_calculator)</a>
-</li>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.pbc_calculator.PBCCalculator.quadrature">quadrature (qmmm_pme.calculators.pbc_calculator.PBCCalculator attribute)</a>
-</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.read_guess">read_guess (qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.QMSettings.read_guess">(qmmm_pme.interfaces.interface.QMSettings attribute)</a>
+</li>
+      </ul></li>
       <li><a href="qmmm_pme.records.html#qmmm_pme.records.record.Record">Record (class in qmmm_pme.records.record)</a>
 </li>
       <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.logger.Logger.record">record() (qmmm_pme.wrappers.logger.Logger method)</a>
@@ -766,15 +1081,31 @@
         <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.logger.NullLogger.record">(qmmm_pme.wrappers.logger.NullLogger method)</a>
 </li>
       </ul></li>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.record.recordclass">recordclass() (in module qmmm_pme.records.record)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.reference">reference (qmmm_pme.interfaces.psi4_interface.Psi4Interface attribute)</a>
 </li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.reference_energy">reference_energy (qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.QMSettings.reference_energy">(qmmm_pme.interfaces.interface.QMSettings attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.common.html#qmmm_pme.common.core.Core.register_plugin">register_plugin() (qmmm_pme.common.core.Core method)</a>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.record.Variable.register_notifier">register_notifier() (qmmm_pme.records.record.Variable method)</a>
 </li>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.record.Record.registry">registry (qmmm_pme.records.record.Record property)</a>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.ModifiableCalculator.register_plugin">register_plugin() (qmmm_pme.calculators.calculator.ModifiableCalculator method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.ModifiableIntegrator.register_plugin">(qmmm_pme.integrators.integrator.ModifiableIntegrator method)</a>
 </li>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology.residues">residues (qmmm_pme.records.topology.Topology property)</a>
+      </ul></li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology.residue_names">residue_names (qmmm_pme.records.topology.Topology attribute)</a>
+</li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.ResidueVariable">ResidueVariable (class in qmmm_pme.records.topology)</a>
+</li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.Results">Results (class in qmmm_pme.calculators.calculator)</a>
+</li>
+      <li><a href="qmmm_pme.plugins.rigid.html#qmmm_pme.plugins.rigid.rigid.RigidBody">RigidBody (class in qmmm_pme.plugins.rigid.rigid)</a>
 </li>
       <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.run_dynamics">run_dynamics() (qmmm_pme.wrappers.simulation.Simulation method)</a>
 </li>
@@ -784,6 +1115,18 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Options.scf__guess">scf__guess (qmmm_pme.interfaces.psi4_interface.Psi4Options attribute)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Options.scf__reference">scf__reference (qmmm_pme.interfaces.psi4_interface.Psi4Options attribute)</a>
+</li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.scf_type">scf_type (qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.QMSettings.scf_type">(qmmm_pme.interfaces.interface.QMSettings attribute)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Options.scf_type">(qmmm_pme.interfaces.psi4_interface.Psi4Options attribute)</a>
+</li>
+      </ul></li>
       <li><a href="qmmm_pme.plugins.settle.html#qmmm_pme.plugins.settle.settle.SETTLE">SETTLE (class in qmmm_pme.plugins.settle.settle)</a>
 </li>
       <li><a href="qmmm_pme.plugins.settle.html#qmmm_pme.plugins.settle.settle_utils.settle_positions">settle_positions() (in module qmmm_pme.plugins.settle.settle_utils)</a>
@@ -792,19 +1135,73 @@
 </li>
       <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation">Simulation (class in qmmm_pme.wrappers.simulation)</a>
 </li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SoftwareInterface">SoftwareInterface (class in qmmm_pme.interfaces.interface)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SoftwareSettings">SoftwareSettings (class in qmmm_pme.interfaces.interface)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SoftwareTypes">SoftwareTypes (class in qmmm_pme.interfaces.interface)</a>
+</li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian.spin">spin (qmmm_pme.hamiltonians.qm_hamiltonian.QMHamiltonian attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.QMSettings.spin">(qmmm_pme.interfaces.interface.QMSettings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.StandaloneCalculator">StandaloneCalculator (class in qmmm_pme.calculators.calculator)</a>
+</li>
       <li><a href="qmmm_pme.common.html#qmmm_pme.common.file_manager.FileManager.start_csv">start_csv() (qmmm_pme.common.file_manager.FileManager method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qmmm_pme.common.html#qmmm_pme.common.file_manager.FileManager.start_dcd">start_dcd() (qmmm_pme.common.file_manager.FileManager method)</a>
 </li>
       <li><a href="qmmm_pme.common.html#qmmm_pme.common.file_manager.FileManager.start_log">start_log() (qmmm_pme.common.file_manager.FileManager method)</a>
 </li>
       <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State">State (class in qmmm_pme.records.state)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.StateVariable">StateVariable (class in qmmm_pme.records.state)</a>
+</li>
+      <li><a href="qmmm_pme.plugins.rigid.html#qmmm_pme.plugins.rigid.rigid.Stationary">Stationary (class in qmmm_pme.plugins.rigid.rigid)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SystemTypes.SUBSYSTEM">SUBSYSTEM (qmmm_pme.interfaces.interface.SystemTypes attribute)</a>
+</li>
       <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System">System (class in qmmm_pme.wrappers.system)</a>
 </li>
-      <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.logger.Logger.system">system (qmmm_pme.wrappers.logger.Logger attribute)</a>
+      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.ModifiableCalculator.system">system (qmmm_pme.calculators.calculator.ModifiableCalculator attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.StandaloneCalculator.system">(qmmm_pme.calculators.calculator.StandaloneCalculator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.system">(qmmm_pme.calculators.qmmm_calculator.QMMMCalculator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.Integrator.system">(qmmm_pme.integrators.integrator.Integrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.ModifiableIntegrator.system">(qmmm_pme.integrators.integrator.ModifiableIntegrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.system">(qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.verlet_integrator.VerletIntegrator.system">(qmmm_pme.integrators.verlet_integrator.VerletIntegrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.MMSettings.system">(qmmm_pme.interfaces.interface.MMSettings attribute)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.QMSettings.system">(qmmm_pme.interfaces.interface.QMSettings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SystemTypes.SYSTEM">SYSTEM (qmmm_pme.interfaces.interface.SystemTypes attribute)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.system">system (qmmm_pme.interfaces.openmm_interface.OpenMMInterface attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.system">(qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface attribute)</a>
+</li>
+        <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.logger.Logger.system">(qmmm_pme.wrappers.logger.Logger attribute)</a>
+</li>
+        <li><a href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.simulation.Simulation.system">(qmmm_pme.wrappers.simulation.Simulation attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.hamiltonians.html#qmmm_pme.hamiltonians.hamiltonian.Hamiltonian.system_type">system_type (qmmm_pme.hamiltonians.hamiltonian.Hamiltonian attribute)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.SystemTypes">SystemTypes (class in qmmm_pme.interfaces.interface)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -812,11 +1209,47 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology">Topology (class in qmmm_pme.records.topology)</a>
+      <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Langevin.temperature">temperature (qmmm_pme.dynamics.dynamics.Langevin attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.VelocityVerlet.temperature">(qmmm_pme.dynamics.dynamics.VelocityVerlet attribute)</a>
 </li>
+        <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Verlet.temperature">(qmmm_pme.dynamics.dynamics.Verlet attribute)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.Integrator.temperature">(qmmm_pme.integrators.integrator.Integrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.ModifiableIntegrator.temperature">(qmmm_pme.integrators.integrator.ModifiableIntegrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.temperature">(qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.verlet_integrator.VerletIntegrator.temperature">(qmmm_pme.integrators.verlet_integrator.VerletIntegrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.MMSettings.temperature">(qmmm_pme.interfaces.interface.MMSettings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Dynamics.timestep">timestep (qmmm_pme.dynamics.dynamics.Dynamics attribute)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.Integrator.timestep">(qmmm_pme.integrators.integrator.Integrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.ModifiableIntegrator.timestep">(qmmm_pme.integrators.integrator.ModifiableIntegrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator.timestep">(qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.verlet_integrator.VerletIntegrator.timestep">(qmmm_pme.integrators.verlet_integrator.VerletIntegrator attribute)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.interface.MMSettings.timestep">(qmmm_pme.interfaces.interface.MMSettings attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.topology_list">topology_list (qmmm_pme.records.files.Files property)</a>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.Topology">Topology (class in qmmm_pme.records.topology)</a>
+</li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.Files.topology_list">topology_list (qmmm_pme.records.files.Files attribute)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Reference.total">total (qmmm_pme.interfaces.psi4_interface.Psi4Reference attribute)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Reference.two_electron">two_electron (qmmm_pme.interfaces.psi4_interface.Psi4Reference attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -824,18 +1257,38 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.calculator.Calculator.update">update() (qmmm_pme.calculators.calculator.Calculator method)</a>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.files.FilesVariable.update">update() (qmmm_pme.records.files.FilesVariable method)</a>
 
       <ul>
-        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.mm_calculator.MMCalculator.update">(qmmm_pme.calculators.mm_calculator.MMCalculator method)</a>
+        <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.StateVariable.update">(qmmm_pme.records.state.StateVariable method)</a>
 </li>
-        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.pbc_calculator.PBCCalculator.update">(qmmm_pme.calculators.pbc_calculator.PBCCalculator method)</a>
+        <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.NameVariable.update">(qmmm_pme.records.topology.NameVariable method)</a>
 </li>
-        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qm_calculator.QMCalculator.update">(qmmm_pme.calculators.qm_calculator.QMCalculator method)</a>
+        <li><a href="qmmm_pme.records.html#qmmm_pme.records.topology.ResidueVariable.update">(qmmm_pme.records.topology.ResidueVariable method)</a>
 </li>
-        <li><a href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator.update">(qmmm_pme.calculators.qmmm_calculator.QMMMCalculator method)</a>
+      </ul></li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_box">update_box() (qmmm_pme.interfaces.openmm_interface.OpenMMInterface method)</a>
 </li>
-        <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.Integrator.update">(qmmm_pme.integrators.integrator.Integrator method)</a>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_charges">update_charges() (qmmm_pme.interfaces.openmm_interface.OpenMMInterface method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Context.update_embedding">update_embedding() (qmmm_pme.interfaces.psi4_interface.Psi4Context method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_embedding">(qmmm_pme.interfaces.psi4_interface.Psi4Interface method)</a>
+</li>
+      </ul></li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_memory">update_memory() (qmmm_pme.interfaces.psi4_interface.Psi4Interface method)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_num_threads">update_num_threads() (qmmm_pme.interfaces.psi4_interface.Psi4Interface method)</a>
+</li>
+      <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_positions">update_positions() (qmmm_pme.interfaces.openmm_interface.OpenMMInterface method)</a>
+
+      <ul>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Context.update_positions">(qmmm_pme.interfaces.psi4_interface.Psi4Context method)</a>
+</li>
+        <li><a href="qmmm_pme.interfaces.html#qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_positions">(qmmm_pme.interfaces.psi4_interface.Psi4Interface method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -844,11 +1297,19 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.velocities">velocities (qmmm_pme.records.state.State property)</a>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.record.Variable">Variable (class in qmmm_pme.records.record)</a>
+</li>
+      <li><a href="qmmm_pme.records.html#qmmm_pme.records.state.State.velocities">velocities (qmmm_pme.records.state.State attribute)</a>
+</li>
+      <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.VelocityVerlet">VelocityVerlet (class in qmmm_pme.dynamics.dynamics)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.velocity_verlet.VelocityVerlet">VelocityVerlet (class in qmmm_pme.integrators.velocity_verlet)</a>
+      <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.velocity_verlet_integrator.VelocityVerletIntegrator">VelocityVerletIntegrator (class in qmmm_pme.integrators.velocity_verlet_integrator)</a>
+</li>
+      <li><a href="qmmm_pme.dynamics.html#qmmm_pme.dynamics.dynamics.Verlet">Verlet (class in qmmm_pme.dynamics.dynamics)</a>
+</li>
+      <li><a href="qmmm_pme.integrators.html#qmmm_pme.integrators.verlet_integrator.VerletIntegrator">VerletIntegrator (class in qmmm_pme.integrators.verlet_integrator)</a>
 </li>
   </ul></td>
 </tr></table>

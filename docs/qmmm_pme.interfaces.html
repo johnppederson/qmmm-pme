@@ -1,0 +1,1143 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>qmmm_pme.interfaces package &#8212; QM/MM/PME 0.1.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+          <div class="body" role="main">
+
+  <section id="qmmm-pme-interfaces-package">
+<h1>qmmm_pme.interfaces package<a class="headerlink" href="#qmmm-pme-interfaces-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-qmmm_pme.interfaces.interface">
+<span id="qmmm-pme-interfaces-interface-module"></span><h2>qmmm_pme.interfaces.interface module<a class="headerlink" href="#module-qmmm_pme.interfaces.interface" title="Permalink to this heading">¶</a></h2>
+<p>A module to define the <a class="reference internal" href="#qmmm_pme.interfaces.interface.SoftwareInterface" title="qmmm_pme.interfaces.interface.SoftwareInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code></a> base class and the
+various <a class="reference internal" href="#qmmm_pme.interfaces.interface.SoftwareSettings" title="qmmm_pme.interfaces.interface.SoftwareSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareSettings</span></code></a> classes.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.MMSettings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.interface.</span></span><span class="sig-name descname"><span class="pre">MMSettings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonbonded_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PME'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonbonded_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_gridnumber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">friction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface.html#MMSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface.MMSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.interfaces.interface.SoftwareSettings" title="qmmm_pme.interfaces.interface.SoftwareSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareSettings</span></code></a></p>
+<p>An immutable wrapper class which holds settings for an MM
+software interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object to perform MM calculations on.</p></li>
+<li><p><strong>nonbonded_method</strong> (<em>str</em>) – The MM nonbonded method.</p></li>
+<li><p><strong>nonbonded_cutoff</strong> (<em>float</em><em> | </em><em>int</em>) – The MM nonbonded cutoff.</p></li>
+<li><p><strong>pme_gridnumber</strong> (<em>int</em>) – The number of PME gridpoints to use along each box vector.</p></li>
+<li><p><strong>pme_alpha</strong> (<em>float</em><em> | </em><em>int</em>) – The PME alpha parameter for Gaussian widths, in inverse nanometers.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em><em> | </em><em>int</em>) – The temperature, in Kelvin.</p></li>
+<li><p><strong>friction</strong> (<em>float</em><em> | </em><em>int</em>) – The friction felt by particles as a result of a thermostat, in inverse femtoseconds.</p></li>
+<li><p><strong>timestep</strong> (<em>float</em><em> | </em><em>int</em>) – The timestep that the <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code> propagates with, in femtoseconds.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.MMSettings.friction">
+<span class="sig-name descname"><span class="pre">friction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.001</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.MMSettings.friction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.MMSettings.nonbonded_cutoff">
+<span class="sig-name descname"><span class="pre">nonbonded_cutoff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">14.0</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.MMSettings.nonbonded_cutoff" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.MMSettings.nonbonded_method">
+<span class="sig-name descname"><span class="pre">nonbonded_method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PME'</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.MMSettings.nonbonded_method" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.MMSettings.pme_alpha">
+<span class="sig-name descname"><span class="pre">pme_alpha</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5.0</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.MMSettings.pme_alpha" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.MMSettings.pme_gridnumber">
+<span class="sig-name descname"><span class="pre">pme_gridnumber</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">30</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.MMSettings.pme_gridnumber" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.MMSettings.system">
+<span class="sig-name descname"><span class="pre">system</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><span class="pre">System</span></a></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.MMSettings.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.MMSettings.temperature">
+<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">300.0</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.MMSettings.temperature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.MMSettings.timestep">
+<span class="sig-name descname"><span class="pre">timestep</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.MMSettings.timestep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.QMSettings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.interface.</span></span><span class="sig-name descname"><span class="pre">QMSettings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_spherical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">302</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_radial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scf_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'df'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_energy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface.html#QMSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface.QMSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.interfaces.interface.SoftwareSettings" title="qmmm_pme.interfaces.interface.SoftwareSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareSettings</span></code></a></p>
+<p>An immutable wrapper class which holds settings for a QM software
+interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object to perform QM calculations on.</p></li>
+<li><p><strong>basis_set</strong> (<em>str</em>) – The basis set to use for QM calculations.</p></li>
+<li><p><strong>functional</strong> (<em>str</em>) – The DFT functional to use for the QM calculations.</p></li>
+<li><p><strong>charge</strong> (<em>int</em>) – The net charge of the QM atoms.</p></li>
+<li><p><strong>spin</strong> (<em>int</em>) – The net spin of the QM atoms.</p></li>
+<li><p><strong>quadrature_spherical</strong> (<em>int</em>) – The number of spherical (angular and azimuthal) points to use in the Lebedev quadrature.</p></li>
+<li><p><strong>quadrature_radial</strong> (<em>int</em>) – The number of radial points to use in the Lebedev quadrature.</p></li>
+<li><p><strong>scf_type</strong> (<em>str</em>) – The type of SCF procedure to perform for QM calculations.</p></li>
+<li><p><strong>read_guess</strong> (<em>bool</em>) – Whether or not read in wavefunction from previous a calculation.  This speeds up calculations.</p></li>
+<li><p><strong>reference_energy</strong> (<em>float</em><em> | </em><em>int</em><em> | </em><em>None</em>) – The base potential energy for QM energies, in Hartree.  This is subtracted from all QM energies.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.QMSettings.basis_set">
+<span class="sig-name descname"><span class="pre">basis_set</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.QMSettings.basis_set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.QMSettings.charge">
+<span class="sig-name descname"><span class="pre">charge</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.QMSettings.charge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.QMSettings.functional">
+<span class="sig-name descname"><span class="pre">functional</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.QMSettings.functional" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.QMSettings.quadrature_radial">
+<span class="sig-name descname"><span class="pre">quadrature_radial</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">75</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.QMSettings.quadrature_radial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.QMSettings.quadrature_spherical">
+<span class="sig-name descname"><span class="pre">quadrature_spherical</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">302</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.QMSettings.quadrature_spherical" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.QMSettings.read_guess">
+<span class="sig-name descname"><span class="pre">read_guess</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.QMSettings.read_guess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.QMSettings.reference_energy">
+<span class="sig-name descname"><span class="pre">reference_energy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.QMSettings.reference_energy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.QMSettings.scf_type">
+<span class="sig-name descname"><span class="pre">scf_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'df'</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.QMSettings.scf_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.QMSettings.spin">
+<span class="sig-name descname"><span class="pre">spin</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.QMSettings.spin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.QMSettings.system">
+<span class="sig-name descname"><span class="pre">system</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><span class="pre">System</span></a></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.QMSettings.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SoftwareInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.interface.</span></span><span class="sig-name descname"><span class="pre">SoftwareInterface</span></span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface.html#SoftwareInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface.SoftwareInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>The abstract <a class="reference internal" href="#qmmm_pme.interfaces.interface.SoftwareInterface" title="qmmm_pme.interfaces.interface.SoftwareInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code></a> base class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SoftwareInterface.compute_components">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_components</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface.html#SoftwareInterface.compute_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface.SoftwareInterface.compute_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the components of the potential energy for the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with the <a class="reference internal" href="#qmmm_pme.interfaces.interface.SoftwareInterface" title="qmmm_pme.interfaces.interface.SoftwareInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The individual contributions to the energy, in kJ/mol.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SoftwareInterface.compute_energy">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_energy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface.html#SoftwareInterface.compute_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface.SoftwareInterface.compute_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the energy for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with the
+<a class="reference internal" href="#qmmm_pme.interfaces.interface.SoftwareInterface" title="qmmm_pme.interfaces.interface.SoftwareInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The calculated energy, in kJ/mol.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SoftwareInterface.compute_forces">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_forces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface.html#SoftwareInterface.compute_forces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface.SoftwareInterface.compute_forces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the forces for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with the
+<a class="reference internal" href="#qmmm_pme.interfaces.interface.SoftwareInterface" title="qmmm_pme.interfaces.interface.SoftwareInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The calculated forces, in kJ/mol/Angstrom.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>NDArray[np.float64]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SoftwareInterface.get_state_notifiers">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_state_notifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface.html#SoftwareInterface.get_state_notifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface.SoftwareInterface.get_state_notifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the methods which should be called when a given
+<code class="xref py py-class docutils literal notranslate"><span class="pre">StateVariable</span></code> is updated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary of <code class="xref py py-class docutils literal notranslate"><span class="pre">StateVariable</span></code> names and their
+respective notifier methods.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, Callable[[NDArray[np.float64]], None]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SoftwareInterface.get_topology_notifiers">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_topology_notifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface.html#SoftwareInterface.get_topology_notifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface.SoftwareInterface.get_topology_notifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the methods which should be called when a given
+<code class="xref py py-class docutils literal notranslate"><span class="pre">TopologyVariable</span></code> is updated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary of <code class="xref py py-class docutils literal notranslate"><span class="pre">TopologyVariable</span></code> names and
+their respective notifier methods.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, Callable[(Ellipsis, None)]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SoftwareSettings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.interface.</span></span><span class="sig-name descname"><span class="pre">SoftwareSettings</span></span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface.html#SoftwareSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface.SoftwareSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>An abstract <a class="reference internal" href="#qmmm_pme.interfaces.interface.SoftwareSettings" title="qmmm_pme.interfaces.interface.SoftwareSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareSettings</span></code></a> base class.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This currently doesn’t do anything.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SoftwareTypes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.interface.</span></span><span class="sig-name descname"><span class="pre">SoftwareTypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface.html#SoftwareTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface.SoftwareTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Enumerations of the different types of software to interface
+with.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SoftwareTypes.MM">
+<span class="sig-name descname"><span class="pre">MM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">software</span> <span class="pre">for</span> <span class="pre">performing</span> <span class="pre">MM</span> <span class="pre">calculations.'</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.SoftwareTypes.MM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SoftwareTypes.QM">
+<span class="sig-name descname"><span class="pre">QM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">software</span> <span class="pre">for</span> <span class="pre">performing</span> <span class="pre">QM</span> <span class="pre">calculations.'</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.SoftwareTypes.QM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SystemTypes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.interface.</span></span><span class="sig-name descname"><span class="pre">SystemTypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface.html#SystemTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface.SystemTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Enumerations of the types of subsystems for a QM/MM calculation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SystemTypes.EMBEDDING">
+<span class="sig-name descname"><span class="pre">EMBEDDING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">Subsystem</span> <span class="pre">for</span> <span class="pre">Mechanical</span> <span class="pre">Embedding.'</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.SystemTypes.EMBEDDING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SystemTypes.SUBSYSTEM">
+<span class="sig-name descname"><span class="pre">SUBSYSTEM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">Subsystem</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">QM/MM</span> <span class="pre">System.'</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.SystemTypes.SUBSYSTEM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface.SystemTypes.SYSTEM">
+<span class="sig-name descname"><span class="pre">SYSTEM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">System.'</span></em><a class="headerlink" href="#qmmm_pme.interfaces.interface.SystemTypes.SYSTEM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.interfaces.interface_manager">
+<span id="qmmm-pme-interfaces-interface-manager-module"></span><h2>qmmm_pme.interfaces.interface_manager module<a class="headerlink" href="#module-qmmm_pme.interfaces.interface_manager" title="Permalink to this heading">¶</a></h2>
+<p>A module for handling software interface imports.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>MyPy is not currently happy with this module.</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.interface_manager.get_software_factories">
+<span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.interface_manager.</span></span><span class="sig-name descname"><span class="pre">get_software_factories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/interface_manager.html#get_software_factories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.interface_manager.get_software_factories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the FACTORIES dictionary for the specified field of the
+interfaces configuration file.  Fields include ‘MMSoftware’ or
+‘QMSoftware’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>field</strong> (<em>str</em>) – The field of the interfaces configuration file to
+extract a FACTORIES dictionary for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The FACTORIES dictionary for the specified field of the
+interfaces configuration file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Factory</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.interfaces.openmm_interface">
+<span id="qmmm-pme-interfaces-openmm-interface-module"></span><h2>qmmm_pme.interfaces.openmm_interface module<a class="headerlink" href="#module-qmmm_pme.interfaces.openmm_interface" title="Permalink to this heading">¶</a></h2>
+<p>A module to define the <a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.openmm_interface.</span></span><span class="sig-name descname"><span class="pre">OpenMMInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modeller</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forcefield</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#OpenMMInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.interfaces.interface.SoftwareInterface" title="qmmm_pme.interfaces.interface.SoftwareInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code> class which wraps the functional
+components of OpenMM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pdb</strong> (<em>PDBFile</em>) – The OpenMM PDBFile object for the interface.</p></li>
+<li><p><strong>modeller</strong> (<em>Modeller</em>) – The OpenMM Modeller object for the interface.</p></li>
+<li><p><strong>forcefield</strong> (<em>ForceField</em>) – The OpenMM ForceField object for the interface.</p></li>
+<li><p><strong>system</strong> (<em>System</em>) – The OpenMM System object for the interface.</p></li>
+<li><p><strong>context</strong> (<em>Context</em>) – The OpenMM Context object for the interface.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_components">
+<span class="sig-name descname"><span class="pre">compute_components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#OpenMMInterface.compute_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the components of the potential energy for the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with the <code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The individual contributions to the energy, in kJ/mol.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kwargs</strong> (<em>bool</em>) – </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_energy">
+<span class="sig-name descname"><span class="pre">compute_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#OpenMMInterface.compute_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the energy for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The calculated energy, in kJ/mol.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kwargs</strong> (<em>bool</em>) – </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_forces">
+<span class="sig-name descname"><span class="pre">compute_forces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#OpenMMInterface.compute_forces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_forces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the forces for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The calculated forces, in kJ/mol/Angstrom.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kwargs</strong> (<em>bool</em>) – </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[np.float64]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_pme_potential">
+<span class="sig-name descname"><span class="pre">compute_pme_potential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#OpenMMInterface.compute_pme_potential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.compute_pme_potential" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>bool</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Any</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.context">
+<span class="sig-name descname"><span class="pre">context</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Context</span></em><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.context" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.forcefield">
+<span class="sig-name descname"><span class="pre">forcefield</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ForceField</span></em><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.forcefield" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.get_state_notifiers">
+<span class="sig-name descname"><span class="pre">get_state_notifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#OpenMMInterface.get_state_notifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.get_state_notifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the methods which should be called when a given
+<code class="xref py py-class docutils literal notranslate"><span class="pre">StateVariable</span></code> is updated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary of <code class="xref py py-class docutils literal notranslate"><span class="pre">StateVariable</span></code> names and their
+respective notifier methods.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, Callable[[NDArray[np.float64]], None]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.get_topology_notifiers">
+<span class="sig-name descname"><span class="pre">get_topology_notifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#OpenMMInterface.get_topology_notifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.get_topology_notifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the methods which should be called when a given
+<code class="xref py py-class docutils literal notranslate"><span class="pre">TopologyVariable</span></code> is updated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary of <code class="xref py py-class docutils literal notranslate"><span class="pre">TopologyVariable</span></code> names and
+their respective notifier methods.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, Callable[(Ellipsis, None)]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.modeller">
+<span class="sig-name descname"><span class="pre">modeller</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Modeller</span></em><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.modeller" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.pdb">
+<span class="sig-name descname"><span class="pre">pdb</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">PDBFile</span></em><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.pdb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.system">
+<span class="sig-name descname"><span class="pre">system</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">System</span></em><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_box">
+<span class="sig-name descname"><span class="pre">update_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#OpenMMInterface.update_box"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_box" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the box vectors for OpenMM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>box</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The current box vectors of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method is not currently implemented.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_charges">
+<span class="sig-name descname"><span class="pre">update_charges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">charges</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#OpenMMInterface.update_charges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_charges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the atom charges for OpenMM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>charges</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The current charges of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in elementary charge units.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_positions">
+<span class="sig-name descname"><span class="pre">update_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#OpenMMInterface.update_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface.update_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the atom positions for OpenMM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>positions</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The current positions of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.openmm_embedding_factory">
+<span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.openmm_interface.</span></span><span class="sig-name descname"><span class="pre">openmm_embedding_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#openmm_embedding_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.openmm_embedding_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function which constructs the <a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code></a> for a
+mechanical embedding subsystem of a QM/MM supersystem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>settings</strong> (<a class="reference internal" href="#qmmm_pme.interfaces.interface.MMSettings" title="qmmm_pme.interfaces.interface.MMSettings"><em>MMSettings</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">MMSettings</span></code> object to build the
+mechanical embedding subsystem interface from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code></a> for the mechanical embedding
+subsystem.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><em>OpenMMInterface</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.openmm_subsystem_factory">
+<span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.openmm_interface.</span></span><span class="sig-name descname"><span class="pre">openmm_subsystem_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#openmm_subsystem_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.openmm_subsystem_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function which constructs the <a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code></a> for an
+MM subsystem of a QM/MM supersystem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>settings</strong> (<a class="reference internal" href="#qmmm_pme.interfaces.interface.MMSettings" title="qmmm_pme.interfaces.interface.MMSettings"><em>MMSettings</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">MMSettings</span></code> object to build the
+MM subsystem interface from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code></a> for the MM subsystem.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><em>OpenMMInterface</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.openmm_interface.openmm_system_factory">
+<span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.openmm_interface.</span></span><span class="sig-name descname"><span class="pre">openmm_system_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/openmm_interface.html#openmm_system_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.openmm_interface.openmm_system_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function which constructs the <a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code></a> for a
+standalone MM system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>settings</strong> (<a class="reference internal" href="#qmmm_pme.interfaces.interface.MMSettings" title="qmmm_pme.interfaces.interface.MMSettings"><em>MMSettings</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">MMSettings</span></code> object to build the
+standalone MM system interface from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code></a> for the standalone MM system.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><em>OpenMMInterface</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.interfaces.pme_openmm_interface">
+<span id="qmmm-pme-interfaces-pme-openmm-interface-module"></span><h2>qmmm_pme.interfaces.pme_openmm_interface module<a class="headerlink" href="#module-qmmm_pme.interfaces.pme_openmm_interface" title="Permalink to this heading">¶</a></h2>
+<p>A module to define the <code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.pme_openmm_interface.</span></span><span class="sig-name descname"><span class="pre">PMEOpenMMInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modeller</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forcefield</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/pme_openmm_interface.html#PMEOpenMMInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code></a></p>
+<p>A class which wraps the functional components of OpenMM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pdb</strong> (<em>PDBFile</em>) – </p></li>
+<li><p><strong>modeller</strong> (<em>Modeller</em>) – </p></li>
+<li><p><strong>forcefield</strong> (<em>ForceField</em>) – </p></li>
+<li><p><strong>system</strong> (<em>System</em>) – </p></li>
+<li><p><strong>context</strong> (<em>Context</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.context">
+<span class="sig-name descname"><span class="pre">context</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Context</span></em><a class="headerlink" href="#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.context" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.forcefield">
+<span class="sig-name descname"><span class="pre">forcefield</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ForceField</span></em><a class="headerlink" href="#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.forcefield" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.modeller">
+<span class="sig-name descname"><span class="pre">modeller</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Modeller</span></em><a class="headerlink" href="#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.modeller" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.pdb">
+<span class="sig-name descname"><span class="pre">pdb</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">PDBFile</span></em><a class="headerlink" href="#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.pdb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.system">
+<span class="sig-name descname"><span class="pre">system</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><span class="pre">System</span></a></em><a class="headerlink" href="#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.pme_openmm_interface.pme_openmm_embedding_factory">
+<span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.pme_openmm_interface.</span></span><span class="sig-name descname"><span class="pre">pme_openmm_embedding_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/pme_openmm_interface.html#pme_openmm_embedding_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.pme_openmm_interface.pme_openmm_embedding_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function which constructs the <code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>settings</strong> (<a class="reference internal" href="#qmmm_pme.interfaces.interface.MMSettings" title="qmmm_pme.interfaces.interface.MMSettings"><em>MMSettings</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#qmmm_pme.interfaces.openmm_interface.OpenMMInterface" title="qmmm_pme.interfaces.openmm_interface.OpenMMInterface"><em>OpenMMInterface</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.pme_openmm_interface.pme_openmm_subsystem_factory">
+<span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.pme_openmm_interface.</span></span><span class="sig-name descname"><span class="pre">pme_openmm_subsystem_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/pme_openmm_interface.html#pme_openmm_subsystem_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.pme_openmm_interface.pme_openmm_subsystem_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function which constructs the <code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>settings</strong> (<a class="reference internal" href="#qmmm_pme.interfaces.interface.MMSettings" title="qmmm_pme.interfaces.interface.MMSettings"><em>MMSettings</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface" title="qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface"><em>PMEOpenMMInterface</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.pme_openmm_interface.pme_openmm_system_factory">
+<span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.pme_openmm_interface.</span></span><span class="sig-name descname"><span class="pre">pme_openmm_system_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/pme_openmm_interface.html#pme_openmm_system_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.pme_openmm_interface.pme_openmm_system_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function which constructs the <code class="xref py py-class docutils literal notranslate"><span class="pre">OpenMMInterface</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>settings</strong> (<a class="reference internal" href="#qmmm_pme.interfaces.interface.MMSettings" title="qmmm_pme.interfaces.interface.MMSettings"><em>MMSettings</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface" title="qmmm_pme.interfaces.pme_openmm_interface.PMEOpenMMInterface"><em>PMEOpenMMInterface</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.interfaces.psi4_interface">
+<span id="qmmm-pme-interfaces-psi4-interface-module"></span><h2>qmmm_pme.interfaces.psi4_interface module<a class="headerlink" href="#module-qmmm_pme.interfaces.psi4_interface" title="Permalink to this heading">¶</a></h2>
+<p>A module to define the <a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface" title="qmmm_pme.interfaces.psi4_interface.Psi4Interface"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi4Interface</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Context">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.psi4_interface.</span></span><span class="sig-name descname"><span class="pre">Psi4Context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A wrapper class for managing Psi4 Geometry object generation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – …</p></li>
+<li><p><strong>embedding</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – …</p></li>
+<li><p><strong>elements</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The element symbols of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code> of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object.</p></li>
+<li><p><strong>positions</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The current positions of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p></li>
+<li><p><strong>charge</strong> (<em>int</em>) – The net charge of the QM atoms.</p></li>
+<li><p><strong>spin</strong> (<em>int</em>) – The net spin of the QM atoms.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Context.generate_molecule">
+<span class="sig-name descname"><span class="pre">generate_molecule</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Context.generate_molecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Context.generate_molecule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the Geometry object for Psi4 calculations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The Psi4 Geometry object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Molecule</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Context.update_embedding">
+<span class="sig-name descname"><span class="pre">update_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embedding</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Context.update_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Context.update_embedding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the analytic embedding atoms for Psi4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>embedding</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – …</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Context.update_positions">
+<span class="sig-name descname"><span class="pre">update_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Context.update_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Context.update_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the atom positions for Psi4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>positions</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>dtype</em><em>[</em><em>float64</em><em>]</em><em>]</em>) – The current positions of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.psi4_interface.</span></span><span class="sig-name descname"><span class="pre">Psi4Interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Interface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qmmm_pme.interfaces.interface.SoftwareInterface" title="qmmm_pme.interfaces.interface.SoftwareInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code> class which wraps the functional
+components of Psi4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>options</strong> (<a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Options" title="qmmm_pme.interfaces.psi4_interface.Psi4Options"><em>Psi4Options</em></a>) – The <a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Options" title="qmmm_pme.interfaces.psi4_interface.Psi4Options"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi4Options</span></code></a> object for the interface.</p></li>
+<li><p><strong>functional</strong> (<em>str</em>) – The DFT functional to use for the QM calculations.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Context" title="qmmm_pme.interfaces.psi4_interface.Psi4Context"><em>Psi4Context</em></a>) – The <a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Context" title="qmmm_pme.interfaces.psi4_interface.Psi4Context"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi4Context</span></code></a> object for the interface.</p></li>
+<li><p><strong>reference</strong> (<a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Reference" title="qmmm_pme.interfaces.psi4_interface.Psi4Reference"><em>Psi4Reference</em></a>) – The <a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Reference" title="qmmm_pme.interfaces.psi4_interface.Psi4Reference"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi4Reference</span></code></a> object for the
+interface.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_components">
+<span class="sig-name descname"><span class="pre">compute_components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Interface.compute_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the components of the potential energy for the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with the <code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The individual contributions to the energy, in kJ/mol.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kwargs</strong> (<em>ComputationOptions</em>) – </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_energy">
+<span class="sig-name descname"><span class="pre">compute_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Interface.compute_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the energy for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The calculated energy, in kJ/mol.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kwargs</strong> (<em>ComputationOptions</em>) – </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_forces">
+<span class="sig-name descname"><span class="pre">compute_forces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Interface.compute_forces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_forces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the forces for the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> with the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">SoftwareInterface</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The calculated forces, in kJ/mol/Angstrom.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kwargs</strong> (<em>ComputationOptions</em>) – </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[np.float64]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_quadrature">
+<span class="sig-name descname"><span class="pre">compute_quadrature</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Interface.compute_quadrature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.compute_quadrature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a reference quadrature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A reference quadrature constructed from the Psi4
+Geometry object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em>[<em>Any</em>, <em>dtype</em>[<em>float64</em>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.context">
+<span class="sig-name descname"><span class="pre">context</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Context" title="qmmm_pme.interfaces.psi4_interface.Psi4Context"><span class="pre">Psi4Context</span></a></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.context" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.functional">
+<span class="sig-name descname"><span class="pre">functional</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.functional" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.get_state_notifiers">
+<span class="sig-name descname"><span class="pre">get_state_notifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Interface.get_state_notifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.get_state_notifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the methods which should be called when a given
+<code class="xref py py-class docutils literal notranslate"><span class="pre">StateVariable</span></code> is updated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary of <code class="xref py py-class docutils literal notranslate"><span class="pre">StateVariable</span></code> names and their
+respective notifier methods.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, Callable[(Ellipsis, None)]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.get_topology_notifiers">
+<span class="sig-name descname"><span class="pre">get_topology_notifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Interface.get_topology_notifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.get_topology_notifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the methods which should be called when a given
+<code class="xref py py-class docutils literal notranslate"><span class="pre">TopologyVariable</span></code> is updated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary of <code class="xref py py-class docutils literal notranslate"><span class="pre">TopologyVariable</span></code> names and
+their respective notifier methods.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, Callable[(Ellipsis, None)]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.options">
+<span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Options" title="qmmm_pme.interfaces.psi4_interface.Psi4Options"><span class="pre">Psi4Options</span></a></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.reference">
+<span class="sig-name descname"><span class="pre">reference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Reference" title="qmmm_pme.interfaces.psi4_interface.Psi4Reference"><span class="pre">Psi4Reference</span></a></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.reference" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_embedding">
+<span class="sig-name descname"><span class="pre">update_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embedding</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Interface.update_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_embedding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the analytic embedding atoms for Psi4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>embedding</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – …</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_memory">
+<span class="sig-name descname"><span class="pre">update_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">memory</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Interface.update_memory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the amount of memory for Psi4 to use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>memory</strong> (<em>str</em>) – The amount of memory for Psi4 to use.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_num_threads">
+<span class="sig-name descname"><span class="pre">update_num_threads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_threads</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Interface.update_num_threads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_num_threads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the number of threads for Psi4 to use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>num_threads</strong> (<em>int</em>) – The number of threads for Psi4 to use.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_positions">
+<span class="sig-name descname"><span class="pre">update_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Interface.update_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface.update_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the atom positions for Psi4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>positions</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>dtype</em><em>[</em><em>float64</em><em>]</em><em>]</em>) – The current positions of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Angstroms.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Options">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.psi4_interface.</span></span><span class="sig-name descname"><span class="pre">Psi4Options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dft_spherical_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dft_radial_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scf_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scf__reference</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scf__guess</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An immutable wrapper class for storing Psi4 global options.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basis</strong> (<em>str</em>) – The basis set to use for QM calculations.</p></li>
+<li><p><strong>dft_spherical_points</strong> (<em>int</em>) – The number of spherical (angular and azimuthal) points to use in the Lebedev quadrature.</p></li>
+<li><p><strong>dft_radial_points</strong> (<em>int</em>) – The number of radial points to use in the Lebedev quadrature.</p></li>
+<li><p><strong>scf_type</strong> (<em>str</em>) – The type of SCF procedure to perform for QM calculations.</p></li>
+<li><p><strong>scf__reference</strong> (<em>str</em>) – The base potential energy for QM energies, in Hartree.  This is subtracted from all QM energies.</p></li>
+<li><p><strong>scf__guess</strong> (<em>str</em>) – The type of guess to use for the Psi4
+calculation.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Options.basis">
+<span class="sig-name descname"><span class="pre">basis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Options.basis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Options.dft_radial_points">
+<span class="sig-name descname"><span class="pre">dft_radial_points</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Options.dft_radial_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Options.dft_spherical_points">
+<span class="sig-name descname"><span class="pre">dft_spherical_points</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Options.dft_spherical_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Options.scf__guess">
+<span class="sig-name descname"><span class="pre">scf__guess</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Options.scf__guess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Options.scf__reference">
+<span class="sig-name descname"><span class="pre">scf__reference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Options.scf__reference" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Options.scf_type">
+<span class="sig-name descname"><span class="pre">scf_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Options.scf_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Reference">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.psi4_interface.</span></span><span class="sig-name descname"><span class="pre">Psi4Reference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nuclear_repulsion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">one_electron</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kinetic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">potential</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">two_electron</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exchange_correlation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#Psi4Reference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Reference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An immutable wrapper class for storing Psi4 reference energies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>total</strong> (<em>float</em><em> | </em><em>int</em>) – The total reference energy, in Hartree.</p></li>
+<li><p><strong>nuclear_repulsion</strong> (<em>float</em><em> | </em><em>int</em>) – The reference nuclear repulsion energy,
+in Hartree.</p></li>
+<li><p><strong>one_electron</strong> (<em>float</em><em> | </em><em>int</em>) – The reference one-electron energy, in Hartree.</p></li>
+<li><p><strong>kinetic</strong> (<em>float</em><em> | </em><em>int</em>) – The reference one-electron kinetic energy, in
+Hartree.</p></li>
+<li><p><strong>potential</strong> (<em>float</em><em> | </em><em>int</em>) – The reference one-electron potential energy, in
+Hartree.</p></li>
+<li><p><strong>two_electron</strong> (<em>float</em><em> | </em><em>int</em>) – The reference two-electron energy, in Hartree.</p></li>
+<li><p><strong>exchange_correlation</strong> (<em>float</em><em> | </em><em>int</em>) – The reference exchange-correlation
+energy, in Hartree.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Reference.exchange_correlation">
+<span class="sig-name descname"><span class="pre">exchange_correlation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Reference.exchange_correlation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Reference.kinetic">
+<span class="sig-name descname"><span class="pre">kinetic</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Reference.kinetic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Reference.nuclear_repulsion">
+<span class="sig-name descname"><span class="pre">nuclear_repulsion</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Reference.nuclear_repulsion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Reference.one_electron">
+<span class="sig-name descname"><span class="pre">one_electron</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Reference.one_electron" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Reference.potential">
+<span class="sig-name descname"><span class="pre">potential</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Reference.potential" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Reference.total">
+<span class="sig-name descname"><span class="pre">total</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Reference.total" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.Psi4Reference.two_electron">
+<span class="sig-name descname"><span class="pre">two_electron</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.Psi4Reference.two_electron" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qmmm_pme.interfaces.psi4_interface.psi4_system_factory">
+<span class="sig-prename descclassname"><span class="pre">qmmm_pme.interfaces.psi4_interface.</span></span><span class="sig-name descname"><span class="pre">psi4_system_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/interfaces/psi4_interface.html#psi4_system_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.interfaces.psi4_interface.psi4_system_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function which constructs the <a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface" title="qmmm_pme.interfaces.psi4_interface.Psi4Interface"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi4Interface</span></code></a> for a QM
+system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>settings</strong> (<a class="reference internal" href="#qmmm_pme.interfaces.interface.QMSettings" title="qmmm_pme.interfaces.interface.QMSettings"><em>QMSettings</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">QMSettings</span></code> object to build the
+QM system interface from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface" title="qmmm_pme.interfaces.psi4_interface.Psi4Interface"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi4Interface</span></code></a> for the QM system.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qmmm_pme.interfaces.psi4_interface.Psi4Interface" title="qmmm_pme.interfaces.psi4_interface.Psi4Interface"><em>Psi4Interface</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.interfaces">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qmmm_pme.interfaces" title="Permalink to this heading">¶</a></h2>
+<p>A sub-package containing interfaces to external software.</p>
+</section>
+</section>
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">QM/MM/PME</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, John P. Pederson, Jesse G. McDaniel.
+
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+      |
+      <a href="_sources/qmmm_pme.interfaces.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+
+
+
+  </body>
+</html>

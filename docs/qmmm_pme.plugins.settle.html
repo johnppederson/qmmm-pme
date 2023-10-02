@@ -44,17 +44,17 @@ algorithm for the QM/MM/PME repository.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qmmm_pme.plugins.settle.settle.SETTLE">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.plugins.settle.settle.</span></span><span class="sig-name descname"><span class="pre">SETTLE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oh_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hh_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.632981</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hoh_residue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'HOH'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/plugins/settle/settle.html#SETTLE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.settle.settle.SETTLE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.Plugin" title="qmmm_pme.plugins.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.IntegratorPlugin" title="qmmm_pme.plugins.plugin.IntegratorPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntegratorPlugin</span></code></a></p>
 <p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code> which implements the SETTLE algorithm for
 positions and velocities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>oh_distance</strong> (<em>float</em><em> | </em><em>int</em><em> | </em><em>None</em>) – The distance between the oxygen and hydrogen, in
+<li><p><strong>oh_distance</strong> (<em>float</em><em> | </em><em>int</em>) – The distance between the oxygen and hydrogen, in
 Angstroms.</p></li>
-<li><p><strong>hh_distance</strong> (<em>float</em><em> | </em><em>int</em><em> | </em><em>None</em>) – The distance between the hydrogens, in
+<li><p><strong>hh_distance</strong> (<em>float</em><em> | </em><em>int</em>) – The distance between the hydrogens, in
 Angstroms.</p></li>
-<li><p><strong>hoh_residue</strong> (<em>str</em><em> | </em><em>None</em>) – The name of the water residues in the
+<li><p><strong>hoh_residue</strong> (<em>str</em>) – The name of the water residues in the
 <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p></li>
 </ul>
 </dd>
@@ -62,12 +62,11 @@ Angstroms.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="qmmm_pme.plugins.settle.settle.SETTLE.modify">
 <span class="sig-name descname"><span class="pre">modify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">integrator</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/plugins/settle/settle.html#SETTLE.modify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.settle.settle.SETTLE.modify" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform necessary modifications to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code>
-object.</p>
+<dd><p>Modify the functionality of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>integrator</strong> (<a class="reference internal" href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.Integrator" title="qmmm_pme.integrators.integrator.Integrator"><em>Integrator</em></a>) – The integrator to modify with the SETTLE
-functionality.</p>
+<dd class="field-odd"><p><strong>integrator</strong> (<a class="reference internal" href="qmmm_pme.integrators.html#qmmm_pme.integrators.integrator.ModifiableIntegrator" title="qmmm_pme.integrators.integrator.ModifiableIntegrator"><em>ModifiableIntegrator</em></a>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Integrator</span></code> object to modify with the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -88,18 +87,27 @@ functionality.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>residues</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – </p></li>
-<li><p><strong>positions_i</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – </p></li>
-<li><p><strong>positions_f</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – </p></li>
-<li><p><strong>masses</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – </p></li>
-<li><p><strong>oh_distance</strong> (<em>int</em><em> | </em><em>float</em>) – </p></li>
-<li><p><strong>hh_distance</strong> (<em>int</em><em> | </em><em>float</em>) – </p></li>
+<li><p><strong>residues</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – The name of the water residues in the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p></li>
+<li><p><strong>positions_i</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The initial positions of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in
+Angstroms.</p></li>
+<li><p><strong>positions_f</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The final positions of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in
+Angstroms.</p></li>
+<li><p><strong>masses</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The current masses of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Daltons.</p></li>
+<li><p><strong>oh_distance</strong> (<em>int</em><em> | </em><em>float</em>) – The distance between the oxygen and hydrogen, in
+Angstroms.</p></li>
+<li><p><strong>hh_distance</strong> (<em>int</em><em> | </em><em>float</em>) – The distance between the hydrogens, in
+Angstroms.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>NDArray[np.float64]</p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Based on the SETTLE kernel in OpenMM.</p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -109,16 +117,24 @@ functionality.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>residues</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – </p></li>
-<li><p><strong>positions_i</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – </p></li>
+<li><p><strong>residues</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – The name of the water residues in the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p></li>
+<li><p><strong>positions_i</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The initial positions of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in
+Angstroms.</p></li>
+<li><p><strong>velocities_f</strong> – The initial velocities of the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>,
+in Angstroms per femtosecond.</p></li>
+<li><p><strong>masses</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The current masses of all atoms in the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>, in Daltons.</p></li>
 <li><p><strong>velocities_i</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – </p></li>
-<li><p><strong>masses</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>NDArray[np.float64]</p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Based on the SETTLE kernel in OpenMM.</p>
+</div>
 </dd></dl>
 
 </section>

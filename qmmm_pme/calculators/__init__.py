@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
-"""A sub-package containing the low-level calculators of the simulation
-engine.
+"""A sub-package containing the calculators of the simulation engine.
 """
 from __future__ import annotations
 

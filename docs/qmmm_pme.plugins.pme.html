@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>qmmm_pme.plugins.pme package &#8212; QM/MM/PME 0.1.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+          <div class="body" role="main">
+
+  <section id="qmmm-pme-plugins-pme-package">
+<h1>qmmm_pme.plugins.pme package<a class="headerlink" href="#qmmm-pme-plugins-pme-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-qmmm_pme.plugins.pme.pme">
+<span id="qmmm-pme-plugins-pme-pme-module"></span><h2>qmmm_pme.plugins.pme.pme module<a class="headerlink" href="#module-qmmm_pme.plugins.pme.pme" title="Permalink to this heading">¶</a></h2>
+<p>A module defining the pluggable implementation of the SETTLE
+algorithm for the QM/MM/PME repository.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qmmm_pme.plugins.pme.pme.PME">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qmmm_pme.plugins.pme.pme.</span></span><span class="sig-name descname"><span class="pre">PME</span></span><a class="reference internal" href="_modules/qmmm_pme/plugins/pme/pme.html#PME"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.pme.pme.PME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qmmm_pme.plugins.html#qmmm_pme.plugins.plugin.QMMMCalculatorPlugin" title="qmmm_pme.plugins.plugin.QMMMCalculatorPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculatorPlugin</span></code></a></p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code> which implements the QM/MM/PME algorithm for
+energy and force calculations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qmmm_pme.plugins.pme.pme.PME.modify">
+<span class="sig-name descname"><span class="pre">modify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calculator</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/plugins/pme/pme.html#PME.modify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.pme.pme.PME.modify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform necessary modifications to the <code class="xref py py-class docutils literal notranslate"><span class="pre">QMMMCalculator</span></code>
+object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>calculator</strong> (<a class="reference internal" href="qmmm_pme.calculators.html#qmmm_pme.calculators.qmmm_calculator.QMMMCalculator" title="qmmm_pme.calculators.qmmm_calculator.QMMMCalculator"><em>QMMMCalculator</em></a>) – The calculator to modify with the QM/MM/PME
+functionality.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.plugins.pme.pme_utils">
+<span id="qmmm-pme-plugins-pme-pme-utils-module"></span><h2>qmmm_pme.plugins.pme.pme_utils module<a class="headerlink" href="#module-qmmm_pme.plugins.pme.pme_utils" title="Permalink to this heading">¶</a></h2>
+<p>A module to define the <code class="xref py py-class docutils literal notranslate"><span class="pre">PBCCalculator</span></code> class.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="qmmm_pme.plugins.pme.pme_utils.pme_components">
+<span class="sig-prename descclassname"><span class="pre">qmmm_pme.plugins.pme.pme_utils.</span></span><span class="sig-name descname"><span class="pre">pme_components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_potential</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_gridnumber</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_alpha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/plugins/pme/pme_utils.html#pme_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.pme.pme_utils.pme_components" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<a class="reference internal" href="qmmm_pme.wrappers.html#qmmm_pme.wrappers.system.System" title="qmmm_pme.wrappers.system.System"><em>System</em></a>) – </p></li>
+<li><p><strong>quadrature</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – </p></li>
+<li><p><strong>pme_potential</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – </p></li>
+<li><p><strong>pme_gridnumber</strong> (<em>int</em>) – </p></li>
+<li><p><strong>pme_alpha</strong> (<em>float</em><em> | </em><em>int</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[Any, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qmmm_pme.plugins.pme.pme_utils.project_to_grid">
+<span class="sig-prename descclassname"><span class="pre">qmmm_pme.plugins.pme.pme_utils.</span></span><span class="sig-name descname"><span class="pre">project_to_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inverse_box</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pme_gridnumber</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qmmm_pme/plugins/pme/pme_utils.html#project_to_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qmmm_pme.plugins.pme.pme_utils.project_to_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Project points onto a PME grid in reciprocal space.  This
+algorithm is identical to that used in method
+‘pme_update_grid_index_and_fraction’ in OpenMM source code,
+ReferencePME.cpp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – The real-space points, in Bohr, to project onto
+the reciprocal-space PME grid.</p></li>
+<li><p><strong>inverse_box</strong> (<em>NDArray</em><em>[</em><em>np.float64</em><em>]</em>) – </p></li>
+<li><p><strong>pme_gridnumber</strong> (<em>int</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The projected points in reciprocal-space, in inverse
+Bohr.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[np.float64]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-qmmm_pme.plugins.pme">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qmmm_pme.plugins.pme" title="Permalink to this heading">¶</a></h2>
+<p>A sub-package for performing the QM/MM/PME algorithm during the
+energy and force calculation procedure.</p>
+</section>
+</section>
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">QM/MM/PME</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, John P. Pederson, Jesse G. McDaniel.
+
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+      |
+      <a href="_sources/qmmm_pme.plugins.pme.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+
+
+
+  </body>
+</html>

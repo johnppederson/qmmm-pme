@@ -12,14 +12,6 @@ qmmm\_pme.records.files module
    :undoc-members:
    :show-inheritance:
 
-qmmm\_pme.records.namespace module
-----------------------------------
-
-.. automodule:: qmmm_pme.records.namespace
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 qmmm\_pme.records.record module
 -------------------------------
 

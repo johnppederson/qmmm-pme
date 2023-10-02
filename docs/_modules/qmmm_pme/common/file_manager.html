@@ -41,15 +41,16 @@
 <span class="kn">import</span> <span class="nn">array</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">struct</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">openmm.app</span>
 <span class="kn">import</span> <span class="nn">simtk.unit</span>
-<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
 
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">compute_lattice_constants</span>
-<span class="kn">from</span> <span class="nn">qmmm_pme.records</span> <span class="kn">import</span> <span class="n">Files</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
 
 
 <div class="viewcode-block" id="FileManager"><a class="viewcode-back" href="../../../qmmm_pme.common.html#qmmm_pme.common.file_manager.FileManager">[docs]</a><span class="k">class</span> <span class="nc">FileManager</span><span class="p">:</span>
@@ -62,17 +63,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_working_directory</span> <span class="o">=</span> <span class="n">working_directory</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">working_directory</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">working_directory</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">Files</span><span class="p">()</span>
 
 <div class="viewcode-block" id="FileManager.load"><a class="viewcode-back" href="../../../qmmm_pme.common.html#qmmm_pme.common.file_manager.FileManager.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">pdb_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
             <span class="n">topology_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
             <span class="n">forcefield_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-            <span class="n">input_json</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
-            <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]],</span>
-            <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]],</span>
+        <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]],</span>
+        <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+        <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span>
     <span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load files necessary to generate a system.</span>
 
@@ -81,29 +81,22 @@
 <span class="sd">        :param forcefield_list: |forcefield_list|</span>
 <span class="sd">        :return: Data for the :class:`State` and :class:`Topology`</span>
 <span class="sd">            record classes.</span>
-
-<span class="sd">        .. warning:: The &#39;input_json&#39; is not currently implemented.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check the file extensions and add them to the :class:`Files`</span>
         <span class="c1"># record.</span>
         <span class="k">for</span> <span class="n">fh</span> <span class="ow">in</span> <span class="n">pdb_list</span><span class="p">:</span>
             <span class="n">_check_ext</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="s2">&quot;pdb&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">pdb_list</span> <span class="o">=</span> <span class="n">pdb_list</span>
         <span class="k">for</span> <span class="n">fh</span> <span class="ow">in</span> <span class="n">topology_list</span><span class="p">:</span>
             <span class="n">_check_ext</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="s2">&quot;xml&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">topology_list</span> <span class="o">=</span> <span class="n">topology_list</span>
         <span class="k">for</span> <span class="n">fh</span> <span class="ow">in</span> <span class="n">forcefield_list</span><span class="p">:</span>
             <span class="n">_check_ext</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="s2">&quot;xml&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">forcefield_list</span> <span class="o">=</span> <span class="n">forcefield_list</span>
-        <span class="k">if</span> <span class="n">input_json</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">input_json</span> <span class="o">=</span> <span class="n">input_json</span>
         <span class="c1"># Generate and return :class:`System` data using OpenMM.</span>
-        <span class="n">state_data</span><span class="p">,</span> <span class="n">topology_data</span> <span class="o">=</span> <span class="n">_get_system_data</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">pdb_list</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">topology_list</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">forcefield_list</span><span class="p">,</span>
+        <span class="n">state_data</span><span class="p">,</span> <span class="n">name_data</span><span class="p">,</span> <span class="n">residue_data</span> <span class="o">=</span> <span class="n">_get_system_data</span><span class="p">(</span>
+            <span class="n">pdb_list</span><span class="p">,</span>
+            <span class="n">topology_list</span><span class="p">,</span>
+            <span class="n">forcefield_list</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">state_data</span><span class="p">,</span> <span class="n">topology_data</span></div>
+        <span class="k">return</span> <span class="n">state_data</span><span class="p">,</span> <span class="n">name_data</span><span class="p">,</span> <span class="n">residue_data</span></div>
 
 <div class="viewcode-block" id="FileManager.write_to_pdb"><a class="viewcode-back" href="../../../qmmm_pme.common.html#qmmm_pme.common.file_manager.FileManager.write_to_pdb">[docs]</a>    <span class="k">def</span> <span class="nf">write_to_pdb</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
@@ -243,9 +236,9 @@
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Utility to start writing a Log file.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Utility to start writing a log file.</span>
 
-<span class="sd">        :param name: The directory/name of Log file to be written.</span>
+<span class="sd">        :param name: The directory/name of log file to be written.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
@@ -257,24 +250,25 @@
             <span class="n">lines</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
             <span class="n">frame</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write data to an existing Log file.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write data to an existing log file.</span>
 
-<span class="sd">        :param name: The directory/name of Log file to be written.</span>
+<span class="sd">        :param name: The directory/name of log file to be written.</span>
 <span class="sd">        :param lines: The lines to be written to the log file.</span>
 <span class="sd">        :param frame: |frame|</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
             <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39; Frame &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">frame</span><span class="si">:</span><span class="s1">0&gt;6</span><span class="si">}</span><span class="s1">&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="si">:</span><span class="s2">-^72</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">lines</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">lines</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="FileManager.end_log"><a class="viewcode-back" href="../../../qmmm_pme.common.html#qmmm_pme.common.file_manager.FileManager.end_log">[docs]</a>    <span class="k">def</span> <span class="nf">end_log</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Terminate an existing Log file.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Terminate an existing log file.</span>
 
-<span class="sd">        :param name: The directory/name of Log file to be terminated.</span>
+<span class="sd">        :param name: The directory/name of log file to be terminated.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
@@ -299,16 +293,17 @@
             <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
             <span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write data to an existing Log file.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write data to an existing CSV file.</span>
 
-<span class="sd">        :param name: The directory/name of Log file to be written.</span>
-<span class="sd">        :param lines: The lines to be written to the log file.</span>
+<span class="sd">        :param name: The directory/name of CSV file to be written.</span>
+<span class="sd">        :param lines: The lines to be written to the CSV file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
-            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">_parse_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ext</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_parse_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ext</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure that the given name has the correct directory path</span>
 <span class="sd">        and extension.</span>
 
@@ -345,8 +340,9 @@
         <span class="n">topology_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">forcefield_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
-        <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]],</span>
-        <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]],</span>
+        <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]],</span>
+        <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+        <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span>
 <span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract :class:`State` and :class:`Topology` data from PDB and</span>
 <span class="sd">    XML files using OpenMM.</span>
@@ -368,18 +364,19 @@
     <span class="p">)</span>
     <span class="n">openmm_residues</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">openmm_pdb</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">residues</span><span class="p">())</span>
     <span class="n">openmm_atoms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">openmm_pdb</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">atoms</span><span class="p">())</span>
-    <span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">groups</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">[</span><span class="n">atom</span><span class="o">.</span><span class="n">index</span> <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">residue</span><span class="o">.</span><span class="n">atoms</span><span class="p">()]</span>
         <span class="k">for</span> <span class="n">residue</span> <span class="ow">in</span> <span class="n">openmm_residues</span>
     <span class="p">]</span>
-    <span class="n">residues</span> <span class="o">=</span> <span class="p">[</span><span class="n">residue</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">residue</span> <span class="ow">in</span> <span class="n">openmm_residues</span><span class="p">]</span>
     <span class="n">elements</span> <span class="o">=</span> <span class="p">[</span><span class="n">atom</span><span class="o">.</span><span class="n">element</span><span class="o">.</span><span class="n">symbol</span> <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">openmm_atoms</span><span class="p">]</span>
-    <span class="n">atoms</span> <span class="o">=</span> <span class="p">[</span><span class="n">atom</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">openmm_atoms</span><span class="p">]</span>
-    <span class="n">topology_data</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;groups&quot;</span><span class="p">:</span> <span class="n">groups</span><span class="p">,</span>
-        <span class="s2">&quot;residues&quot;</span><span class="p">:</span> <span class="n">residues</span><span class="p">,</span>
+    <span class="n">residue_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">residue</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">residue</span> <span class="ow">in</span> <span class="n">openmm_residues</span><span class="p">]</span>
+    <span class="n">atom_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">atom</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">openmm_atoms</span><span class="p">]</span>
+    <span class="n">name_data</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;elements&quot;</span><span class="p">:</span> <span class="n">elements</span><span class="p">,</span>
+        <span class="s2">&quot;residue_names&quot;</span><span class="p">:</span> <span class="n">residue_names</span><span class="p">,</span>
+        <span class="s2">&quot;atom_names&quot;</span><span class="p">:</span> <span class="n">atom_names</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">residue_data</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;atoms&quot;</span><span class="p">:</span> <span class="n">atoms</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="c1"># Load the OpenMM ForceField and create a System in order to get</span>
@@ -431,7 +428,7 @@
         <span class="s2">&quot;positions&quot;</span><span class="p">:</span> <span class="n">positions</span><span class="p">,</span>
         <span class="s2">&quot;box&quot;</span><span class="p">:</span> <span class="n">box</span><span class="p">,</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">state_data</span><span class="p">,</span> <span class="n">topology_data</span>
+    <span class="k">return</span> <span class="n">state_data</span><span class="p">,</span> <span class="n">name_data</span><span class="p">,</span> <span class="n">residue_data</span>
 </pre></div>
 
           </div>
