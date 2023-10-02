@@ -106,7 +106,7 @@ class FileManager:
                     line = "HETATM"
                     line += f"{atom+1:5d}  "
                     line += f"{atoms[atom]:4s}"
-                    line += f"{residues[i]:3s} "
+                    line += f"{residues[i]:4s}"
                     line += f"A{i+1:4d}    "
                     line += f"{positions[atom,0]:8.3f}"
                     line += f"{positions[atom,1]:8.3f}"
@@ -258,6 +258,7 @@ class FileManager:
             self,
             name: str,
             line: str,
+            header: str | None = None,
     ) -> None:
         """Write data to an existing CSV file.
 
@@ -265,6 +266,12 @@ class FileManager:
         :param lines: The lines to be written to the CSV file.
         """
         filename = self._parse_name(name, ext="csv")
+        if header:
+            with open(filename) as fh:
+                lines = fh.readlines()
+            with open(filename, "w") as fh:
+                lines[0] = header + "\n"
+                fh.writelines(lines)
         with open(filename, "a") as fh:
             fh.write(line + "\n")
             fh.flush()

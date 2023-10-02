@@ -6,7 +6,7 @@ QM/MM/PME
 :Author Email: jpederson6@gatech.edu
 :Project: qmmm-pme
 :Date Written: August 27, 2022
-:Last Date Modified: September 27, 2023
+:Last Date Modified: October 2, 2023
 
 Summary
 -------
@@ -38,6 +38,9 @@ The modified psi4 requires the following dependencies:
 - pydantic
 - libxc
 - numpy>=1.19.2
+
+If you are performing calculations on large molecules, we also recommend
+installing the excellent dftd3 repository developed by the Grimme lab.
 
 Once the modified psi4 and openmm repositories are built, the qmmm-pme
 repository may be cloned.::

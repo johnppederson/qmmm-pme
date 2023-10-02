@@ -133,13 +133,27 @@ class Logger:
                 simulation.frame,
             )
         if self.write_to_csv:
-            self.file_manager.write_to_csv(
-                self.csv,
-                ",".join(
-                    f"{val}" for val
-                    in align_dict(simulation.energy).values()
-                ),
-            )
+            flat_dict = align_dict(simulation.energy)
+            if simulation.frame > 0:
+                self.file_manager.write_to_csv(
+                    self.csv,
+                    ",".join(
+                        f"{val}" for val
+                        in flat_dict.values()
+                    ),
+                )
+            else:
+                self.file_manager.write_to_csv(
+                    self.csv,
+                    ",".join(
+                        f"{val}" for val
+                        in flat_dict.values()
+                    ),
+                    header=",".join(
+                        f"{key}" for key
+                        in flat_dict.keys()
+                    ),
+                )
         if self.write_to_dcd:
             self.file_manager.write_to_dcd(
                 self.dcd,
