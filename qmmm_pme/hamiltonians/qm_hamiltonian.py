@@ -31,7 +31,6 @@ class QMHamiltonian(QMHamiltonianInterface):
     :param quadrature_radial: |quadrature_radial|
     :param scf_type: |scf_type|
     :param read_guess: |read_guess|
-    :param reference_energy: |reference_energy|
     """
     basis_set: str
     functional: str
@@ -41,7 +40,6 @@ class QMHamiltonian(QMHamiltonianInterface):
     quadrature_radial: int = 75
     scf_type: str = "df"
     read_guess: bool = True
-    reference_energy: float | int | None = None
 
     def build_calculator(self, system: System) -> StandaloneCalculator:
         qm_atoms = self.parse_atoms(system)

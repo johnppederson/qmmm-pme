@@ -3,12 +3,9 @@
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
-
 from openmm import Context
 from openmm import LangevinIntegrator
 from openmm import Platform
-from openmm import State
 from openmm import System
 from openmm.app import Modeller
 from simtk.unit import femtosecond
@@ -26,38 +23,22 @@ from .openmm_interface import OpenMMInterface
 SOFTWARE_TYPE = SoftwareTypes.MM
 
 
-@dataclass(frozen=True)
-class PMEOpenMMInterface(OpenMMInterface):
-    """A class which wraps the functional components of OpenMM.
-    """
-
-    def _generate_state(self, **kwargs: bool | set[int]) -> State:
-        """Create the OpenMM State which is used to compute energies
-        and forces.
-        """
-        state = self.context.getState(
-            getVext_grids=True,
-            **kwargs,
-        )
-        return state
-
-
-def pme_openmm_system_factory(settings: MMSettings) -> PMEOpenMMInterface:
+def pme_openmm_system_factory(settings: MMSettings) -> OpenMMInterface:
     """A function which constructs the :class:`OpenMMInterface`.
     """
     pdb, modeller, forcefield, system = _build_base(settings)
     context = _build_context(settings, system, modeller)
-    wrapper = PMEOpenMMInterface(pdb, modeller, forcefield, system, context)
+    wrapper = OpenMMInterface(pdb, modeller, forcefield, system, context)
     return wrapper
 
 
-def pme_openmm_subsystem_factory(settings: MMSettings) -> PMEOpenMMInterface:
+def pme_openmm_subsystem_factory(settings: MMSettings) -> OpenMMInterface:
     """A function which constructs the :class:`OpenMMInterface`.
     """
     pdb, modeller, forcefield, system = _build_base(settings)
     _exclude_qm_atoms(settings, system)
     context = _build_context(settings, system, modeller)
-    wrapper = PMEOpenMMInterface(pdb, modeller, forcefield, system, context)
+    wrapper = OpenMMInterface(pdb, modeller, forcefield, system, context)
     return wrapper
 
 
@@ -67,7 +48,7 @@ def pme_openmm_embedding_factory(settings: MMSettings) -> OpenMMInterface:
     pdb, modeller, forcefield, system = _build_base(settings)
     _exclude_non_embedding(settings, pdb, system)
     context = _build_context(settings, system, modeller)
-    wrapper = PMEOpenMMInterface(pdb, modeller, forcefield, system, context)
+    wrapper = OpenMMInterface(pdb, modeller, forcefield, system, context)
     return wrapper
 
 

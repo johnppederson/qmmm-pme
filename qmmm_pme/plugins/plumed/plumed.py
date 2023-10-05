@@ -90,12 +90,10 @@ class Plumed(CalculatorPlugin):
             energy += biased_energy
             forces += biased_forces
             results = Results(energy)
-            if kwargs["return_forces"]:
-                results.forces = forces
-            if kwargs["return_components"]:
-                components.update(
-                    {"Plumed Bias Energy": biased_energy},
-                )
-                results.components = components
+            results.forces = forces
+            components.update(
+                {"Plumed Bias Energy": biased_energy},
+            )
+            results.components = components
             return astuple(results)
         return inner

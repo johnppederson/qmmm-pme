@@ -78,7 +78,6 @@ class QMSettings(SoftwareSettings):
     :param quadrature_radial: |quadrature_radial|
     :param scf_type: |scf_type|
     :param read_guess: |read_guess|
-    :param reference_energy: |reference_energy|
     """
     system: System
     basis_set: str
@@ -89,7 +88,6 @@ class QMSettings(SoftwareSettings):
     quadrature_radial: int = 75
     scf_type: str = "df"
     read_guess: bool = True
-    reference_energy: float | int | None = None
 
 
 class SoftwareInterface(ABC):

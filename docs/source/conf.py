@@ -78,7 +78,6 @@ rst_epilog = """
 .. |quadrature_radial| replace:: The number of radial points to use in the Lebedev quadrature.
 .. |scf_type| replace:: The type of SCF procedure to perform for QM calculations.
 .. |read_guess| replace:: Whether or not read in wavefunction from previous a calculation.  This speeds up calculations.
-.. |reference_energy| replace:: The base potential energy for QM energies, in Hartree.  This is subtracted from all QM energies.
 
 .. |timestep| replace:: The timestep that the :class:`Simulation` propagates with, in femtoseconds.
 .. |temperature| replace:: The temperature, in Kelvin.

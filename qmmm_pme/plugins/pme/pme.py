@@ -88,12 +88,10 @@ class PME(QMMMCalculatorPlugin):
             qmmm_energy, qmmm_forces, qmmm_components = calculate(**kwargs)
             qmmm_energy += reciprocal_energy
             results = Results(qmmm_energy)
-            if kwargs["return_forces"]:
-                results.forces = qmmm_forces
-            if kwargs["return_components"]:
-                qmmm_components.update(
-                    {"Reciprocal-Space Correction Energy": reciprocal_energy},
-                )
-                results.components = qmmm_components
+            results.forces = qmmm_forces
+            qmmm_components.update(
+                {"Reciprocal-Space Correction Energy": reciprocal_energy},
+            )
+            results.components = qmmm_components
             return astuple(results)
         return inner

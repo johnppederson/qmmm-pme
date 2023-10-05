@@ -7,6 +7,7 @@ from __future__ import annotations
 import importlib
 
 from .atom_embedding import AtomEmbedding
+from .pme import PME
 from .rigid import RigidBody
 from .rigid import Stationary
 from .settle import SETTLE

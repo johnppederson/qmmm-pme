@@ -105,8 +105,8 @@ class Psi4Options:
     :param dft_spherical_points: |quadrature_spherical|
     :param dft_radial_points: |quadrature_radial|
     :param scf_type: |scf_type|
-    :param scf__reference: |reference_energy|
-    :param scf__guess: The type of guess to use for the Psi4
+    :param scf__reference: The restricted or unrestricted Kohn-Sham SCF.
+    :param scf__guess: The type of guess to use for the Psi4.
         calculation.
     """
     basis: str
@@ -118,31 +118,6 @@ class Psi4Options:
 
 
 @dataclass(frozen=True)
-class Psi4Reference:
-    """An immutable wrapper class for storing Psi4 reference energies.
-
-    :param total: The total reference energy, in Hartree.
-    :param nuclear_repulsion: The reference nuclear repulsion energy,
-        in Hartree.
-    :param one_electron: The reference one-electron energy, in Hartree.
-    :param kinetic: The reference one-electron kinetic energy, in
-        Hartree.
-    :param potential: The reference one-electron potential energy, in
-        Hartree.
-    :param two_electron: The reference two-electron energy, in Hartree.
-    :param exchange_correlation: The reference exchange-correlation
-        energy, in Hartree.
-    """
-    total: float | int
-    nuclear_repulsion: float | int
-    one_electron: float | int
-    kinetic: float | int
-    potential: float | int
-    two_electron: float | int
-    exchange_correlation: float | int
-
-
-@dataclass(frozen=True)
 class Psi4Interface(SoftwareInterface):
     """A :class:`SoftwareInterface` class which wraps the functional
     components of Psi4.
@@ -150,13 +125,10 @@ class Psi4Interface(SoftwareInterface):
     :param options: The :class:`Psi4Options` object for the interface.
     :param functional: |functional|
     :param context: The :class:`Psi4Context` object for the interface.
-    :param reference: The :class:`Psi4Reference` object for the
-        interface.
     """
     options: Psi4Options
     functional: str
     context: Psi4Context
-    reference: Psi4Reference
 
     @lru_cache
     def _generate_wavefunction(
@@ -184,7 +156,7 @@ class Psi4Interface(SoftwareInterface):
     def compute_energy(self, **kwargs: ComputationOptions) -> float:
         wfn = self._generate_wavefunction(**kwargs)
         energy = wfn.energy()
-        energy = (energy-self.reference.total) * KJMOL_PER_EH
+        energy = energy * KJMOL_PER_EH
         return energy
 
     def compute_forces(
@@ -218,46 +190,7 @@ class Psi4Interface(SoftwareInterface):
             self,
             **kwargs: ComputationOptions,
     ) -> dict[str, float]:
-        wfn = self._generate_wavefunction(**kwargs)
-        T = wfn.mintshelper().ao_kinetic()
-        V = wfn.mintshelper().ao_potential()
-        Da = wfn.Da()
-        Db = wfn.Db()
-        one_e_components = {
-            "Electronic Kinetic Energy":
-                (
-                    Da.vector_dot(T) + Db.vector_dot(T)
-                    - self.reference.kinetic
-                ) * KJMOL_PER_EH,
-            "Electronic Potential Energy":
-                (
-                    Da.vector_dot(V) + Db.vector_dot(V)
-                    - self.reference.potential
-                ) * KJMOL_PER_EH,
-        }
-        components = {
-            "Nuclear Repulsion Energy":
-                (
-                    wfn.variable("NUCLEAR REPULSION ENERGY")
-                    - self.reference.nuclear_repulsion
-                ) * KJMOL_PER_EH,
-            "One-Electron Energy":
-                (
-                    wfn.variable("ONE-ELECTRON ENERGY")
-                    - self.reference.one_electron
-                ) * KJMOL_PER_EH,
-            ".": one_e_components,
-            "Two-Electron Energy":
-                (
-                    wfn.variable("TWO-ELECTRON ENERGY")
-                    - self.reference.two_electron
-                ) * KJMOL_PER_EH,
-            "Exchange-Correlation Energy":
-                (
-                    wfn.variable("DFT XC ENERGY")
-                    - self.reference.exchange_correlation
-                ) * KJMOL_PER_EH,
-        }
+        components: dict[str, float] = {}
         return components
 
     def compute_quadrature(self) -> NDArray[np.float64]:
@@ -342,11 +275,8 @@ def psi4_system_factory(settings: QMSettings) -> Psi4Interface:
     options = _build_options(settings)
     functional = settings.functional
     context = _build_context(settings)
-    reference = _build_reference(
-        settings, options, functional, context,
-    )
     wrapper = Psi4Interface(
-        options, functional, context, reference,
+        options, functional, context,
     )
     return wrapper
 
@@ -385,55 +315,6 @@ def _build_context(settings: QMSettings) -> Psi4Context:
         settings.spin,
     )
     return context
-
-
-def _build_reference(
-        settings: QMSettings, options: Psi4Options,
-        functional: str, context: Psi4Context,
-) -> Psi4Reference:
-    """Build the :class:`Psi4Reference` object.
-
-    :param settings: The :class:`QMSettings` object to build from.
-    :param functional: |functional|
-    :param context: The :class:`Psi4Context` object to build from.
-    :return: The :class:`Psi4Reference` object built from the given
-        settings.
-    """
-    reference = {
-        "total": 0.,
-        "nuclear_repulsion": 0.,
-        "one_electron": 0.,
-        "kinetic": 0.,
-        "potential": 0.,
-        "two_electron": 0.,
-        "exchange_correlation": 0.,
-    }
-    if isinstance(settings.reference_energy, (int, float)):
-        reference["total"] += settings.reference_energy
-    else:
-        psi4.set_options(asdict(options))
-        molecule = context.generate_molecule()
-        context.generate_molecule.cache_clear()
-        energy, wfn = psi4.optimize(
-            functional,
-            molecule=molecule,
-            return_wfn=True,
-        )
-        T = wfn.mintshelper().ao_kinetic()
-        V = wfn.mintshelper().ao_potential()
-        Da = wfn.Da()
-        Db = wfn.Db()
-        reference["total"] += energy
-        reference["nuclear_repulsion"] += wfn.variable(
-            "NUCLEAR REPULSION ENERGY",
-        )
-        reference["one_electron"] += wfn.variable("ONE-ELECTRON ENERGY")
-        reference["kinetic"] += Da.vector_dot(T) + Db.vector_dot(T)
-        reference["potential"] += Da.vector_dot(V) + Db.vector_dot(V)
-        reference["two_electron"] += wfn.variable("TWO-ELECTRON ENERGY")
-        reference["exchange_correlation"] += wfn.variable("DFT XC ENERGY")
-    psi4_reference = Psi4Reference(**reference)
-    return psi4_reference
 
 
 FACTORIES = {
