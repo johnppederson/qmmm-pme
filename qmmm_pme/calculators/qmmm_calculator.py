@@ -64,24 +64,19 @@ class QMMMCalculator(ModifiableCalculator):
             qm_energy, qm_forces,
             qm_components,
         ) = self.calculators[CalculatorType.QM].calculate()
-        qmmm_energy = mm_energy + qm_energy + correction_energy
+        qmmm_energy = mm_energy + me_energy + qm_energy + correction_energy
         results = Results(qmmm_energy)
         if return_forces:
             qmmm_forces = mm_forces + me_forces + qm_forces + correction_forces
             results.forces = qmmm_forces
         if return_components:
-            mm_components.update(
-                {
-                    "Mechanical Embedding Energy": me_energy,
-                    "Nonbonded Energy":
-                    mm_components["Nonbonded Energy"] - me_energy,
-                },
-            )
             qmmm_components = {
                 "MM Energy": mm_energy,
                 ".": mm_components,
                 "QM Energy": qm_energy,
                 "..": qm_components,
+                "Mechanical Embedding Energy": me_energy,
+                "Electrostatic Embedding Energy": 0.,
                 "Real-Space Correction Energy": correction_energy,
             }
             results.components = qmmm_components

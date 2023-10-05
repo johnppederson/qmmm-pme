@@ -10,6 +10,7 @@ from typing import Callable
 from typing import TYPE_CHECKING
 
 import numpy as np
+from openmm import CMMotionRemover
 from openmm import Context
 from openmm import CustomNonbondedForce
 from openmm import HarmonicAngleForce
@@ -41,6 +42,17 @@ if TYPE_CHECKING:
 
 
 SOFTWARE_TYPE = SoftwareTypes.MM
+
+
+SUPPORTED_FORCES = [
+    CMMotionRemover,
+    CustomNonbondedForce,
+    HarmonicAngleForce,
+    HarmonicBondForce,
+    NonbondedForce,
+    PeriodicTorsionForce,
+    RBTorsionForce,
+]
 
 
 @dataclass(frozen=True)
@@ -290,6 +302,9 @@ def _adjust_forces(settings: MMSettings, system: System) -> None:
     """
     for i, force in enumerate(system.getForces()):
         force.setForceGroup(i)
+        if type(force) not in SUPPORTED_FORCES:
+            print(type(force))
+            raise Exception
     # Get force types and set method.
     nonbonded_forces = [
         force for force in system.getForces()
@@ -345,6 +360,8 @@ def _exclude_qm_atoms(settings: MMSettings, system: System) -> None:
     _exclude_harmonic_angle(system, qm_atoms)
     _exclude_periodic_torsion(system, qm_atoms)
     _exclude_rb_torsion(system, qm_atoms)
+    _exclude_nonbonded(system, qm_atoms)
+    _exclude_custom_nonbonded(system, qm_atoms)
 
 
 def _exclude_harmonic_bond(system: System, atoms: set[int]) -> None:
@@ -423,13 +440,52 @@ def _exclude_rb_torsion(system: System, atoms: set[int]) -> None:
         for i in range(force.getNumTorsions()):
             *p, c0, c1, c2, c3, c4, c5 = force.getTorsionParameters(i)
             if not set(p).isdisjoint(atoms):
-                c0 *= 0
-                c1 *= 0
-                c2 *= 0
-                c3 *= 0
-                c4 *= 0
-                c5 *= 0
+                c0, c1, c2, c3, c4, c5 = (
+                    x*0 for x in (c0, c1, c2, c3, c4, c5)
+                )
                 force.setTorsionParameters(i, *p, c0, c1, c2, c3, c4, c5)
+
+
+def _exclude_nonbonded(system: System, atoms: set[int]) -> None:
+    """Generate OpenMM Nonbonded exclusions for a given set of
+    atoms.
+
+    :param system: The OpenMM System object to make exclusions on.
+    :param atoms: The atoms to exlcude from NonbondedForce
+        calculations.
+    """
+    nonbonded_forces = [
+        force for force in system.getForces()
+        if isinstance(force, NonbondedForce)
+    ]
+    for force in nonbonded_forces:
+        for i in atoms:
+            q, s, e = force.getParticleParameters(i)
+            q *= 0
+            e *= 0
+            s /= s._value
+            force.setParticleParameters(i, q, s, e)
+
+
+def _exclude_custom_nonbonded(system: System, atoms: set[int]) -> None:
+    """Generate OpenMM CustomNonbonded exclusions for a given set of
+    atoms.
+
+    :param system: The OpenMM System object to make exclusions on.
+    :param atoms: The atoms to exlcude from CustomNonbondedForce
+        calculations.
+    """
+    custom_nonbonded_forces = [
+        force for force in system.getForces()
+        if isinstance(force, CustomNonbondedForce)
+    ]
+    all_atoms = {i for i in range(system.getNumParticles())}
+    other_atoms = all_atoms - atoms
+    for force in custom_nonbonded_forces:
+        force.addInteractionGroup(
+            other_atoms,
+            other_atoms,
+        )
 
 
 def _exclude_non_embedding(
