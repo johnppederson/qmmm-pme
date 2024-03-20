@@ -3,6 +3,7 @@
 """
 from __future__ import annotations
 
-from .calculator import StandaloneCalculator
-from .qmmm_calculator import QMMMCalculator
+from .calculator import Calculator
+from .composite_calculator import CompositeCalculator
+from .interface_calculator import InterfaceCalculator
 __author__ = "Jesse McDaniel, John Pederson"

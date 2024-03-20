@@ -3,10 +3,73 @@
 """
 from __future__ import annotations
 
+from dataclasses import dataclass
+from dataclasses import field
+from enum import Enum
 from typing import Any
+from typing import TYPE_CHECKING
 
 import numpy as np
-from numpy.typing import NDArray
+
+from .units import KB
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
+
+Components = dict[str, Any]
+
+
+class TheoryLevel(Enum):
+    """Enumeration of the different levels of theory.
+    """
+    NO = "No level of theory (a default)."
+    QM = "The quantum mechanical (DFT) level of theory."
+    MM = "The molecular mechanical (forcefield) level of theory."
+
+
+class Subsystem(Enum):
+    """Enumeration of the regions of the system.
+    """
+    NULL = "Null subsystem memebrship (a default)."
+    I = "The solute for which electronic structure information is desired."
+    II = "The local solvent environment about the solute."
+    III = "The extended solvent environment about the solute."
+
+
+def generate_velocities(
+        masses: NDArray[np.float64],
+        temperature: float | int,
+        seed: int | None = None,
+) -> NDArray[np.float64]:
+    avg_ke = temperature * KB
+    masses = masses.reshape((-1, 1)) * (10**-3)
+    if seed:
+        np.random.seed(seed)
+    z = np.random.standard_normal((len(masses), 3))
+    momenta = z * np.sqrt(avg_ke * masses)
+    velocities = (momenta / masses) * (10**-5)
+    return velocities
+
+
+def empty_array() -> NDArray[np.float64]:
+    return np.empty(0)
+
+
+@dataclass
+class Results:
+    """A wrapper class for storing the results of a calculation.
+
+    :param energy: The energy calculated for the system.
+    :param forces: The forces calculated for the system.
+    :param components: The components of the energy calculated for the system.
+    """
+    energy: float = 0
+    forces: NDArray[np.float64] = field(
+        default_factory=empty_array,
+    )
+    components: Components = field(
+        default_factory=dict,
+    )
 
 
 def align_dict(
@@ -52,7 +115,7 @@ def compute_least_mirror(
 
 def compute_lattice_constants(
         box: NDArray[np.float64],
-) -> tuple[float, float, float, float, float, float]:
+) -> tuple[float, ...]:
     """Calculates length and angle lattice constants.
 
     Returns the lattice constants a, b, c, alpha, beta, and gamma using
@@ -72,4 +135,4 @@ def compute_lattice_constants(
     alpha = 180*np.arccos(np.dot(vec_b, vec_c)/len_b/len_c)/np.pi
     beta = 180*np.arccos(np.dot(vec_a, vec_c)/len_a/len_c)/np.pi
     gamma = 180*np.arccos(np.dot(vec_a, vec_b)/len_a/len_b)/np.pi
-    return len_a, len_b, len_c, alpha, beta, gamma
+    return tuple(float(x) for x in (len_a, len_b, len_c, alpha, beta, gamma))

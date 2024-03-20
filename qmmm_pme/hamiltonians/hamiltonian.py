@@ -6,22 +6,58 @@ from __future__ import annotations
 
 from abc import ABC
 from abc import abstractmethod
+from copy import deepcopy
 from typing import Any
 from typing import TYPE_CHECKING
 
-from qmmm_pme.interfaces import SystemTypes
+from qmmm_pme.calculators import CompositeCalculator
+from qmmm_pme.common import Subsystem
+from qmmm_pme.common import TheoryLevel
 
 if TYPE_CHECKING:
     from qmmm_pme import System
-    from qmmm_pme.calculators.calculator import ModifiableCalculator
+    from qmmm_pme.calculators import Calculator
 
 
 class Hamiltonian(ABC):
     """An abstract :class:`Hamiltonian` base class for creating the
     Hamiltonian API.
     """
+
+    @abstractmethod
+    def __add__(self, other: Any) -> Hamiltonian:
+        """Add :class:`Hamiltonian` objects together.
+
+        :param other: The object being added to the
+            :class:`Hamiltonian`.
+        :return: A new :class:`Hamiltonian` object.
+        """
+
+    def __radd__(self, other: Any) -> Any:
+        """Add :class:`Hamiltonian` objects together.
+
+        :param other: The object being added to the
+            :class:`Hamiltonian`.
+        :return: A new :class:`Hamiltonian` object.
+        """
+        return self.__add__(other)
+
+    @abstractmethod
+    def __str__(self) -> str:
+        """Create a LATEX string representation of the
+        :class:`Hamiltonian` object.
+
+        :return: The string representation of the :class:`Hamiltonian`
+            object.
+        """
+
+
+class CalculatorHamiltonian(Hamiltonian):
+    """An abstract :class:`Hamiltonian` base class for creating
+    Hamiltonians which can create standalone calculators.
+    """
     atoms: list[int | slice] = []
-    system_type: SystemTypes = SystemTypes.SYSTEM
+    theory_level: TheoryLevel = TheoryLevel.NO
 
     def __getitem__(
             self,
@@ -39,19 +75,11 @@ class Hamiltonian(ABC):
                 atoms.append(i)
             else:
                 raise TypeError("...")
-        self.atoms = atoms
-        return self
+        ret = deepcopy(self)
+        ret.atoms = atoms
+        return ret
 
-    @abstractmethod
-    def build_calculator(self, system: System) -> ModifiableCalculator:
-        """Build the :class:`Calculator` corresponding to the
-        :class:`Hamiltonian` object.
-
-        :param system: |system| to calculate energy and forces for.
-        :return: |calculator|.
-        """
-
-    def parse_atoms(self, system: System) -> list[list[int]]:
+    def _parse_atoms(self, system: System) -> list[int]:
         """Parse the indices provided to the :class:`Hamiltonian` object
         to create the list of residue-grouped atom indices.
 
@@ -74,63 +102,107 @@ class Hamiltonian(ABC):
                 )
         if not self.atoms:
             indices = [i for i in range(len(system))]
-        residues = [
-            x for residue in system.topology.atoms()
-            if (x := [i for i in residue if i in indices])
-        ]
-        return residues
+        return indices
 
-    @abstractmethod
-    def __add__(self, other: Any) -> Hamiltonian:
-        """Add :class:`Hamiltonian` objects together.
-
-        :param other: The object being added to the
-            :class:`Hamiltonian`.
-        :return: A new :class:`Hamiltonian` object.
-        """
-        pass
-
-    def __or__(self, other: Any) -> Hamiltonian:
-        """Set the embedding distance for a :class:`QMMMHamiltonian`.
-
-        :param other: The embedding distance, in Angstroms.
-        :return: |hamiltonian|.
-        """
-        return self
-
-    def __radd__(self, other: Any) -> Any:
-        """Add :class:`Hamiltonian` objects together.
-
-        :param other: The object being added to the
-            :class:`Hamiltonian`.
-        :return: A new :class:`Hamiltonian` object.
-        """
-        return self.__add__(other)
+    def __add__(self, other: Hamiltonian) -> CompositeHamiltonian:
+        if not isinstance(other, Hamiltonian):
+            raise TypeError("...")
+        return CompositeHamiltonian(self, other)
 
     def __str__(self) -> str:
-        """Create a LATEX string representation of the
-        :class:`Hamiltonian` object.
-
-        :return: The string representation of the :class:`Hamiltonian`
-            object.
-        """
         string = "_{"
         for atom in self.atoms:
             string += f"{atom}, "
         string += "}"
         return string
 
+    @abstractmethod
+    def build_calculator(self, system: System) -> Calculator:
+        """Build the :class:`Calculator` corresponding to the
+        :class:`Hamiltonian` object.
 
-class MMHamiltonianInterface(Hamiltonian):
-    """An interface for the :class:`MMHamiltonian`.
+        :param system: |system| to calculate energy and forces for.
+        :return: |calculator|.
+        """
+
+
+class CouplingHamiltonian(Hamiltonian):
+    """An abstract :class:`Hamiltonian` base class for creating
+    Hamiltonians which couple the interactions between subsystems
+    modeled by :class:`StandaloneHamiltonian` objects.
+    """
+    force_matrix: dict[Subsystem, dict[Subsystem, TheoryLevel]]
+
+    def __add__(self, other: Hamiltonian) -> CompositeHamiltonian:
+        if not isinstance(other, Hamiltonian):
+            raise TypeError("...")
+        return CompositeHamiltonian(self, other)
+
+    @abstractmethod
+    def modify_calculator(self, calculator: Calculator, system: System) -> None:
+        """
+        """
+
+
+class CompositeHamiltonian(Hamiltonian):
+    """An abstract :class:`Hamiltonian` base class for creating
+    Hamiltonians which contain subsystems modeled by
+    :class:`StandaloneHamiltonian` objects and their respective
+    :class:`CouplingHamiltonian` objects.
     """
 
+    def __init__(self, *hamiltonians: Hamiltonian) -> None:
+        self.hamiltonians = hamiltonians
 
-class QMHamiltonianInterface(Hamiltonian):
-    """An interface for the :class:`QMHamiltonian`.
-    """
+    def __add__(self, other: Hamiltonian) -> CompositeHamiltonian:
+        if not isinstance(other, Hamiltonian):
+            raise TypeError("...")
+        if isinstance(other, CompositeHamiltonian):
+            ret = CompositeHamiltonian(
+                *self.hamiltonians, *other.hamiltonians,
+            )
+        else:
+            ret = CompositeHamiltonian(
+                *self.hamiltonians,
+                other,
+            )
+        return ret
 
+    def __str__(self) -> str:
+        string = "H^{Total} ="
+        for hamiltonian in self.hamiltonians:
+            string += " " + str(hamiltonian)
+        return string
 
-class QMMMHamiltonianInterface(Hamiltonian):
-    """An interface for the :class:`QMMMHamiltonian`.
-    """
+    def build_calculator(self, system: System) -> Calculator:
+        standalone = self._calculator_hamiltonians()
+        coupling = self._coupling_hamiltonians()
+        calculators = []
+        for hamiltonian in standalone:
+            calculator = hamiltonian.build_calculator(system)
+            for coupler in coupling:
+                coupler.modify_calculator(calculator, system)
+            calculators.append(calculator)
+        calculator = CompositeCalculator(
+            system=system,
+            calculators=calculators,
+        )
+        return calculator
+
+    def _calculator_hamiltonians(self) -> list[CalculatorHamiltonian]:
+        """
+        """
+        standalone = []
+        for hamiltonian in self.hamiltonians:
+            if isinstance(hamiltonian, CalculatorHamiltonian):
+                standalone.append(hamiltonian)
+        return standalone
+
+    def _coupling_hamiltonians(self) -> list[CouplingHamiltonian]:
+        """
+        """
+        coupling = []
+        for hamiltonian in self.hamiltonians:
+            if isinstance(hamiltonian, CouplingHamiltonian):
+                coupling.append(hamiltonian)
+        return coupling

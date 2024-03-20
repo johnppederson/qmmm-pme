@@ -7,20 +7,19 @@ from dataclasses import asdict
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from .hamiltonian import MMHamiltonianInterface
-from .hamiltonian import QMHamiltonianInterface
-from .qmmm_hamiltonian import QMMMHamiltonian
-from qmmm_pme.calculators import StandaloneCalculator
-from qmmm_pme.interfaces import mm_factories
+from .hamiltonian import CalculatorHamiltonian
+from qmmm_pme.calculators import InterfaceCalculator
+from qmmm_pme.common import Subsystem
+from qmmm_pme.common import TheoryLevel
+from qmmm_pme.interfaces import mm_factory
 from qmmm_pme.interfaces import MMSettings
 
 if TYPE_CHECKING:
     from qmmm_pme import System
-    from .qm_hamiltonian import QMHamiltonian
 
 
 @dataclass
-class MMHamiltonian(MMHamiltonianInterface):
+class MMHamiltonian(CalculatorHamiltonian):
     """A wrapper class to store settings for MM calculations.
 
     :param nonbonded_method: |nonbonded_method|
@@ -28,23 +27,23 @@ class MMHamiltonian(MMHamiltonianInterface):
     :param pme_gridnumber: |pme_gridnumber|
     :param pme_alpha: |pme_alpha|
     """
+    forcefield_file: str | list[str]
+    topology_file: str | list[str] | None = None
     nonbonded_method: str = "PME"
     nonbonded_cutoff: float | int = 14.
-    pme_gridnumber: int = 60
-    pme_alpha: float | int = 5.0
+    pme_gridnumber: int | None = None
+    pme_alpha: float | int | None = None
 
-    def build_calculator(self, system: System) -> StandaloneCalculator:
-        mm_atoms = self.parse_atoms(system)
-        system.topology.mm_atoms.update(mm_atoms)
+    def __post_init__(self) -> None:
+        self.theory_level = TheoryLevel.MM
+
+    def build_calculator(self, system: System) -> InterfaceCalculator:
+        mm_atoms = self._parse_atoms(system)
+        system.subsystems[mm_atoms] = Subsystem.III
         settings = MMSettings(system=system, **asdict(self))
-        interface = mm_factories[self.system_type](settings)
-        calculator = StandaloneCalculator(system=system, interface=interface)
+        interface = mm_factory(settings)
+        calculator = InterfaceCalculator(system=system, interface=interface)
         return calculator
-
-    def __add__(self, other: QMHamiltonian) -> QMMMHamiltonian:
-        if not isinstance(other, QMHamiltonianInterface):
-            raise TypeError("...")
-        return QMMMHamiltonian(other, self)
 
     def __str__(self) -> str:
         return "H^{MM}" + super().__str__()

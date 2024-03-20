@@ -4,17 +4,15 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
-from typing import Dict
 from typing import TYPE_CHECKING
 
 from qmmm_pme.common import align_dict
 from qmmm_pme.common import FileManager
 
 if TYPE_CHECKING:
-    from .system import System
+    from typing import Any
+    from qmmm_pme.system import System
     from .simulation import Simulation
-    EnergyDict = Dict[str, float]
 
 
 class NullLogger:
@@ -112,12 +110,12 @@ class Logger:
         if self.write_to_pdb:
             self.file_manager.write_to_pdb(
                 "output.pdb",
-                self.system.state.positions(),
-                self.system.state.box(),
-                self.system.topology.atoms(),
-                self.system.topology.residue_names(),
-                self.system.topology.elements(),
-                self.system.topology.atom_names(),
+                self.system.positions,
+                self.system.box,
+                self.system.molecules,
+                self.system.molecule_names,
+                self.system.elements,
+                self.system.names,
             )
 
     def record(self, simulation: Simulation) -> None:
@@ -159,14 +157,14 @@ class Logger:
                 self.dcd,
                 self.dcd_write_interval,
                 len(self.system),
-                simulation.system.state.positions(),
-                simulation.system.state.box(),
+                simulation.system.positions,
+                simulation.system.box,
                 simulation.frame,
             )
 
     def _unwrap_energy(
             self,
-            energy: EnergyDict,
+            energy: dict[str, Any],
             spaces: int = 0,
             cont: list[int] = [],
     ) -> str:

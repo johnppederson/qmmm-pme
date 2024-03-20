@@ -7,30 +7,17 @@ from __future__ import annotations
 from abc import ABC
 from abc import abstractmethod
 from dataclasses import dataclass
-from enum import Enum
-from typing import Callable
 from typing import TYPE_CHECKING
+from typing import TypeVar
+
+from qmmm_pme.common import TheoryLevel
 
 if TYPE_CHECKING:
     from qmmm_pme import System
     from numpy.typing import NDArray
     import numpy as np
 
-
-class SoftwareTypes(Enum):
-    """Enumerations of the different types of software to interface
-    with.
-    """
-    QM = "A software for performing QM calculations."
-    MM = "A software for performing MM calculations."
-
-
-class SystemTypes(Enum):
-    """Enumerations of the types of subsystems for a QM/MM calculation.
-    """
-    SYSTEM = "A System."
-    SUBSYSTEM = "A Subsystem of a QM/MM System."
-    EMBEDDING = "A Subsystem for Mechanical Embedding."
+T = TypeVar("T")
 
 
 class SoftwareSettings(ABC):
@@ -46,22 +33,14 @@ class MMSettings(SoftwareSettings):
     software interface.
 
     :param system: |system| to perform MM calculations on.
-    :param nonbonded_method: |nonbonded_method|
-    :param nonbonded_cutoff: |nonbonded_cutoff|
-    :param pme_gridnumber: |pme_gridnumber|
-    :param pme_alpha: |pme_alpha|
-    :param temperature: |temperature|
-    :param friction: |friction|
-    :param timestep: |timestep|
     """
     system: System
+    forcefield_file: str | list[str]
+    topology_file: list[str] | None = None
     nonbonded_method: str = "PME"
     nonbonded_cutoff: float | int = 14.
-    pme_gridnumber: int = 30
-    pme_alpha: float | int = 5.
-    temperature: float | int = 300.
-    friction: float | int = 0.001
-    timestep: float | int = 1.
+    pme_gridnumber: int | None = None
+    pme_alpha: float | int | None = None
 
 
 @dataclass(frozen=True)
@@ -93,49 +72,75 @@ class QMSettings(SoftwareSettings):
 class SoftwareInterface(ABC):
     """The abstract :class:`SoftwareInterface` base class.
     """
+    theory_level: TheoryLevel
 
     @abstractmethod
     def compute_energy(self) -> float:
-        """Compute the energy for the :class:`System` with the
-        :class:`SoftwareInterface`.
-
-        :return: The calculated energy, in kJ/mol.
+        """
         """
 
     @abstractmethod
     def compute_forces(self) -> NDArray[np.float64]:
-        """Compute the forces for the :class:`System` with the
-        :class:`SoftwareInterface`.
-
-        :return: The calculated forces, in kJ/mol/Angstrom.
+        """
         """
 
     @abstractmethod
     def compute_components(self) -> dict[str, float]:
-        """Compute the components of the potential energy for the
-        :class:`System` with the :class:`SoftwareInterface`.
+        """
+        """
 
-        :return: The individual contributions to the energy, in kJ/mol.
+
+class MMInterface(SoftwareInterface):
+    """The abstract :class:`SoftwareInterface` base class.
+    """
+    theory_level = TheoryLevel.MM
+
+    @abstractmethod
+    def zero_intramolecular(self, atoms: frozenset[int]) -> None:
+        """
         """
 
     @abstractmethod
-    def get_state_notifiers(
-            self,
-    ) -> dict[str, Callable[[NDArray[np.float64]], None]]:
-        """Get the methods which should be called when a given
-        :class:`StateVariable` is updated.
-
-        :return: A dictionary of :class:`StateVariable` names and their
-            respective notifier methods.
+    def zero_charges(self, atoms: frozenset[int]) -> None:
+        """
         """
 
     @abstractmethod
-    def get_topology_notifiers(
-            self,
-    ) -> dict[str, Callable[..., None]]:
-        """Get the methods which should be called when a given
-        :class:`TopologyVariable` is updated.
+    def zero_intermolecular(self, atoms: frozenset[int]) -> None:
+        """
+        """
 
-        :return: A dictionary of :class:`TopologyVariable` names and
-            their respective notifier methods.
+    @abstractmethod
+    def zero_forces(self, atoms: frozenset[int]) -> None:
+        """
+        """
+
+    @abstractmethod
+    def add_real_elst(
+            self,
+            atoms: frozenset[int],
+            const: float | int = 1,
+            inclusion: NDArray[np.float64] | None = None,
+    ) -> None:
+        """
+        """
+
+    @abstractmethod
+    def add_non_elst(
+            self,
+            atoms: frozenset[int],
+            inclusion: NDArray[np.float64] | None = None,
+    ) -> None:
+        """
+        """
+
+
+class QMInterface(SoftwareInterface):
+    """The abstract :class:`SoftwareInterface` base class.
+    """
+    theory_level = TheoryLevel.QM
+
+    @abstractmethod
+    def disable_embedding(self) -> None:
+        """
         """

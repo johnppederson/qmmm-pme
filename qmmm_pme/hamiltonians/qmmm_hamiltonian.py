@@ -3,25 +3,72 @@
 """
 from __future__ import annotations
 
-from copy import deepcopy
 from dataclasses import dataclass
-from typing import Any
 from typing import TYPE_CHECKING
 
-from .hamiltonian import QMMMHamiltonianInterface
-from qmmm_pme.calculators import QMMMCalculator
-from qmmm_pme.calculators.calculator import CalculatorType
-from qmmm_pme.interfaces import SystemTypes
+import numpy as np
+
+from .hamiltonian import CouplingHamiltonian
+from qmmm_pme.calculators import InterfaceCalculator
+from qmmm_pme.common import Subsystem
+from qmmm_pme.common import TheoryLevel
+from qmmm_pme.interfaces import MMInterface
+from qmmm_pme.interfaces import QMInterface
+
 
 if TYPE_CHECKING:
     from qmmm_pme import System
-    from .hamiltonian import Hamiltonian
-    from .qm_hamiltonian import QMHamiltonian
-    from .mm_hamiltonian import MMHamiltonian
+    from qmmm_pme.calculators import Calculator
+
+
+_DEFAULT_FORCE_MATRIX = {
+    Subsystem.I: {
+        Subsystem.I: TheoryLevel.QM,
+        Subsystem.II: TheoryLevel.NO,
+        Subsystem.III: TheoryLevel.NO,
+    },
+    Subsystem.II: {
+        Subsystem.I: TheoryLevel.NO,
+        Subsystem.II: TheoryLevel.MM,
+        Subsystem.III: TheoryLevel.MM,
+    },
+    Subsystem.III: {
+        Subsystem.I: TheoryLevel.NO,
+        Subsystem.II: TheoryLevel.MM,
+        Subsystem.III: TheoryLevel.MM,
+    },
+}
+
+
+_CLOSE_EMBEDDING = {
+    "mechanical": (TheoryLevel.MM, TheoryLevel.MM),
+    "electrostatic": (TheoryLevel.QM, TheoryLevel.QM),
+    "none": (TheoryLevel.NO, TheoryLevel.NO),
+}
+
+
+_LONG_EMBEDDING = {
+    "mechanical": (TheoryLevel.MM, TheoryLevel.MM),
+    "electrostatic": (TheoryLevel.QM, TheoryLevel.MM),
+    "cutoff": (TheoryLevel.NO, TheoryLevel.MM),
+    "none": (TheoryLevel.NO, TheoryLevel.NO),
+}
+
+
+_SUPPORTED_EMBEDDING = [
+    ("none", "none"),
+    ("mechanical", "none"),
+    ("mechanical", "cutoff"),
+    ("mechanical", "mechanical"),
+    ("electrostatic", "none"),
+    ("electrostatic", "cutoff"),
+    ("electrostatic", "mechanical"),
+    ("electrostatic", "electrostatic"),
+]
 
 
 @dataclass
-class QMMMHamiltonian(QMMMHamiltonianInterface):
+class QMMMHamiltonian(CouplingHamiltonian):
     """A wrapper class storing settings for QMMM calculations.
 
     :param qm_hamiltonian: |hamiltonian| for calculations on the QM
@@ -30,48 +77,119 @@ class QMMMHamiltonian(QMMMHamiltonianInterface):
         subsystem.
     :param embedding_cutoff: |embedding_cutoff|
     """
-    qm_hamiltonian: QMHamiltonian
-    mm_hamiltonian: MMHamiltonian
+    close_range: str = "electrostatic"
+    long_range: str = "cutoff"
     embedding_cutoff: float | int = 14.
 
     def __post_init__(self) -> None:
-        """Perform modifications to QM and MM :class:`Hamiltonian`
-        objects immediately after initialization.
-        """
-        self.qm_hamiltonian.system_type = SystemTypes.SUBSYSTEM
-        self.mm_hamiltonian.system_type = SystemTypes.SUBSYSTEM
-        self.me_hamiltonian = deepcopy(self.mm_hamiltonian)
-        self.me_hamiltonian.system_type = SystemTypes.EMBEDDING
-
-    def __or__(self, other: Any) -> Hamiltonian:
-        if not isinstance(other, (int, float)):
+        if (self.close_range, self.long_range) not in _SUPPORTED_EMBEDDING:
             raise TypeError("...")
-        self.embedding_cutoff = other
-        return self
+        self.force_matrix = _DEFAULT_FORCE_MATRIX.copy()
+        # Adjust I-II interaction.
+        I_II, II_I = _CLOSE_EMBEDDING[self.close_range]
+        self.force_matrix[Subsystem.I][Subsystem.II] = I_II
+        self.force_matrix[Subsystem.II][Subsystem.I] = II_I
+        # Adjust I-III interaction.
+        I_III, III_I = _LONG_EMBEDDING[self.long_range]
+        self.force_matrix[Subsystem.I][Subsystem.III] = I_III
+        self.force_matrix[Subsystem.III][Subsystem.I] = III_I
 
-    def build_calculator(self, system: System) -> QMMMCalculator:
-        qm_calculator = self.qm_hamiltonian.build_calculator(system)
-        mm_calculator = self.mm_hamiltonian.build_calculator(system)
-        me_calculator = self.me_hamiltonian.build_calculator(system)
-        calculators = {
-            CalculatorType.QM: qm_calculator,
-            CalculatorType.MM: mm_calculator,
-            CalculatorType.ME: me_calculator,
-        }
-        calculator = QMMMCalculator(
-            system=system,
-            calculators=calculators,
-            embedding_cutoff=self.embedding_cutoff,
-        )
-        return calculator
+    def modify_calculator(
+            self,
+            calculator: Calculator,
+            system: System,
+    ) -> None:
+        if isinstance(calculator, InterfaceCalculator):
+            if isinstance(calculator.interface, MMInterface):
+                self.modify_mm_interface(calculator.interface, system)
+            if isinstance(calculator.interface, QMInterface):
+                self.modify_qm_interface(calculator.interface, system)
 
-    def __add__(self, other: Any) -> Any:
-        return other + self
+    def modify_mm_interface(
+            self,
+            interface: MMInterface,
+            system: System,
+    ) -> None:
+        qm_atoms = system.qm_region
+        mm_atoms = system.mm_region
+        atoms = qm_atoms.union(mm_atoms)
+        interface.zero_intramolecular(qm_atoms)
+        if (
+            self.force_matrix[Subsystem.I][Subsystem.III]
+            == self.force_matrix[Subsystem.III][Subsystem.I]
+        ):
+            if (
+                self.force_matrix[Subsystem.I][Subsystem.III]
+                == TheoryLevel.NO
+            ):
+                if (
+                    self.force_matrix[Subsystem.I][Subsystem.II]
+                    == TheoryLevel.NO
+                ):
+                    interface.zero_intermolecular(qm_atoms)
+                elif (
+                    self.force_matrix[Subsystem.I][Subsystem.II]
+                    == TheoryLevel.MM
+                ):
+                    interface.add_real_elst(qm_atoms)
+                interface.zero_charges(qm_atoms)
+            elif (
+                self.force_matrix[Subsystem.I][Subsystem.III]
+                == TheoryLevel.MM
+            ):
+                if (
+                    self.force_matrix[Subsystem.I][Subsystem.II]
+                    == TheoryLevel.QM
+                ):
+                    interface.add_real_elst(qm_atoms, -1)
+            else:
+                raise TypeError("...")
+        else:
+            interface.zero_forces(qm_atoms)
+            inclusion = np.zeros((len(atoms), 3))
+            inclusion[list(qm_atoms), :] = 1
+            interface.add_non_elst(qm_atoms, inclusion=inclusion)
+            if (
+                self.force_matrix[Subsystem.I][Subsystem.III]
+                == TheoryLevel.NO
+            ):
+                if (
+                    self.force_matrix[Subsystem.I][Subsystem.II]
+                    == TheoryLevel.MM
+                ):
+                    interface.add_real_elst(qm_atoms, 1, inclusion=inclusion)
+                elif (
+                    self.force_matrix[Subsystem.I][Subsystem.II]
+                    == TheoryLevel.QM
+                ):
+                    interface.add_real_elst(qm_atoms, -1)
+            elif (
+                self.force_matrix[Subsystem.I][Subsystem.III]
+                == TheoryLevel.QM
+            ):
+                interface.add_real_elst(qm_atoms, -1)
+                ...
+            else:
+                raise TypeError("...")
+
+    def modify_qm_interface(
+            self,
+            interface: QMInterface,
+            system: System,
+    ) -> None:
+        if (
+            self.force_matrix[Subsystem.I][Subsystem.II] == TheoryLevel.QM
+            or self.force_matrix[Subsystem.II][Subsystem.I] == TheoryLevel.QM
+        ):
+            ...
+        else:
+            interface.disable_embedding()
+
+    # def __or__(self, other: Any) -> Hamiltonian:
+    #    if not isinstance(other, (int, float)):
+    #        raise TypeError("...")
+    #    self.embedding_cutoff = other
+    #    return self
 
     def __str__(self) -> str:
-        string = (
-            "H^{QM/MM} = "
-            + str(self.qm_hamiltonian) + " + "
-            + str(self.mm_hamiltonian)
-        )
-        return string
+        return "H^{QM/MM}"

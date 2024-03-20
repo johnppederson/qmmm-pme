@@ -9,9 +9,9 @@ from abc import abstractmethod
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from qmmm_pme.calculators.calculator import ModifiableCalculator
-    from qmmm_pme.calculators import QMMMCalculator
-    from qmmm_pme.integrators.integrator import ModifiableIntegrator
+    from qmmm_pme.calculators import Calculator
+    from qmmm_pme.calculators import CompositeCalculator
+    from qmmm_pme.integrators import Integrator
 
 
 class Plugin(ABC):
@@ -28,7 +28,7 @@ class CalculatorPlugin(Plugin):
     _key: str = "calculator"
 
     @abstractmethod
-    def modify(self, calculator: ModifiableCalculator) -> None:
+    def modify(self, calculator: Calculator) -> None:
         """Modify the functionality of any :class:`Calculator`.
 
         :param calculator: |calculator| to modify with the
@@ -36,14 +36,14 @@ class CalculatorPlugin(Plugin):
         """
 
 
-class QMMMCalculatorPlugin(Plugin):
+class CompositeCalculatorPlugin(Plugin):
     """The base class for creating a :class:`Plugin` which modifies the
     :class:`QMMMCalculator` class.
     """
     _key: str = "calculator"
 
     @abstractmethod
-    def modify(self, calculator: QMMMCalculator) -> None:
+    def modify(self, calculator: CompositeCalculator) -> None:
         """Modify the functionality of a :class:`QMMMCalculator`
         :class:`QMMMCalculator`.
 
@@ -59,7 +59,7 @@ class IntegratorPlugin(Plugin):
     _key: str = "integrator"
 
     @abstractmethod
-    def modify(self, integrator: ModifiableIntegrator) -> None:
+    def modify(self, integrator: Integrator) -> None:
         """Modify the functionality of a :class:`Integrator`.
 
         :param integrator: |integrator| to modify with the

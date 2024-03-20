@@ -7,16 +7,20 @@ from __future__ import annotations
 import array
 import os
 import struct
+import xml.etree.ElementTree as ET
 from typing import TYPE_CHECKING
 
 import numpy as np
-import openmm.app
-import simtk.unit
 
 from .utils import compute_lattice_constants
 
 if TYPE_CHECKING:
+    from typing import Any
     from numpy.typing import NDArray
+    from qmmm_pme.system import ObservedArray
+    from qmmm_pme.system import array_float
+    from qmmm_pme.system import array_int
+    from qmmm_pme.system import array_str
 
 
 class FileManager:
@@ -32,59 +36,64 @@ class FileManager:
 
     def load(
             self,
-            pdb_list: list[str],
-            topology_list: list[str],
-            forcefield_list: list[str],
+            pdb_file: list[str] | str,
+            forcefield_file: list[str] | str | None = None,
     ) -> tuple[
-        dict[str, NDArray[np.float64]],
-        dict[str, list[str]],
-        dict[str, list[list[int]]],
+        list[list[float]],
+        list[int],
+        list[str],
+        list[str],
+        list[str],
+        list[float],
+        list[float],
+        list[list[float]],
     ]:
         """Load files necessary to generate a system.
 
         :param pdb_list: |pdb_list|
-        :param topology_list: |topology_list|
         :param forcefield_list: |forcefield_list|
         :return: Data for the :class:`State` and :class:`Topology`
             record classes.
         """
         # Check the file extensions and add them to the :class:`Files`
         # record.
-        for fh in pdb_list:
-            _check_ext(fh, "pdb")
-        for fh in topology_list:
-            _check_ext(fh, "xml")
-        for fh in forcefield_list:
-            _check_ext(fh, "xml")
+        if isinstance(pdb_file, str):
+            _check_ext(pdb_file, "pdb")
+            pdb_list = [pdb_file]
+        elif isinstance(pdb_file, list):
+            for fh in pdb_file:
+                _check_ext(fh, "pdb")
+            pdb_list = pdb_file
+        else:
+            raise TypeError
+        if isinstance(forcefield_file, str):
+            _check_ext(forcefield_file, "xml")
+            forcefield_list = [forcefield_file]
+        elif isinstance(forcefield_file, list):
+            for fh in forcefield_file:
+                _check_ext(fh, "xml")
+            forcefield_list = forcefield_file
+        else:
+            raise TypeError
         # Generate and return :class:`System` data using OpenMM.
-        state_data, name_data, residue_data = _get_system_data(
+        system_info = _get_atom_data(
             pdb_list,
-            topology_list,
             forcefield_list,
         )
-        return state_data, name_data, residue_data
+        return system_info
 
     def write_to_pdb(
             self,
             name: str,
-            positions: NDArray[np.float64],
-            box: NDArray[np.float64],
-            all_groups: list[list[int]],
-            residues: list[str],
-            elements: list[str],
-            atoms: list[str],
+            positions: NDArray[np.float64] | ObservedArray[Any, array_float],
+            box: NDArray[np.float64] | ObservedArray[Any, array_float],
+            molecules: list[int] | ObservedArray[Any, array_int],
+            molecule_names: list[str] | ObservedArray[Any, array_str],
+            elements: list[str] | ObservedArray[Any, array_str],
+            names: list[str] | ObservedArray[Any, array_str],
     ) -> None:
         """Utility to write PDB files with :class:`State` current
         coordinates.
-
-        :param name: The directory/name of PDB file to be written.
-        :param positions: |positions|
-        :param box: |box|
-        :param all_groups: The indices of all atoms in the
-            :class:`System` grouped by residue.
-        :param residues: |residues|
-        :param elements: |elements|
-        :param atoms: |atoms|
 
         .. note:: Based on PDB writer from OpenMM.
         """
@@ -101,19 +110,18 @@ class FileManager:
                     + f"{gamma:7.2f} P 1           1 \n"
                 ),
             )
-            for i, residue in enumerate(all_groups):
-                for atom in residue:
-                    line = "HETATM"
-                    line += f"{atom+1:5d}  "
-                    line += f"{atoms[atom]:4s}"
-                    line += f"{residues[i]:4s}"
-                    line += f"A{i+1:4d}    "
-                    line += f"{positions[atom,0]:8.3f}"
-                    line += f"{positions[atom,1]:8.3f}"
-                    line += f"{positions[atom,2]:8.3f}"
-                    line += "  1.00  0.00           "
-                    line += f"{elements[atom]:2s}  \n"
-                    fh.write(line)
+            for i, atom in enumerate(names):
+                line = "HETATM"
+                line += f"{i+1:5d}  "
+                line += f"{name:4s}"
+                line += f"{molecule_names[i]:4s}"
+                line += f"A{molecules[i]+1:4d}    "
+                line += f"{positions[i,0]:8.3f}"
+                line += f"{positions[i,1]:8.3f}"
+                line += f"{positions[i,2]:8.3f}"
+                line += "  1.00  0.00           "
+                line += f"{elements[i]:2s}  \n"
+                fh.write(line)
             fh.write("END")
 
     def start_dcd(
@@ -154,8 +162,8 @@ class FileManager:
             name: str,
             write_interval: int,
             num_particles: int,
-            positions: NDArray[np.float64],
-            box: NDArray[np.float64],
+            positions: NDArray[np.float64] | ObservedArray[Any, array_float],
+            box: NDArray[np.float64] | ObservedArray[Any, array_float],
             frame: int,
     ) -> None:
         """Write data to an existing DCD file.
@@ -308,14 +316,18 @@ def _check_ext(filename: str, ext: str) -> None:
         )
 
 
-def _get_system_data(
+def _get_atom_data(
         pdb_list: list[str],
-        topology_list: list[str],
-        forcefield_list: list[str],
+        forcefield_list: list[str] | None = None,
 ) -> tuple[
-        dict[str, NDArray[np.float64]],
-        dict[str, list[str]],
-        dict[str, list[list[int]]],
+    list[list[float]],
+    list[int],
+    list[str],
+    list[str],
+    list[str],
+    list[float],
+    list[float],
+    list[list[float]],
 ]:
     """Extract :class:`State` and :class:`Topology` data from PDB and
     XML files using OpenMM.
@@ -326,79 +338,66 @@ def _get_system_data(
     :return: Data for the :class:`State` and :class:`Topology`
         record classes.
     """
-    # Create the OpenMM Modeller object and extract relevant topology
-    # data from the Atoms and Residues.
-    for fh in topology_list:
-        openmm.app.topology.Topology().loadBondDefinitions(fh)
-    openmm_pdb = openmm.app.pdbfile.PDBFile(pdb_list[0])
-    openmm_modeller = openmm.app.modeller.Modeller(
-        openmm_pdb.topology,
-        openmm_pdb.positions,
+    positions = []
+    molecules: list[int] = []
+    elements = []
+    names = []
+    molecule_names = []
+    box = [[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]]
+    for pdb in pdb_list:
+        with open(pdb) as fh:
+            lines = fh.readlines()
+        offset = -1
+        for line in lines:
+            if line.startswith("CRYST1"):
+                box[0][0] = float(line[6:15].strip())
+                box[1][1] = float(line[15:24].strip())
+                box[2][2] = float(line[24:33].strip())
+            if line.startswith("ATOM") or line.startswith("HETATM"):
+                names.append(line[12:16].strip())
+                molecule_names.append(line[17:21].strip())
+                number = int(line[22:26].strip()) + offset
+                if len(molecules) > 0:
+                    if number < molecules[-1]:
+                        offset += molecules[-1] - number + 1
+                        number += molecules[-1] - number + 1
+                molecules.append(number)
+                positions.append(
+                    [
+                        float(line[30:38].strip()),
+                        float(line[38:46].strip()),
+                        float(line[46:54].strip()),
+                    ],
+                )
+                elements.append(line[76:78].strip())
+    masses = [0.]*len(names)
+    charges = [0.]*len(names)
+    if forcefield_list is None:
+        forcefield_list = []
+    for xml in forcefield_list:
+        tree = ET.parse(xml)
+        root = tree.getroot()
+        for i, name in enumerate(names):
+            residues = root.find("Residues")
+            if not isinstance(residues, ET.Element):
+                raise OSError
+            atom = residues.find(f".//Atom[@name='{name}']")
+            if not isinstance(atom, ET.Element):
+                raise OSError
+            type_ = atom.attrib["type"]
+            atoms = root.find("AtomTypes")
+            if not isinstance(atoms, ET.Element):
+                raise OSError
+            atom = atoms.find(f".//Type[@name='{type_}']")
+            if isinstance(atom, ET.Element):
+                masses[i] = float(atom.attrib["mass"])
+            nonbonded = root.find("NonbondedForce")
+            if not isinstance(nonbonded, ET.Element):
+                raise OSError
+            atom = nonbonded.find(f".//Atom[@type='{type_}']")
+            if isinstance(atom, ET.Element):
+                charges[i] = float(atom.attrib["charge"])
+    return (
+        positions, molecules, elements, names,
+        molecule_names, masses, charges, box,
     )
-    openmm_residues = list(openmm_pdb.topology.residues())
-    openmm_atoms = list(openmm_pdb.topology.atoms())
-    atoms = [
-        [atom.index for atom in residue.atoms()]
-        for residue in openmm_residues
-    ]
-    elements = [atom.element.symbol for atom in openmm_atoms]
-    residue_names = [residue.name for residue in openmm_residues]
-    atom_names = [atom.name for atom in openmm_atoms]
-    name_data = {
-        "elements": elements,
-        "residue_names": residue_names,
-        "atom_names": atom_names,
-    }
-    residue_data = {
-        "atoms": atoms,
-    }
-    # Load the OpenMM ForceField and create a System in order to get
-    # charge and mass data.
-    openmm_forcefield = openmm.app.forcefield.ForceField(
-        *forcefield_list,
-    )
-    openmm_modeller.addExtraParticles(openmm_forcefield)
-    openmm_system = openmm_forcefield.createSystem(
-        openmm_modeller.topology,
-    )
-    nonbonded_force = [
-        force for force in [
-            openmm_system.getForce(i) for i
-            in range(openmm_system.getNumForces())
-        ] if isinstance(force, openmm.NonbondedForce)
-    ][0]
-    masses = np.array(
-        [
-            openmm_system.getParticleMass(
-                atom.index,
-            )/simtk.unit.dalton
-            for atom in openmm_atoms
-        ],
-    )
-    charges = np.array(
-        [
-            nonbonded_force.getParticleParameters(
-                atom.index,
-            )[0]/simtk.unit.elementary_charges
-            for atom in openmm_atoms
-        ],
-    )
-    positions = np.array(
-        [
-            vector/simtk.unit.angstrom for vector in
-            openmm_modeller.getPositions()
-        ],
-    )
-    box = np.array(
-        [
-            vector/simtk.unit.angstrom for vector in
-            openmm_modeller.topology.getPeriodicBoxVectors()
-        ],
-    )
-    state_data = {
-        "masses": masses,
-        "charges": charges,
-        "positions": positions,
-        "box": box,
-    }
-    return state_data, name_data, residue_data

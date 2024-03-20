@@ -5,5 +5,4 @@ from __future__ import annotations
 
 from .logger import Logger
 from .simulation import Simulation
-from .system import System
 __author__ = "John Pederson"

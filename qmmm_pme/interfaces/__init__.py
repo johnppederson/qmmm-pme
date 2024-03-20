@@ -3,14 +3,16 @@
 """
 from __future__ import annotations
 
+from .interface import MMInterface
 from .interface import MMSettings
+from .interface import QMInterface
 from .interface import QMSettings
-from .interface import SystemTypes
-from .interface_manager import get_software_factories
+from .interface import SoftwareInterface
+from .interface_manager import get_software_factory
 
-mm_factories = get_software_factories("MMSoftware")
-qm_factories = get_software_factories("QMSoftware")
+mm_factory = get_software_factory("MMSoftware")
+qm_factory = get_software_factory("QMSoftware")
 
-del get_software_factories
+del get_software_factory
 
 __author__ = "John Pederson"

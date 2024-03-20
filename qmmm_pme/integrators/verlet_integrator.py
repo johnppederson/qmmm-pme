@@ -3,24 +3,28 @@
 """
 from __future__ import annotations
 
-import numpy as np
-from numpy.typing import NDArray
+from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from .integrator import Integrator
 
+if TYPE_CHECKING:
+    from qmmm_pme import System
+    from .integrator import Returns
 
+
+@dataclass
 class VerletIntegrator(Integrator):
     """An :class:`Integrator` based on the Verlet algorithm.
     """
+    timestep: float | int
 
-    def integrate(
-            self,
-    ) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
-        masses = self.system.state.masses().reshape((-1, 1))
-        momenta = self.system.state.velocities()*masses
-        momenta = momenta + self.timestep*self.system.state.forces()*(10**-4)
+    def integrate(self, system: System) -> Returns:
+        masses = system.masses.reshape((-1, 1))
+        momenta = system.velocities * masses
+        momenta = momenta + self.timestep * system.forces*(10**-4)
         final_positions = (
-            self.system.state.positions()
+            system.positions
             + self.timestep*momenta/masses
         )
         final_velocities = momenta/masses
